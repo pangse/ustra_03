@@ -37,3 +37,8 @@ yarn-error.log*
 next-env.d.ts
 # SpecStory explanation file
 .specstory/.what-is-this.md
+
+DATABASE_URL="file:./prisma/dev.db"
+
+# next.js build errors
+next-env.d.ts

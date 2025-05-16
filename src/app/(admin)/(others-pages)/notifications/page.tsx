@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { Modal } from "@/components/ui/modal";
 import { useModal } from "@/hooks/useModal";
+import NotificationForm from "./NotificationForm";
 
 const notifications = [
   {
