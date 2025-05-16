@@ -7,4 +7,4 @@ export default function NotificationForm({ notification, onClose, onSuccess }: a
       <button onClick={onSuccess}>저장</button>
     </div>
   );
-} 
+}  
