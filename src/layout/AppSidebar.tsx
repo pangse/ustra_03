@@ -16,6 +16,7 @@ import {
   PlugInIcon,
   TableIcon,
   UserCircleIcon,
+  BellIcon,
 } from "../icons/index";
 
 type NavItem = {
@@ -78,6 +79,7 @@ const navItems: NavItem[] = [
       { name: "대여 내역", path: "/rental/my-requests", pro: false, newTab: true },
       { name: "반납 내역", path: "/rental/return-history", pro: false, newTab: true },
       { name: "자산 대여 관리", path: "/rental-management", pro: false },
+      { name: "알림센터", path: "/rental/alerts", pro: false },
     ],
   },
 ];
