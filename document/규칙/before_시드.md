@@ -776,47 +776,52 @@ async function main() {
 
   console.log(`Created ${testUsers.length} test users`);
 
-  // 6. 자산(Materials) 및 RFID 태그 생성
-  console.log('Creating materials and RFID tags...');
-  const materialSeedData = [
-    {
-      name: 'MacBook Pro 16"',
-      categoryName: '컴퓨터',
-      locationIdx: 0,
-      handlerIdx: 1,
-      quantity: 100,
-      rfid_tag: 'RFID001',
-      status: '정상',
-      assetTypeCode: 'IT_COMPUTER',
-      brand: 'Apple',
-      it_model: 'MacBook Pro 16"',
-      serial: 'MBP2023',
-      os: 'macOS',
-      cpu: 'M2 Pro',
-      ram: '32GB',
-      storage: '1TB SSD',
-      screen_size: '16"',
-      mac_address: '00:11:22:33:44:55',
-    },
-    {
-      name: 'MacBook Air M2',
-      categoryName: '컴퓨터',
-      locationIdx: 0,
-      handlerIdx: 1,
-      quantity: 100,
-      rfid_tag: 'RFID002',
-      status: '정상',
-      assetTypeCode: 'IT_COMPUTER',
-      brand: 'Apple',
-      it_model: 'MacBook Air M2',
-      serial: 'MBA2023',
-      os: 'macOS',
-      cpu: 'M2',
-      ram: '16GB',
-      storage: '512GB SSD',
-      screen_size: '13.6"',
-      mac_address: '00:11:22:33:44:56',
-    },
+  // 6. 자산(Materials) 생성
+  console.log('Creating materials...');
+  const materials = await Promise.all([
+    // IT 장비
+    prisma.materials.create({
+      data: {
+        name: 'MacBook Pro 16"',
+        categoryId: categories.find(cat => cat.name === '컴퓨터').id,
+        locationId: locations[0].id,
+        handlerId: testUsers[1].id,
+        quantity: 100,
+        rfid_tag: 'RFID001',
+        status: '정상',
+        assetTypeId: assetTypes.find(type => type.typeCode === 'IT_COMPUTER').id,
+        brand: 'Apple',
+        it_model: 'MacBook Pro 16"',
+        serial: 'MBP2023',
+        os: 'macOS',
+        cpu: 'M2 Pro',
+        ram: '32GB',
+        storage: '1TB SSD',
+        screen_size: '16"',
+        mac_address: '00:11:22:33:44:55',
+      },
+    }),
+    prisma.materials.create({
+      data: {
+        name: 'MacBook Air M2',
+        categoryId: categories.find(cat => cat.name === '컴퓨터').id,
+        locationId: locations[0].id,
+        handlerId: testUsers[1].id,
+        quantity: 100,
+        rfid_tag: 'RFID002',
+        status: '정상',
+        assetTypeId: assetTypes.find(type => type.typeCode === 'IT_COMPUTER').id,
+        brand: 'Apple',
+        it_model: 'MacBook Air M2',
+        serial: 'MBA2023',
+        os: 'macOS',
+        cpu: 'M2',
+        ram: '16GB',
+        storage: '512GB SSD',
+        screen_size: '13.6"',
+        mac_address: '00:11:22:33:44:56',
+      },
+    }),
     prisma.materials.create({
       data: {
         name: 'iPad Pro 12.9"',
@@ -1038,51 +1043,20 @@ async function main() {
         etc: '접이식 테이블',
       },
     }),
-  ];
+  ]);
+  console.log(`Created ${materials.length} materials`);
 
-  // materialSeedData만 사용하여 자산 및 RFID 태그 생성
-  const materials = [];
-  const rfidTags = [];
-  for (let idx = 0; idx < materialSeedData.length; idx++) {
-    const data = materialSeedData[idx];
-    const serialValue = data.serial ? `${data.serial}-${idx+1}` : `AUTO-SERIAL-${idx+1}`;
-    const rfidTagValue = data.rfid_tag ? `${data.rfid_tag}-${idx+1}` : `RFID-TAG-${idx+1}`;
-    const macAddressValue = data.mac_address ? `${data.mac_address}-${idx+1}` : `AUTO-MAC-${idx+1}`;
-
-    const material = await prisma.materials.create({
-      data: {
-        ...data,
-        categoryId: categories.find(cat => cat.name === data.categoryName).id,
-        locationId: locations[data.locationIdx].id,
-        handlerId: testUsers[data.handlerIdx] ? testUsers[data.handlerIdx].id : testUsers[0].id,
-        assetTypeId: assetTypes.find(type => type.typeCode === data.assetTypeCode).id,
-        serial: serialValue,
-        rfid_tag: rfidTagValue,
-        mac_address: macAddressValue,
-      }
-    });
-    materials.push(material);
-    // RfidTag 1:1 생성
-    const rfidTag = await prisma.rfidTag.create({
-      data: {
-        tag: rfidTagValue,
-        materialId: material.id,
-      }
-    });
-    rfidTags.push(rfidTag);
-  }
-  console.log(`Created ${materials.length} materials and ${rfidTags.length} RFID tags`);
-
-  // 7. 대여 요청, 대여, 반납, 자산이력, RFID 이력 생성
-  for (const [idx, material] of materials.entries()) {
+  // 7. 대여 요청 및 이력 생성
+  console.log('Creating rental requests and history...');
+  
+  // === 모든 자산에 대해 1건씩 대여/반납/자산 이력 추가 (대여자 userId를 자산 이력 handlerId로 연결) ===
+  for (const material of materials) {
     const now = new Date();
     const end = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000);
-    const user = testUsers[material.handlerId-1] || testUsers[0];
-    // RentalRequest
     const request = await prisma.rentalRequest.create({
       data: {
         materialId: material.id,
-        userId: user.id,
+        userId: 2,
         startDate: now,
         endDate: end,
         arrivalDate: now,
@@ -1091,18 +1065,16 @@ async function main() {
         status: 'APPROVED',
       }
     });
-    // Rental
     const rental = await prisma.rental.create({
       data: {
+        rentalRequestId: request.id,
         materialId: material.id,
-        userId: user.id,
-        status: 'RENTED',
-        rentDate: now,
-        returnDate: end,
-        memo: '자동 생성',
+        userId: 2,
+        startDate: now,
+        endDate: end,
+        status: 'ACTIVE',
       }
     });
-    // Return
     const ret = await prisma.return.create({
       data: {
         rentalRequestId: request.id,
@@ -1113,11 +1085,11 @@ async function main() {
         statusDescription: '테스트 반납',
       }
     });
-    // MaterialHistory 입고/출고
+    // rental.userId를 handlerId로 사용
     await prisma.materialHistory.create({
       data: {
         materialId: material.id,
-        handlerId: user.id,
+        handlerId: rental.userId,
         type: '입고',
         quantity: 1,
         memo: `[대여 rentalId:${rental.id}] 자동 대여 입고`,
@@ -1127,28 +1099,11 @@ async function main() {
     await prisma.materialHistory.create({
       data: {
         materialId: material.id,
-        handlerId: user.id,
+        handlerId: rental.userId,
         type: '출고',
         quantity: 1,
         memo: `[반납 returnId:${ret.id}] 자동 반납 출고`,
         date: end,
-      }
-    });
-    // RFID 이력
-    await prisma.rfidHistory.create({
-      data: {
-        rfidTag: rfidTags[idx].tag,
-        materialId: material.id,
-        type: 'REGISTER',
-        timestamp: now,
-      }
-    });
-    await prisma.rfidHistory.create({
-      data: {
-        rfidTag: rfidTags[idx].tag,
-        materialId: material.id,
-        type: 'SCAN',
-        timestamp: end,
       }
     });
   }
