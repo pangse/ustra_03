@@ -39,28 +39,21 @@ const navItems: NavItem[] = [
   },
   {
     icon: <TableIcon />,
-    name: "Master Data",
-    path: "/masterdata",
+    name: "데이터 관리",
+    subItems: [
+      { name: "마스터 데이터", path: "/masterdata", pro: false },
+      { name: "자재 관리", path: "/materials", pro: false },
+      { name: "자재 이력", path: "/material-history", pro: false },
+      { name: "자산 유형", path: "/asset-types", pro: false },
+      { name: "자산 대여 관리", path: "/rental-management", pro: false },
+    ],
   },
   {
-    icon: <BoxCubeIcon />,
-    name: "Materials",
-    path: "/materials",
-  },
-  {
-    icon: <ListIcon />,
-    name: "Material History",
-    path: "/material-history",
-  },
-  {
-    icon: <UserCircleIcon />,
-    name: "Users",
-    path: "/users",
-  },
-  {
-    icon: <BoxCubeIcon />,
-    name: "Asset Types",
-    path: "/asset-types",
+    icon: <TableIcon />,
+    name: "사용자 관리",
+    subItems: [
+      { name: "사용자 관리", path: "/users", pro: false },
+    ],
   },
   {
     icon: <ListIcon />,
@@ -73,13 +66,20 @@ const navItems: NavItem[] = [
   },
   {
     icon: <ListIcon />,
-    name: "대여 관리",
+    name: "모바일 대여",
     subItems: [
       { name: "대여 신청", path: "/rental/request", pro: false, newTab: true },
       { name: "대여 내역", path: "/rental/my-requests", pro: false, newTab: true },
-      { name: "반납 내역", path: "/rental/return-history", pro: false, newTab: true },
-      { name: "자산 대여 관리", path: "/rental-management", pro: false },
-      { name: "알림센터", path: "/rental/alerts", pro: false },
+      { name: "반납 내역", path: "/rental/return-history", pro: false, newTab: true },    
+      { name: "알림화면", path: "/rental/alerts", pro: false, newTab: true }, 
+    ],
+  },
+  {
+    icon: <BellIcon />,
+    name: "알림 관리",
+    subItems: [
+      { name: "알림 목록", path: "/notifications", pro: false },
+      { name: "알림 설정", path: "/notifications/settings", pro: false },
     ],
   },
 ];

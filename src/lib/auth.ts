@@ -1,55 +1,71 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "./prisma";
-import bcrypt from "bcryptjs";
+import { compare } from "bcrypt";
 
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      name: "credentials",
+      name: "Credentials",
       credentials: {
         email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        // 테스트를 위해 항상 동일한 테스트 사용자 반환
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
+
+        const user = await prisma.user.findUnique({
+          where: {
+            email: credentials.email
+          }
+        });
+
+        if (!user) {
+          return null;
+        }
+
+        const isPasswordValid = await compare(
+          credentials.password,
+          user.password
+        );
+
+        if (!isPasswordValid) {
+          return null;
+        }
+
         return {
-          id: "1",
-          email: "test@example.com",
-          name: "김하나",
-          role: "ADMIN",
+          id: user.id.toString(),
+          email: user.email,
+          name: user.name,
+          role: user.role,
         };
-      },
-    }),
+      }
+    })
   ],
-  pages: {
-    signIn: "/login",
-  },
-  debug: process.env.NODE_ENV === "development",
   session: {
     strategy: "jwt",
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  pages: {
+    signIn: "/login",
+  },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        return {
-          ...token,
-          id: user.id,
-          role: user.role,
-        };
+        token.id = user.id;
+        token.role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: token.id as string,
-          role: token.role as string,
-        },
-      };
-    },
+      if (token) {
+        session.user.id = token.id;
+        session.user.role = token.role;
+      }
+      return session;
+    }
   },
+  secret: process.env.NEXTAUTH_SECRET || "your-secret-key",
+  debug: process.env.NODE_ENV === "development",
 }; 

@@ -7,29 +7,19 @@ const TEST_USER_ID = 2;
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { materialId, startDate, endDate, purpose, request: requestNote } = body;
+    const { materialId, startDate, endDate, purpose, request: requestNote, arrivalDate } = body;
 
     // Validate required fields
     if (!materialId || !startDate || !endDate || !purpose) {
-      return NextResponse.json(
-        { error: 'Missing required fields', details: 'materialId, startDate, endDate, and purpose are required' },
-        { status: 400 }
-      );
+      return new NextResponse("Missing required fields", { status: 400 });
     }
 
-    // Convert materialId to number and validate
-    const numericMaterialId = Number(materialId);
-    if (isNaN(numericMaterialId)) {
-      return NextResponse.json(
-        { error: 'Invalid materialId', details: 'materialId must be a valid number' },
-        { status: 400 }
-      );
-    }
-
+    const numericMaterialId = parseInt(materialId);
     const startDateTime = new Date(startDate);
     const endDateTime = new Date(endDate);
+    const arrivalDateTime = arrivalDate ? new Date(arrivalDate) : startDateTime;
 
-    // Check if material exists and has sufficient quantity
+    // Check if material exists
     const material = await prisma.materials.findUnique({
       where: { id: numericMaterialId },
       include: {
@@ -41,89 +31,71 @@ export async function POST(request: Request) {
 
     if (!material) {
       return NextResponse.json(
-        { error: 'Material not found', details: `Material with ID ${numericMaterialId} does not exist` },
+        { error: "Material not found", details: `Material with ID ${numericMaterialId} does not exist` },
         { status: 404 }
       );
     }
 
-    if (material.quantity < 1) {
-      return NextResponse.json(
-        { error: 'Insufficient quantity', details: 'Material is not available for rental' },
-        { status: 400 }
-      );
-    }
-
-    // Check for existing rental requests
-    const existingRequest = await prisma.rentalRequest.findFirst({
-      where: {
-        materialId: numericMaterialId,
-        status: 'PENDING',
-        OR: [
-          {
-            AND: [
-              { startDate: { lte: startDateTime } },
-              { endDate: { gte: startDateTime } },
-            ],
-          },
-          {
-            AND: [
-              { startDate: { lte: endDateTime } },
-              { endDate: { gte: endDateTime } },
-            ],
-          },
-        ],
-      },
-    });
-
-    if (existingRequest) {
-      return NextResponse.json(
-        { error: 'Date conflict', details: 'There is already a pending rental request for this material during the selected period' },
-        { status: 400 }
-      );
-    }
-
-    // Create rental request
-    const rentalRequest = await prisma.rentalRequest.create({
-      data: {
-        userId: TEST_USER_ID,
-        materialId: numericMaterialId,
-        startDate: startDateTime,
-        endDate: endDateTime,
-        arrivalDate: startDateTime,
-        purpose: purpose.trim(),
-        request: requestNote?.trim() || null,
-        status: 'APPROVED',
-      },
-      include: {
-        material: {
-          include: {
-            category: true,
-            location: true,
-            handler: true,
-          },
+    // Create rental request and rental in a transaction
+    const result = await prisma.$transaction(async (tx) => {
+      // Create rental request
+      const rentalRequest = await tx.rentalRequest.create({
+        data: {
+          userId: TEST_USER_ID,
+          materialId: material.id,
+          startDate: startDateTime,
+          endDate: endDateTime,
+          purpose: purpose.trim(),
+          request: requestNote?.trim() || null,
+          arrivalDate: arrivalDateTime,
+          status: "APPROVED",
         },
-        user: true,
-      },
-    });
+        include: {
+          material: {
+            include: {
+              category: true,
+              location: true,
+              handler: true,
+            },
+          },
+          user: true,
+        },
+      });
 
-    // Update material quantity
-    await prisma.materials.update({
-      where: { id: numericMaterialId },
-      data: { quantity: material.quantity - 1 },
+      // Create rental
+      const rental = await tx.rental.create({
+        data: {
+          userId: TEST_USER_ID,
+          materialId: material.id,
+          status: "ACTIVE",
+        },
+        include: {
+          material: {
+            include: {
+              category: true,
+              location: true,
+              handler: true,
+            },
+          },
+          user: true,
+        },
+      });
+
+      return { rentalRequest, rental };
     });
 
     return NextResponse.json({ 
       success: true, 
-      data: rentalRequest,
-      message: '대여 요청이 성공적으로 생성되었습니다.'
+      data: result,
+      message: "대여가 성공적으로 처리되었습니다."
     });
   } catch (error) {
-    console.error('Error creating rental request:', error);
+    console.error("Error creating rental:", error);
     return NextResponse.json(
       { 
-        error: 'Failed to create rental request', 
-        details: error instanceof Error ? error.message : 'Unknown error',
-        code: error instanceof Error && 'code' in error ? (error as any).code : undefined
+        error: "Failed to create rental", 
+        details: error instanceof Error ? error.message : "Unknown error",
+        code: error instanceof Error && "code" in error ? (error as any).code : undefined
       },
       { status: 500 }
     );

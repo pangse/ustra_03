@@ -396,6 +396,7 @@ export default function RentalRequestPage() {
           endDate: endDate.toISOString(),
           purpose: purpose.trim(),
           request: request.trim() || undefined,
+          arrivalDate: arrivalDate?.toISOString(),
         }),
       });
 
@@ -407,7 +408,11 @@ export default function RentalRequestPage() {
 
       setSuccess('대여 신청이 완료되었습니다.');
       setShowConfirmModal(false);
-      router.push('/rental/my-requests');
+      
+      // 대여 내역 페이지로 이동
+      setTimeout(() => {
+        router.push('/rental/my-requests');
+      }, 100);
     } catch (err) {
       console.error('Error submitting rental request:', err);
       setError(err instanceof Error ? err.message : '대여 신청에 실패했습니다.');

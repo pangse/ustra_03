@@ -21,6 +21,7 @@ model User {
   materials         Materials[]       @relation("UserMaterials")
   rentals           Rental[]
   rentalRequests    RentalRequest[]
+  notifications     Notification[]
 }
 
 model MasterData {
@@ -105,6 +106,7 @@ model Materials {
   assetType         AssetType?        @relation(fields: [assetTypeId], references: [id])
   returns           Return[]
   rfidTags          RfidTag[]         // Added opposite relation
+  notifications     Notification[]
 }
 
 model MaterialHistory {
@@ -195,4 +197,24 @@ model RfidHistory {
 
   @@index([rfidTag])
   @@index([materialId])
+}
+
+model Notification {
+  id                String   @id @default(cuid())
+  userId            Int
+  type              String   // RENTAL_EXPIRE, RENTAL_OVERDUE, SETTINGS_CHANGE
+  title             String
+  message           String
+  assetId           Int?     // 자산 관련 알림인 경우
+  read              Boolean  @default(false)
+  notificationMethod String  // SMS, EMAIL, PUSH
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // 관계 설정
+  user              User     @relation(fields: [userId], references: [id])
+  asset             Materials?   @relation(fields: [assetId], references: [id])
+
+  @@index([userId])
+  @@index([assetId])
 }

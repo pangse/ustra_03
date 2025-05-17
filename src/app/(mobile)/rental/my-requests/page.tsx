@@ -108,11 +108,17 @@ export default function MyRentalRequestsPage() {
       case 'ACTIVE':
         return '대여중';
       case 'COMPLETED':
-        return '완료';
+        return '반납완료';
       case 'PENDING':
         return '대기중';
       case 'REJECTED':
         return '거절됨';
+      case 'APPROVED':
+        return '승인됨';
+      case 'CANCELLED':
+        return '취소됨';
+      case 'RETURNED':
+        return '반납됨';
       default:
         return status;
     }
