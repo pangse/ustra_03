@@ -38,26 +38,23 @@ model Category {
   name        String
   description String?
   parentId    Int?
-  assetTypeId Int?
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @default(now()) @updatedAt
   parent      Category?   @relation("CategoryParent", fields: [parentId], references: [id])
   children    Category[]  @relation("CategoryParent")
   materials   Materials[]
-  assetType   AssetType?  @relation(fields: [assetTypeId], references: [id])
 }
 
 model AssetType {
-  id           Int         @id @default(autoincrement())
-  typeCode     String      @unique
+  id           Int      @id @default(autoincrement())
+  typeCode     String   @unique
   name         String
   description  String?
   extension    String?
-  isActive     Boolean     @default(true)
-  createdAt    DateTime    @default(now())
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
   createdBy    String?
   materials    Materials[]
-  categories   Category[]  // Added opposite relation
 }
 
 model Materials {
@@ -103,8 +100,8 @@ model Materials {
   rentals           Rental[]
   rentalRequests    RentalRequest[]
   assetType         AssetType?        @relation(fields: [assetTypeId], references: [id])
+
   returns           Return[]
-  rfidTags          RfidTag[]         // Added opposite relation
 }
 
 model MaterialHistory {
@@ -172,27 +169,5 @@ model Return {
   material          Materials     @relation(fields: [materialId], references: [id])
 
   @@index([rentalRequestId])
-  @@index([materialId])
-}
-
-model RfidTag {
-  id         String   @id @default(cuid())
-  tag        String   @unique
-  materialId Int
-  material   Materials @relation(fields: [materialId], references: [id])
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  @@index([materialId])
-}
-
-model RfidHistory {
-  id         String   @id @default(cuid())
-  rfidTag    String
-  materialId Int
-  type       String   // 'SCAN' or 'REGISTER'
-  timestamp  DateTime @default(now())
-
-  @@index([rfidTag])
   @@index([materialId])
 }

@@ -18,7 +18,8 @@ export async function GET(req: NextRequest) {
             include: {
               category: true,
               location: true,
-              handler: true
+              handler: true,
+              assetType: true
             }
           },
           handler: true,
@@ -49,31 +50,32 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { materialId, type, quantity, handlerId, memo, date } = body;
+    const { materialId, type, quantity, handlerId, memo } = body;
 
-    if (!materialId || !type || !quantity || !handlerId) {
+    if (!materialId || !type || !handlerId) {
       return NextResponse.json({ 
         error: 'Missing required fields' 
       }, { status: 400 });
     }
 
-    console.log('Creating material history with data:', { materialId, type, quantity, handlerId, memo, date });
+    console.log('Creating material history with data:', { materialId, type, quantity, handlerId, memo });
 
     const created = await prisma.materialHistory.create({
       data: { 
         materialId, 
         type, 
         quantity, 
-        handlerId, 
-        memo, 
-        date: date ? new Date(date) : new Date() 
+        handlerId,
+        memo,
+        date: new Date()
       },
       include: {
         material: {
           include: {
             category: true,
             location: true,
-            handler: true
+            handler: true,
+            assetType: true
           }
         },
         handler: true,
