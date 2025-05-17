@@ -29,16 +29,12 @@ yarn-error.log*
 # local env files
 # .env*.local
 
-# vercel
-.vercel
-
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
 # SpecStory explanation file
 .specstory/.what-is-this.md
 
-DATABASE_URL="file:./prisma/dev.db"
+# DATABASE_URL="file:./prisma/dev.db"
 
-# next.js build errors
-next-env.d.ts
