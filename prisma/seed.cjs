@@ -617,158 +617,163 @@ async function main() {
   
   // 5. 사용자(User) 생성
   console.log('Creating users...');
-  const testUsers = await Promise.all([
-    // 관리자 
-    prisma.user.create({
-      data: {
-        name: '김관리',
-        email: 'admin@example.com',
-        role: '관리자',
-        department: '관리팀',
-        phone_number: '010-1234-5678',
-        password: '1111',
-        status: '재직'
-      },
-    }),
-    // IT팀
-    prisma.user.create({
-      data: {
-        name: '이IT',
-        email: 'it@example.com',
-        role: '팀장',
-        department: 'IT팀',
-        phone_number: '010-2345-6789',
-        password: '1111',
-        status: '재직'
-      },
-    }),
-    prisma.user.create({
-      data: {
-        name: '박개발',
-        email: 'dev@example.com',
-        role: '담당자',
-        department: 'IT팀',
-        phone_number: '010-3456-7890',
-        password: '1111',
-        status: '재직'
-      },
-    }),
-    // 방송팀
-    prisma.user.create({
-      data: {
-        name: '최방송',
-        email: 'broadcast@example.com',
-        role: '팀장',
-        department: '방송팀',
-        phone_number: '010-4567-8901',
-        password: '1111',
-        status: '재직'
-      },
-    }),
-    prisma.user.create({
-      data: {
-        name: '정카메라',
-        email: 'camera@example.com',
-        role: '담당자',
-        department: '방송팀',
-        phone_number: '010-5678-9012',
-        password: '1111',
-        status: '재직'
-      },
-    }),
-    // 음향팀
-    prisma.user.create({
-      data: {
-        name: '강음향',
-        email: 'audio@example.com',
-        role: '팀장',
-        department: '음향팀',
-        phone_number: '010-6789-0123',
-        password: '1111',
-        status: '재직'
-      },
-    }),
-    prisma.user.create({
-      data: {
-        name: '윤믹서',
-        email: 'mixer@example.com',
-        role: '담당자',
-        department: '음향팀',
-        phone_number: '010-7890-1234',
-        password: '1111',
-        status: '재직'
-      },
-    }),
-    // 조명팀
-    prisma.user.create({
-      data: {
-        name: '임조명',
-        email: 'light@example.com',
-        role: '팀장',
-        department: '조명팀',
-        phone_number: '010-8901-2345',
-        password: '1111',
-        status: '재직'
-      },
-    }),
-    prisma.user.create({
-      data: {
-        name: '한라이트',
-        email: 'light2@example.com',
-        role: '담당자',
-        department: '조명팀',
-        phone_number: '010-9012-3456',
-        password: '1111',
-        status: '재직'
-      },
-    }),
-    // 의상팀
-    prisma.user.create({
-      data: {
-        name: '서의상',
-        email: 'costume@example.com',
-        role: '팀장',
-        department: '의상팀',
-        phone_number: '010-0123-4567',
-        password: '1111',
-        status: '재직'
-      },
-    }),
-    prisma.user.create({
-      data: {
-        name: '신스타일',
-        email: 'style@example.com',
-        role: '담당자',
-        department: '의상팀',
-        phone_number: '010-1234-5679',
-        password: '1111',
-        status: '재직'
-      },
-    }),
-    // 소품팀
-    prisma.user.create({
-      data: {
-        name: '장소품',
-        email: 'prop@example.com',
-        role: '팀장',
-        department: '소품팀',
-        phone_number: '010-2345-6780',
-        password: '1111',
-        status: '재직'
-      },
-    }),
-    prisma.user.create({
-      data: {
-        name: '전디자인',
-        email: 'design@example.com',
-        role: '담당자',
-        department: '소품팀',
-        phone_number: '010-3456-7891',
-        password: '1111',
-        status: '재직'
-      },
-    }),
-  ]);
+  const testUsers = [];
+  // 김관리(id=2) upsert
+  const adminUser = await prisma.user.upsert({
+    where: { id: 2 },
+    update: {},
+    create: {
+      id: 2,
+      name: '김관리',
+      email: 'admin@example.com',
+      role: '관리자',
+      department: '관리팀',
+      phone_number: '010-1234-5678',
+      password: '1111',
+      status: '재직'
+    }
+  });
+  testUsers.push(adminUser);
+
+  // IT팀
+  prisma.user.create({
+    data: {
+      name: '이IT',
+      email: 'it@example.com',
+      role: '팀장',
+      department: 'IT팀',
+      phone_number: '010-2345-6789',
+      password: '1111',
+      status: '재직'
+    },
+  });
+  prisma.user.create({
+    data: {
+      name: '박개발',
+      email: 'dev@example.com',
+      role: '담당자',
+      department: 'IT팀',
+      phone_number: '010-3456-7890',
+      password: '1111',
+      status: '재직'
+    },
+  });
+  // 방송팀
+  prisma.user.create({
+    data: {
+      name: '최방송',
+      email: 'broadcast@example.com',
+      role: '팀장',
+      department: '방송팀',
+      phone_number: '010-4567-8901',
+      password: '1111',
+      status: '재직'
+    },
+  });
+  prisma.user.create({
+    data: {
+      name: '정카메라',
+      email: 'camera@example.com',
+      role: '담당자',
+      department: '방송팀',
+      phone_number: '010-5678-9012',
+      password: '1111',
+      status: '재직'
+    },
+  });
+  // 음향팀
+  prisma.user.create({
+    data: {
+      name: '강음향',
+      email: 'audio@example.com',
+      role: '팀장',
+      department: '음향팀',
+      phone_number: '010-6789-0123',
+      password: '1111',
+      status: '재직'
+    },
+  });
+  prisma.user.create({
+    data: {
+      name: '윤믹서',
+      email: 'mixer@example.com',
+      role: '담당자',
+      department: '음향팀',
+      phone_number: '010-7890-1234',
+      password: '1111',
+      status: '재직'
+    },
+  });
+  // 조명팀
+  prisma.user.create({
+    data: {
+      name: '임조명',
+      email: 'light@example.com',
+      role: '팀장',
+      department: '조명팀',
+      phone_number: '010-8901-2345',
+      password: '1111',
+      status: '재직'
+    },
+  });
+  prisma.user.create({
+    data: {
+      name: '한라이트',
+      email: 'light2@example.com',
+      role: '담당자',
+      department: '조명팀',
+      phone_number: '010-9012-3456',
+      password: '1111',
+      status: '재직'
+    },
+  });
+  // 의상팀
+  prisma.user.create({
+    data: {
+      name: '서의상',
+      email: 'costume@example.com',
+      role: '팀장',
+      department: '의상팀',
+      phone_number: '010-0123-4567',
+      password: '1111',
+      status: '재직'
+    },
+  });
+  prisma.user.create({
+    data: {
+      name: '신스타일',
+      email: 'style@example.com',
+      role: '담당자',
+      department: '의상팀',
+      phone_number: '010-1234-5679',
+      password: '1111',
+      status: '재직'
+    },
+  });
+  // 소품팀
+  prisma.user.create({
+    data: {
+      name: '장소품',
+      email: 'prop@example.com',
+      role: '팀장',
+      department: '소품팀',
+      phone_number: '010-2345-6780',
+      password: '1111',
+      status: '재직'
+    },
+  });
+  prisma.user.create({
+    data: {
+      name: '전디자인',
+      email: 'design@example.com',
+      role: '담당자',
+      department: '소품팀',
+      phone_number: '010-3456-7891',
+      password: '1111',
+      status: '재직'
+    },
+  });
+
   console.log(`Created ${testUsers.length} test users`);
 
   // 6. 자산(Materials) 생성
@@ -781,7 +786,7 @@ async function main() {
         categoryId: categories.find(cat => cat.name === '컴퓨터').id,
         locationId: locations[0].id,
         handlerId: testUsers[1].id,
-        quantity: 4,
+        quantity: 100,
         rfid_tag: 'RFID001',
         status: '정상',
         assetTypeId: assetTypes.find(type => type.typeCode === 'IT_COMPUTER').id,
@@ -802,7 +807,7 @@ async function main() {
         categoryId: categories.find(cat => cat.name === '컴퓨터').id,
         locationId: locations[0].id,
         handlerId: testUsers[1].id,
-        quantity: 3,
+        quantity: 100,
         rfid_tag: 'RFID002',
         status: '정상',
         assetTypeId: assetTypes.find(type => type.typeCode === 'IT_COMPUTER').id,
@@ -823,7 +828,7 @@ async function main() {
         categoryId: categories.find(cat => cat.name === '컴퓨터').id,
         locationId: locations[0].id,
         handlerId: testUsers[1].id,
-        quantity: 5,
+        quantity: 100,
         rfid_tag: 'RFID003',
         status: '정상',
         assetTypeId: assetTypes.find(type => type.typeCode === 'IT_MOBILE').id,
@@ -843,7 +848,7 @@ async function main() {
         categoryId: categories.find(cat => cat.name === '카메라').id,
         locationId: locations[1].id,
         handlerId: testUsers[3].id,
-        quantity: 3,
+        quantity: 100,
         rfid_tag: 'RFID004',
         status: '정상',
         assetTypeId: assetTypes.find(type => type.typeCode === 'BROADCAST_CAMERA').id,
@@ -860,7 +865,7 @@ async function main() {
         categoryId: categories.find(cat => cat.name === '카메라').id,
         locationId: locations[1].id,
         handlerId: testUsers[3].id,
-        quantity: 2,
+        quantity: 100,
         rfid_tag: 'RFID005',
         status: '정상',
         assetTypeId: assetTypes.find(type => type.typeCode === 'BROADCAST_ACCESSORY').id,
@@ -876,7 +881,7 @@ async function main() {
         categoryId: categories.find(cat => cat.name === '카메라').id,
         locationId: locations[1].id,
         handlerId: testUsers[3].id,
-        quantity: 3,
+        quantity: 100,
         rfid_tag: 'RFID006',
         status: '정상',
         assetTypeId: assetTypes.find(type => type.typeCode === 'BROADCAST_DRONE').id,
@@ -893,7 +898,7 @@ async function main() {
         categoryId: categories.find(cat => cat.name === '마이크').id,
         locationId: locations[2].id,
         handlerId: testUsers[5].id,
-        quantity: 3,
+        quantity: 100,
         rfid_tag: 'RFID007',
         status: '정상',
         assetTypeId: assetTypes.find(type => type.typeCode === 'AUDIO_MIC').id,
@@ -909,7 +914,7 @@ async function main() {
         categoryId: categories.find(cat => cat.name === '마이크').id,
         locationId: locations[2].id,
         handlerId: testUsers[5].id,
-        quantity: 2,
+        quantity: 100,
         rfid_tag: 'RFID008',
         status: '정상',
         assetTypeId: assetTypes.find(type => type.typeCode === 'AUDIO_MIXER').id,
@@ -925,7 +930,7 @@ async function main() {
         categoryId: categories.find(cat => cat.name === '마이크').id,
         locationId: locations[2].id,
         handlerId: testUsers[5].id,
-        quantity: 3,
+        quantity: 100,
         rfid_tag: 'RFID009',
         status: '정상',
         assetTypeId: assetTypes.find(type => type.typeCode === 'AUDIO_SPEAKER').id,
@@ -942,7 +947,7 @@ async function main() {
         categoryId: categories.find(cat => cat.name === 'LED조명').id,
         locationId: locations[3].id,
         handlerId: testUsers[7].id,
-        quantity: 2,
+        quantity: 100,
         rfid_tag: 'RFID010',
         status: '정상',
         assetTypeId: assetTypes.find(type => type.typeCode === 'LIGHT_LED').id,
@@ -958,7 +963,7 @@ async function main() {
         categoryId: categories.find(cat => cat.name === 'LED조명').id,
         locationId: locations[3].id,
         handlerId: testUsers[7].id,
-        quantity: 4,
+        quantity: 100,
         rfid_tag: 'RFID011',
         status: '정상',
         assetTypeId: assetTypes.find(type => type.typeCode === 'LIGHT_LED').id,
@@ -975,7 +980,7 @@ async function main() {
         categoryId: categories.find(cat => cat.name === '정장').id,
         locationId: locations[4].id,
         handlerId: testUsers[9].id,
-        quantity: 5,
+        quantity: 100,
         rfid_tag: 'RFID012',
         status: '정상',
         assetTypeId: assetTypes.find(type => type.typeCode === 'COSTUME_TOP').id,
@@ -989,7 +994,7 @@ async function main() {
         categoryId: categories.find(cat => cat.name === '정장').id,
         locationId: locations[4].id,
         handlerId: testUsers[9].id,
-        quantity: 10,
+        quantity: 100,
         rfid_tag: 'RFID013',
         status: '정상',
         assetTypeId: assetTypes.find(type => type.typeCode === 'COSTUME_TOP').id,
@@ -1003,7 +1008,7 @@ async function main() {
         categoryId: categories.find(cat => cat.name === '신발').id,
         locationId: locations[4].id,
         handlerId: testUsers[9].id,
-        quantity: 8,
+        quantity: 100,
         rfid_tag: 'RFID014',
         status: '정상',
         assetTypeId: assetTypes.find(type => type.typeCode === 'COSTUME_SHOES').id,
@@ -1018,7 +1023,7 @@ async function main() {
         categoryId: categories.find(cat => cat.name === '가구').id,
         locationId: locations[5].id,
         handlerId: testUsers[11].id,
-        quantity: 20,
+        quantity: 100,
         rfid_tag: 'RFID015',
         status: '정상',
         assetTypeId: assetTypes.find(type => type.typeCode === 'PROP_FURNITURE').id,
@@ -1031,7 +1036,7 @@ async function main() {
         categoryId: categories.find(cat => cat.name === '가구').id,
         locationId: locations[5].id,
         handlerId: testUsers[11].id,
-        quantity: 10,
+        quantity: 100,
         rfid_tag: 'RFID016',
         status: '정상',
         assetTypeId: assetTypes.find(type => type.typeCode === 'PROP_FURNITURE').id,
@@ -1398,6 +1403,33 @@ async function main() {
         rentalId: testRental.id,
         returnDate: new Date(),
         status: 'RETURNED'
+      }
+    });
+  }
+
+  // === 반납 이력 테스트 데이터 100건 추가 ===
+  const allMaterials = await prisma.materials.findMany();
+  const allUsers = await prisma.user.findMany();
+  const allRentalRequests = await prisma.rentalRequest.findMany();
+  const statusList = ['NORMAL', 'DAMAGED', 'LOST'];
+  const now = new Date();
+
+  for (let i = 0; i < 100; i++) {
+    const material = allMaterials[i % allMaterials.length];
+    const user = allUsers[i % allUsers.length];
+    const rentalRequest = allRentalRequests[i % allRentalRequests.length];
+    const daysAgo = Math.floor(Math.random() * 180);
+    const returnDate = new Date(now.getTime() - daysAgo * 24 * 60 * 60 * 1000);
+    const status = statusList[Math.floor(Math.random() * statusList.length)];
+    const statusDescription = status === 'NORMAL' ? '정상 반납' : (status === 'DAMAGED' ? '파손 반납' : '분실 반납');
+    await prisma.return.create({
+      data: {
+        rentalRequestId: rentalRequest.id,
+        materialId: material.id,
+        returnLocation: '테스트 위치',
+        returnDate,
+        status,
+        statusDescription,
       }
     });
   }

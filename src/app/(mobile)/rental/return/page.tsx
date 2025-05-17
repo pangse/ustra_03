@@ -205,7 +205,7 @@ export default function ReturnPage() {
           <div className="bg-white p-6 rounded-lg shadow-lg text-center">
             <p className="mb-4 text-lg font-semibold">반납이 성공적으로 신청되었습니다.</p>
             <button
-              onClick={() => router.push('/rental/request')}
+              onClick={() => router.push('/rental/return-history')}
               className="bg-blue-500 text-white px-6 py-2 rounded-lg"
             >
               확인

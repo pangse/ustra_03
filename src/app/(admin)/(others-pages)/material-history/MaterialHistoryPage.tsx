@@ -264,27 +264,27 @@ export default function MaterialHistoryPage() {
   }
 
   return (
-    <div className="p-4">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">자산 이력 관리</h1>
+    <div className="container mx-auto p-6 bg-gray-50 min-h-screen">
+      <div className="mb-6 flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-gray-900">자산 이력 관리</h1>
         <button
           onClick={() => {
             setEditingHistory(null);
             setIsModalOpen(true);
           }}
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
         >
           이력 등록
         </button>
       </div>
 
       {/* 필터 */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+      <form className="mb-6 flex flex-wrap gap-2 items-center">
         <select
           name="materialId"
           value={filters.materialId}
           onChange={handleFilterChange}
-          className="border p-2 rounded"
+          className="px-4 py-2 border rounded-md bg-white"
         >
           <option value="">자산 선택</option>
           {materials.map(material => (
@@ -298,7 +298,7 @@ export default function MaterialHistoryPage() {
           name="handlerId"
           value={filters.handlerId}
           onChange={handleFilterChange}
-          className="border p-2 rounded"
+          className="px-4 py-2 border rounded-md bg-white"
         >
           <option value="">담당자 선택</option>
           {users.map(user => (
@@ -312,59 +312,47 @@ export default function MaterialHistoryPage() {
           name="type"
           value={filters.type}
           onChange={handleFilterChange}
-          className="border p-2 rounded"
+          className="px-4 py-2 border rounded-md bg-white"
         >
           <option value="">유형 선택</option>
           <option value="입고">입고</option>
           <option value="출고">출고</option>
         </select>
-      </div>
+      </form>
 
       {/* 이력 목록 */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">날짜</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">자산</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">유형</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">수량</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">담당자</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">메모</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">관리</th>
+      <div className="bg-white rounded-lg shadow overflow-x-auto">
+        <table className="min-w-full bg-white border border-gray-200">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="px-4 py-2 border">날짜</th>
+              <th className="px-4 py-2 border">자산</th>
+              <th className="px-4 py-2 border">유형</th>
+              <th className="px-4 py-2 border">수량</th>
+              <th className="px-4 py-2 border">담당자</th>
+              <th className="px-4 py-2 border">메모</th>
+              <th className="px-4 py-2 border">관리</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody>
             {filteredHistories.map((history) => (
-              <tr key={history.id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {new Date(history.date).toLocaleString()}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {history.material?.name}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {history.type}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {history.quantity}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {history.handler?.name}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {history.memo}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+              <tr key={history.id} className="hover:bg-gray-50">
+                <td className="px-4 py-2 border">{new Date(history.date).toLocaleString()}</td>
+                <td className="px-4 py-2 border">{history.material?.name}</td>
+                <td className="px-4 py-2 border">{history.type}</td>
+                <td className="px-4 py-2 border">{history.quantity}</td>
+                <td className="px-4 py-2 border">{history.handler?.name}</td>
+                <td className="px-4 py-2 border">{history.memo}</td>
+                <td className="px-4 py-2 border">
                   <button
                     onClick={() => handleEdit(history)}
-                    className="text-indigo-600 hover:text-indigo-900 mr-4"
+                    className="text-blue-600 hover:text-blue-700 focus:outline-none mr-4"
                   >
                     수정
                   </button>
                   <button
                     onClick={() => handleDelete(history.id)}
-                    className="text-red-600 hover:text-red-900"
+                    className="text-red-600 hover:text-red-700 focus:outline-none"
                   >
                     삭제
                   </button>

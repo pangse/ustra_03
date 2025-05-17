@@ -98,14 +98,14 @@ export default function UsersPage() {
   };
 
   return (
-    <div className="w-[85vw] max-w-7xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4 flex items-center justify-between">
-        사용자 목록
+    <div className="container mx-auto p-6 bg-gray-50 min-h-screen">
+      <div className="mb-6 flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-gray-900">사용자 목록</h1>
         <div className="flex gap-2">
           <button
             type="button"
             onClick={() => { setPage(1); fetchUsers(1); }}
-            className="px-4 py-2 text-sm font-medium"
+            className="px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-md hover:bg-gray-100"
             disabled={loading}
           >
             {loading ? '로딩 중...' : '조회'}
@@ -113,13 +113,13 @@ export default function UsersPage() {
           <button
             type="button"
             onClick={handleRegisterClick}
-            className="px-4 py-2 text-sm font-medium"
+            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
             disabled={loading}
           >
             사용자 등록
           </button>
         </div>
-      </h1>
+      </div>
 
       {error && (
         <div className="mb-4 p-4 bg-red-50 text-red-600 rounded">
@@ -127,14 +127,14 @@ export default function UsersPage() {
         </div>
       )}
 
-      <form onSubmit={e => e.preventDefault()} className="mb-4">
+      <form onSubmit={e => e.preventDefault()} className="mb-6 flex flex-wrap gap-2 items-center">
         <input
           type="text"
           name="name"
           value={filter.name}
           onChange={handleFilterChange}
           placeholder="이름 검색"
-          className="px-4 py-2 border rounded-md"
+          className="px-4 py-2 border rounded-md bg-white"
         />
         <input
           type="text"
@@ -142,12 +142,12 @@ export default function UsersPage() {
           value={filter.email}
           onChange={handleFilterChange}
           placeholder="이메일 검색"
-          className="px-4 py-2 border rounded-md"
+          className="px-4 py-2 border rounded-md bg-white"
         />
         <button 
           type="button" 
           onClick={() => { setPage(1); fetchUsers(1); }}
-          className="px-4 py-2 text-sm font-medium"
+          className="px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-md hover:bg-gray-100"
           disabled={loading}
         >
           초기화
@@ -155,39 +155,35 @@ export default function UsersPage() {
       </form>
 
       <div className="bg-white rounded-lg shadow overflow-x-auto">
-        <table className="w-full">
+        <table className="min-w-full bg-white border border-gray-200">
           <thead>
-            <tr className="bg-gray-50">
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">이름</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">이메일</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">부서</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">역할</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">전화번호</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">관리</th>
+            <tr className="bg-gray-100">
+              <th className="px-4 py-2 border">이름</th>
+              <th className="px-4 py-2 border">이메일</th>
+              <th className="px-4 py-2 border">부서</th>
+              <th className="px-4 py-2 border">역할</th>
+              <th className="px-4 py-2 border">전화번호</th>
+              <th className="px-4 py-2 border">관리</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody>
             {loading && page === 1 ? (
               <tr>
-                <td colSpan={6} className="text-center py-8">
-                  로딩 중...
-                </td>
+                <td colSpan={6} className="text-center py-8 border">로딩 중...</td>
               </tr>
             ) : filteredUsers.length === 0 ? (
               <tr>
-                <td colSpan={6} className="text-center py-8">
-                  데이터가 없습니다
-                </td>
+                <td colSpan={6} className="text-center py-8 border">데이터가 없습니다</td>
               </tr>
             ) : (
               filteredUsers.map(u => (
                 <tr key={u.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{u.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{u.email}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{u.department}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{u.role}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{u.phone_number}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                  <td className="px-4 py-2 border">{u.name}</td>
+                  <td className="px-4 py-2 border">{u.email}</td>
+                  <td className="px-4 py-2 border">{u.department}</td>
+                  <td className="px-4 py-2 border">{u.role}</td>
+                  <td className="px-4 py-2 border">{u.phone_number}</td>
+                  <td className="px-4 py-2 border">
                     <div className="flex gap-2">
                       <button
                         type="button"

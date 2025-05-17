@@ -182,14 +182,14 @@ export default function MaterialsPage() {
   );
 
   return (
-    <div className="w-[85vw] max-w-7xl mx-auto p-4">
-      <h1 className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50 rounded-t-lg flex items-center justify-between">
-        자산명
+    <div className="container mx-auto p-6 bg-gray-50 min-h-screen">
+      <div className="mb-6 flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-gray-900">자산 관리</h1>
         <div className="flex gap-2">
           <button
             type="button"
             onClick={() => { setPage(1); fetchMaterials(1); }}
-            className="px-4 py-2 text-sm font-medium"
+            className="px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-md hover:bg-gray-100"
             disabled={loading}
           >
             {loading ? '로딩 중...' : '조회'}
@@ -197,13 +197,13 @@ export default function MaterialsPage() {
           <button
             type="button"
             onClick={handleRegisterClick}
-            className="px-4 py-2 text-sm font-medium"
+            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
             disabled={loading}
           >
             자산 등록
           </button>
         </div>
-      </h1>
+      </div>
 
       {error && (
         <div className="mb-4 p-4 bg-red-50 text-red-600 rounded">
@@ -211,20 +211,20 @@ export default function MaterialsPage() {
         </div>
       )}
 
-      <form onSubmit={e => e.preventDefault()} className="mb-4">
+      <form onSubmit={e => e.preventDefault()} className="mb-6 flex flex-wrap gap-2 items-center">
         <input
           type="text"
           name="name"
           value={filter.name}
           onChange={handleFilterChange}
           placeholder="자산명 검색"
-          className="px-4 py-2 border rounded-md"
+          className="px-4 py-2 border rounded-md bg-white"
         />
         <select
           name="categoryId"
           value={filter.categoryId}
           onChange={handleFilterChange}
-          className="px-4 py-2 border rounded-md"
+          className="px-4 py-2 border rounded-md bg-white"
         >
           <option value="">카테고리 전체</option>
           {categories.map(c => (
@@ -235,7 +235,7 @@ export default function MaterialsPage() {
           name="locationId"
           value={filter.locationId}
           onChange={handleFilterChange}
-          className="px-4 py-2 border rounded-md"
+          className="px-4 py-2 border rounded-md bg-white"
         >
           <option value="">위치 전체</option>
           {locations.map(l => (
@@ -246,7 +246,7 @@ export default function MaterialsPage() {
           name="handlerId"
           value={filter.handlerId}
           onChange={handleFilterChange}
-          className="px-4 py-2 border rounded-md"
+          className="px-4 py-2 border rounded-md bg-white"
         >
           <option value="">담당자 전체</option>
           {users.map(u => (
@@ -256,7 +256,7 @@ export default function MaterialsPage() {
         <button 
           type="button" 
           onClick={() => { setPage(1); fetchMaterials(1); }}
-          className="px-4 py-2 text-sm font-medium"
+          className="px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-md hover:bg-gray-100"
           disabled={loading}
         >
           초기화
@@ -264,43 +264,39 @@ export default function MaterialsPage() {
       </form>
 
       <div className="bg-white rounded-lg shadow overflow-x-auto">
-        <table className="w-full">
+        <table className="min-w-full bg-white border border-gray-200">
           <thead>
-            <tr className="bg-gray-50">
-              <th className="px-6 py-3 text-left text-base font-medium text-gray-500 uppercase tracking-wider">자산명</th>
-              <th className="px-6 py-3 text-left text-base font-medium text-gray-500 uppercase tracking-wider">카테고리</th>
-              <th className="px-6 py-3 text-left text-base font-medium text-gray-500 uppercase tracking-wider">위치</th>
-              <th className="px-6 py-3 text-left text-base font-medium text-gray-500 uppercase tracking-wider">담당자</th>
-              <th className="px-6 py-3 text-left text-base font-medium text-gray-500 uppercase tracking-wider">RFID</th>
-              <th className="px-6 py-3 text-left text-base font-medium text-gray-500 uppercase tracking-wider">수량</th>
-              <th className="px-6 py-3 text-left text-base font-medium text-gray-500 uppercase tracking-wider">상태</th>
-              <th className="px-6 py-3 text-left text-base font-medium text-gray-500 uppercase tracking-wider">관리</th>
+            <tr className="bg-gray-100">
+              <th className="px-4 py-2 border">자산명</th>
+              <th className="px-4 py-2 border">카테고리</th>
+              <th className="px-4 py-2 border">위치</th>
+              <th className="px-4 py-2 border">담당자</th>
+              <th className="px-4 py-2 border">RFID</th>
+              <th className="px-4 py-2 border">수량</th>
+              <th className="px-4 py-2 border">상태</th>
+              <th className="px-4 py-2 border">관리</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody>
             {loading && page === 1 ? (
               <tr>
-                <td colSpan={8} className="text-center py-8">
-                  로딩 중...
-                </td>
+                <td colSpan={8} className="text-center py-8 border">로딩 중...</td>
               </tr>
             ) : filteredMaterials.length === 0 ? (
               <tr>
-                <td colSpan={8} className="text-center py-8">
-                  데이터가 없습니다
-                </td>
+                <td colSpan={8} className="text-center py-8 border">데이터가 없습니다</td>
               </tr>
             ) : (
               filteredMaterials.map(m => (
                 <tr key={m.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{m.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{m.category?.name || '-'}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{m.location?.name || '-'}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{m.handler?.name || '-'}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{m.rfid_tag}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{m.quantity}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{m.status}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                  <td className="px-4 py-2 border">{m.name}</td>
+                  <td className="px-4 py-2 border">{m.category?.name || '-'}</td>
+                  <td className="px-4 py-2 border">{m.location?.name || '-'}</td>
+                  <td className="px-4 py-2 border">{m.handler?.name || '-'}</td>
+                  <td className="px-4 py-2 border">{m.rfid_tag}</td>
+                  <td className="px-4 py-2 border">{m.quantity}</td>
+                  <td className="px-4 py-2 border">{m.status}</td>
+                  <td className="px-4 py-2 border">
                     <div className="flex gap-2">
                       <button
                         type="button"

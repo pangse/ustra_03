@@ -65,7 +65,7 @@ export default function HistoryForm({ materials, users, initialData, onSave, onC
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div>
         <label className="block text-sm font-medium text-gray-700">자산</label>
         <select
@@ -73,7 +73,7 @@ export default function HistoryForm({ materials, users, initialData, onSave, onC
           value={formData.materialId}
           onChange={handleChange}
           required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          className="px-4 py-2 border rounded-md bg-white w-full"
         >
           <option value="">자산 선택</option>
           {materials.map(material => (
@@ -91,7 +91,7 @@ export default function HistoryForm({ materials, users, initialData, onSave, onC
           value={formData.handlerId}
           onChange={handleChange}
           required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          className="px-4 py-2 border rounded-md bg-white w-full"
         >
           <option value="">담당자 선택</option>
           {users.map(user => (
@@ -109,7 +109,7 @@ export default function HistoryForm({ materials, users, initialData, onSave, onC
           value={formData.type}
           onChange={handleChange}
           required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          className="px-4 py-2 border rounded-md bg-white w-full"
         >
           <option value="입고">입고</option>
           <option value="출고">출고</option>
@@ -125,7 +125,7 @@ export default function HistoryForm({ materials, users, initialData, onSave, onC
           onChange={handleChange}
           required
           min="1"
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          className="px-4 py-2 border rounded-md bg-white w-full"
         />
       </div>
 
@@ -136,7 +136,7 @@ export default function HistoryForm({ materials, users, initialData, onSave, onC
           value={formData.memo}
           onChange={handleChange}
           rows={3}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          className="px-4 py-2 border rounded-md bg-white w-full"
         />
       </div>
 
@@ -144,13 +144,13 @@ export default function HistoryForm({ materials, users, initialData, onSave, onC
         <button
           type="button"
           onClick={onCancel}
-          className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-100"
         >
           취소
         </button>
         <button
           type="submit"
-          className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
         >
           저장
         </button>

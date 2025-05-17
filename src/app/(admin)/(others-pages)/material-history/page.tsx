@@ -63,9 +63,11 @@ export default function Page() {
   if (error) return <div>에러: {error}</div>;
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">자산 이력 관리</h1>
-      <div className="overflow-x-auto">
+    <div className="container mx-auto p-6 bg-gray-50 min-h-screen">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">자산 이력 관리</h1>
+      </div>
+      <div className="bg-white rounded-lg shadow overflow-x-auto">
         <table className="min-w-full bg-white border border-gray-200">
           <thead>
             <tr className="bg-gray-100">

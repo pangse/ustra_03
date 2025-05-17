@@ -123,13 +123,13 @@ export default function MasterDataPage() {
   );
 
   return (
-    <div className="p-4">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">기준데이터 관리</h1>
+    <div className="container mx-auto p-6 bg-gray-50 min-h-screen">
+      <div className="mb-6 flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-gray-900">기준데이터 관리</h1>
         <div className="flex gap-2">
           <button
             type="button"
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-md hover:bg-gray-100"
             onClick={() => { setPage(1); fetchData(1); }}
             disabled={loading}
           >
@@ -137,7 +137,7 @@ export default function MasterDataPage() {
           </button>
           <button
             type="button"
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
             onClick={handleRegisterClick}
           >
             등록
@@ -145,12 +145,12 @@ export default function MasterDataPage() {
         </div>
       </div>
 
-      <div className="mb-6 flex gap-4">
+      <form className="mb-6 flex flex-wrap gap-2 items-center">
         <select
           name="type"
           value={filter.type}
           onChange={e => setFilter(f => ({ ...f, type: e.target.value }))}
-          className="form-select"
+          className="px-4 py-2 border rounded-md bg-white"
         >
           <option value="">전체 구분</option>
           {typeOptions.map(opt => (
@@ -162,52 +162,50 @@ export default function MasterDataPage() {
           value={filter.name}
           onChange={e => setFilter(f => ({ ...f, name: e.target.value }))}
           placeholder="이름 검색"
-          className="form-input"
+          className="px-4 py-2 border rounded-md bg-white"
         />
-      </div>
+      </form>
 
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="bg-gray-50 dark:bg-gray-700">
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">구분</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">이름</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">설명</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">관리</th>
+      <div className="bg-white rounded-lg shadow overflow-x-auto">
+        <table className="min-w-full bg-white border border-gray-200">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="px-4 py-2 border">구분</th>
+              <th className="px-4 py-2 border">이름</th>
+              <th className="px-4 py-2 border">설명</th>
+              <th className="px-4 py-2 border">관리</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredData.map((item) => (
+              <tr key={item.id} className="hover:bg-gray-50">
+                <td className="px-4 py-2 border">{item.type}</td>
+                <td className="px-4 py-2 border">{item.name}</td>
+                <td className="px-4 py-2 border">{item.description}</td>
+                <td className="px-4 py-2 border">
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      className="text-blue-600 hover:text-blue-700 focus:outline-none"
+                      onClick={() => handleEdit(item)}
+                      disabled={loading}
+                    >
+                      수정
+                    </button>
+                    <button
+                      type="button"
+                      className="text-red-600 hover:text-red-700 focus:outline-none"
+                      onClick={() => handleDelete(item.id)}
+                      disabled={loading}
+                    >
+                      삭제
+                    </button>
+                  </div>
+                </td>
               </tr>
-            </thead>
-            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-              {filteredData.map((item) => (
-                <tr key={item.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">{item.type}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">{item.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">{item.description}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    <div className="flex gap-2">
-                      <button
-                        type="button"
-                        className="text-blue-600 hover:text-blue-700 focus:outline-none"
-                        onClick={() => handleEdit(item)}
-                        disabled={loading}
-                      >
-                        수정
-                      </button>
-                      <button
-                        type="button"
-                        className="text-red-600 hover:text-red-700 focus:outline-none"
-                        onClick={() => handleDelete(item.id)}
-                        disabled={loading}
-                      >
-                        삭제
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       <Modal

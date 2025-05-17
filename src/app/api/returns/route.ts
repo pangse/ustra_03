@@ -61,12 +61,29 @@ export async function POST(request: Request) {
     }
 
     for (const item of items) {
-      // rentalRequest 상태를 COMPLETED로 변경
+      // 1. 반납 이력 등록
+      await prisma.return.create({
+        data: {
+          rentalRequestId: item.id,
+          materialId: item.materialId,
+          returnLocation: item.returnLocation,
+          returnDate: new Date(item.returnDate),
+          status: item.status,
+          statusDescription: item.statusDescription,
+        }
+      });
+
+      // 2. rentalRequest 상태를 COMPLETED로 변경
       await prisma.rentalRequest.update({
         where: { id: item.id },
         data: { status: 'COMPLETED' }
       });
-      // 필요하다면 rentals 테이블도 같이 업데이트 가능
+
+      // 3. 자산 수량 증가 (대여 가능하게)
+      await prisma.materials.update({
+        where: { id: item.materialId },
+        data: { quantity: { increment: 1 } }
+      });
     }
 
     return NextResponse.json({ success: true });

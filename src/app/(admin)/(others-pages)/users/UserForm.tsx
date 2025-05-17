@@ -53,7 +53,7 @@ export default function UserForm({ initial, onSave, onClose, loading }: UserForm
         value={form.name}
         onChange={handleChange}
         placeholder="이름"
-        className="border rounded px-2 py-1"
+        className="px-4 py-2 border rounded-md bg-white"
         required
       />
       <input
@@ -61,7 +61,7 @@ export default function UserForm({ initial, onSave, onClose, loading }: UserForm
         value={form.email}
         onChange={handleChange}
         placeholder="이메일"
-        className="border rounded px-2 py-1"
+        className="px-4 py-2 border rounded-md bg-white"
         required
         type="email"
       />
@@ -69,7 +69,7 @@ export default function UserForm({ initial, onSave, onClose, loading }: UserForm
         name="department"
         value={form.department}
         onChange={handleChange}
-        className="border rounded px-2 py-1"
+        className="px-4 py-2 border rounded-md bg-white"
         required
       >
         <option value="">부서 선택</option>
@@ -81,7 +81,7 @@ export default function UserForm({ initial, onSave, onClose, loading }: UserForm
         name="role"
         value={form.role}
         onChange={handleChange}
-        className="border rounded px-2 py-1"
+        className="px-4 py-2 border rounded-md bg-white"
         required
       >
         <option value="">역할 선택</option>
@@ -94,14 +94,14 @@ export default function UserForm({ initial, onSave, onClose, loading }: UserForm
         value={form.phone_number}
         onChange={handleChange}
         placeholder="연락처"
-        className="border rounded px-2 py-1"
+        className="px-4 py-2 border rounded-md bg-white"
         required
       />
       <div className="flex gap-2 mt-2">
-        <button type="submit" className="bg-gray-900 text-white border border-gray-900 rounded px-3 py-1 text-sm" disabled={loading}>
+        <button type="submit" className="bg-blue-600 text-white border border-blue-600 rounded-md px-4 py-2 text-sm hover:bg-blue-700" disabled={loading}>
           저장
         </button>
-        <button type="button" className="bg-white text-gray-900 border border-gray-300 hover:bg-gray-100 rounded px-3 py-1 text-sm" onClick={onClose}>취소</button>
+        <button type="button" className="bg-white text-gray-900 border border-gray-300 hover:bg-gray-100 rounded-md px-4 py-2 text-sm" onClick={onClose}>취소</button>
       </div>
     </form>
   );
