@@ -45,25 +45,35 @@ export default function AssetTypesPage() {
   return (
     <div className="p-4">
       <h1 className="text-xl font-semibold mb-4">자산유형 관리</h1>
-      <div className="mb-4 flex gap-2">
-        <button className="border p-2 rounded bg-white text-sm" onClick={() => { setEditItem(null); setShowModal(true); }}>+ 신규 등록</button>
-        <button className="border p-2 rounded bg-white text-sm">엑셀 업로드</button>
-        <button className="border p-2 rounded bg-white text-sm">엑셀 다운로드</button>
-        <button className="border p-2 rounded bg-white text-sm text-red-600">선택 삭제</button>
-      </div>
-      {/* 검색 필터 */}
-      <div className="mb-4 flex gap-2">
-        <input name="typeCode" value={filter.typeCode} onChange={handleFilterChange} placeholder="자산유형 ID" className="border rounded p-2 text-sm" />
-        <input name="name" value={filter.name} onChange={handleFilterChange} placeholder="자산유형명" className="border rounded p-2 text-sm" />
-        <input name="extension" value={filter.extension} onChange={handleFilterChange} placeholder="대표확장자" className="border rounded p-2 text-sm" />
-        <select name="isActive" value={filter.isActive} onChange={handleFilterChange} className="border rounded p-2 text-sm">
-          <option value="">활성여부 전체</option>
-          <option value="true">활성</option>
-          <option value="false">비활성</option>
-        </select>
-        <button className="border p-2 rounded bg-white text-sm" onClick={handleSearch}>검색</button>
-        <button className="border p-2 rounded bg-white text-sm" onClick={handleReset}>초기화</button>
-      </div>
+      {/* 검색 영역 */}
+      <form className="bg-white rounded shadow p-4 mb-6 space-y-2" onSubmit={e => { e.preventDefault(); handleSearch(); }}>
+        <div className="grid grid-cols-6 gap-4 items-center">
+          <label className="col-span-1 text-sm">자산유형 ID</label>
+          <input name="typeCode" className="col-span-2 border rounded px-2 py-1" value={filter.typeCode} onChange={handleFilterChange} placeholder="자산유형 ID" />
+          <label className="col-span-1 text-sm">자산유형명</label>
+          <input name="name" className="col-span-2 border rounded px-2 py-1" value={filter.name} onChange={handleFilterChange} placeholder="자산유형명" />
+          <label className="col-span-1 text-sm">대표확장자</label>
+          <input name="extension" className="col-span-2 border rounded px-2 py-1" value={filter.extension} onChange={handleFilterChange} placeholder="대표확장자" />
+          <label className="col-span-1 text-sm">활성여부</label>
+          <select name="isActive" className="col-span-2 border rounded px-2 py-1" value={filter.isActive} onChange={handleFilterChange}>
+            <option value="">전체</option>
+            <option value="true">활성</option>
+            <option value="false">비활성</option>
+          </select>
+        </div>
+        <div className="mt-4 flex items-center justify-between gap-2">
+          <div className="flex gap-2">
+            <button className="border p-2 rounded bg-white text-sm" type="button" onClick={() => { setEditItem(null); setShowModal(true); }}>+ 신규 등록</button>
+            <button className="border p-2 rounded bg-white text-sm" type="button">엑셀 업로드</button>
+            <button className="border p-2 rounded bg-white text-sm" type="button">엑셀 다운로드</button>
+            <button className="border p-2 rounded bg-white text-sm text-red-600" type="button">선택 삭제</button>
+          </div>
+          <div className="flex gap-2">
+            <button type="submit" className="bg-black text-white px-3 py-1 rounded">검색</button>
+            <button type="button" className="border p-2 rounded bg-white text-sm" onClick={handleReset}>초기화</button>
+          </div>
+        </div>
+      </form>
       {/* 리스트 테이블 */}
       <div className="overflow-x-auto">
         <table className="min-w-full border text-sm bg-white">

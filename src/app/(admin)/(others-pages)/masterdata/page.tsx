@@ -125,43 +125,29 @@ export default function MasterDataPage() {
   return (
     <div className="p-4">
       <h1 className="text-xl font-semibold mb-4">기준데이터 관리</h1>
-      <div className="mb-4 flex gap-2">
-        <button
-          type="button"
-          className="border p-2 rounded bg-white text-sm"
-          onClick={() => { setPage(1); fetchData(1); }}
-          disabled={loading}
-        >
-          조회
-        </button>
-        <button
-          type="button"
-          className="border p-2 rounded bg-white text-sm"
-          onClick={handleRegisterClick}
-        >
-          등록
-        </button>
-      </div>
-
-      <form className="mb-6 flex flex-wrap gap-2 items-center">
-        <select
-          name="type"
-          value={filter.type}
-          onChange={e => setFilter(f => ({ ...f, type: e.target.value }))}
-          className="border rounded p-2 text-sm bg-white"
-        >
-          <option value="">전체 구분</option>
-          {typeOptions.map(opt => (
-            <option key={opt.value} value={opt.value}>{opt.label}</option>
-          ))}
-        </select>
-        <input
-          name="name"
-          value={filter.name}
-          onChange={e => setFilter(f => ({ ...f, name: e.target.value }))}
-          placeholder="이름 검색"
-          className="border rounded p-2 text-sm bg-white"
-        />
+      {/* 검색/액션 영역 */}
+      <form className="bg-white rounded shadow p-4 mb-6 space-y-2" onSubmit={e => { e.preventDefault(); setPage(1); fetchData(1); }}>
+        <div className="grid grid-cols-6 gap-4 items-center">
+          <label className="col-span-1 text-sm">구분</label>
+          <select name="type" className="col-span-2 border rounded px-2 py-1" value={filter.type} onChange={e => setFilter(f => ({ ...f, type: e.target.value }))}>
+            <option value="">전체 구분</option>
+            {typeOptions.map(opt => (
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            ))}
+          </select>
+          <label className="col-span-1 text-sm">이름</label>
+          <input name="name" className="col-span-2 border rounded px-2 py-1" value={filter.name} onChange={e => setFilter(f => ({ ...f, name: e.target.value }))} placeholder="이름 검색" />
+        </div>
+        <div className="mt-4 flex items-center justify-between gap-2">
+          <div className="flex gap-2">
+            <button type="button" className="border p-2 rounded bg-white text-sm" onClick={handleRegisterClick}>등록</button>
+            <button type="button" className="border p-2 rounded bg-white text-sm" onClick={() => { setPage(1); fetchData(1); }} disabled={loading}>조회</button>
+          </div>
+          <div className="flex gap-2">
+            <button type="submit" className="bg-black text-white px-3 py-1 rounded">검색</button>
+            <button type="button" className="border p-2 rounded bg-white text-sm" onClick={() => { setFilter({ type: '', name: '' }); setPage(1); fetchData(1); }}>초기화</button>
+          </div>
+        </div>
       </form>
 
       <div className="overflow-x-auto">

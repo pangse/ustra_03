@@ -38,6 +38,7 @@ export default function RentalManagementPage() {
     materialId: '',
     userId: ''
   });
+  const [search, setSearch] = useState({ name: '', status: '' });
 
   // 초기 데이터 로드
   useEffect(() => {
@@ -116,9 +117,8 @@ export default function RentalManagementPage() {
   };
 
   const filteredRequests = rentalRequests.filter(request => {
-    if (filters.status && request.status !== filters.status) return false;
-    if (filters.materialId && request.material.id.toString() !== filters.materialId) return false;
-    if (filters.userId && request.material.location?.name !== filters.userId) return false;
+    if (search.status && request.status !== search.status) return false;
+    if (search.name && !request.material.name.includes(search.name)) return false;
     return true;
   });
 
@@ -136,22 +136,25 @@ export default function RentalManagementPage() {
     <div className="p-4">
       <h1 className="text-xl font-semibold mb-4">자산 대여 관리</h1>
 
-      {/* 필터 */}
-      <div className="mb-4">
-        <select
-          name="status"
-          value={filters.status}
-          onChange={handleFilterChange}
-          className="border p-2 rounded"
-        >
-          <option value="">상태 선택</option>
-          <option value="APPROVED">대여중</option>
-          <option value="COMPLETED">반납완료</option>
-        </select>
-      </div>
+      {/* 검색 영역 */}
+      <form className="bg-white rounded shadow p-4 mb-6 space-y-2" onSubmit={e => { e.preventDefault(); }}>
+        <div className="grid grid-cols-6 gap-4 items-center">
+          <label className="col-span-1 text-sm">자산명</label>
+          <input className="col-span-2 border rounded px-2 py-1" value={search.name} onChange={e => setSearch(s => ({ ...s, name: e.target.value }))} placeholder="자산명 입력" />
+          <label className="col-span-1 text-sm">상태</label>
+          <select className="col-span-2 border rounded px-2 py-1" value={search.status} onChange={e => setSearch(s => ({ ...s, status: e.target.value }))}>
+            <option value="">전체</option>
+            <option value="APPROVED">대여중</option>
+            <option value="COMPLETED">반납완료</option>
+          </select>
+        </div>
+        <div className="mt-4 flex justify-end">
+          <button type="submit" className="bg-black text-white px-3 py-1 rounded">조회</button>
+        </div>
+      </form>
 
-      {/* 대여 요청 목록 */}
-      <div className="overflow-x-auto">
+      {/* 데스크탑: 테이블 */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="min-w-full border text-sm bg-white">
           <thead>
             <tr>
@@ -188,7 +191,26 @@ export default function RentalManagementPage() {
           </tbody>
         </table>
       </div>
-
+      {/* 모바일: 카드 */}
+      <div className="block md:hidden space-y-4">
+        {filteredRequests.map((request) => (
+          <div key={request.id} className="border rounded-lg p-4 shadow-sm bg-gray-50">
+            <div className="font-semibold text-base mb-2">{request.material?.name}</div>
+            <div className="text-xs text-gray-500 mb-1">신청자: <span className="text-gray-800">{request.material.location?.name}</span></div>
+            <div className="text-xs text-gray-500 mb-1">대여 기간: <span className="text-gray-800">{new Date(request.startDate).toLocaleDateString()} ~ {new Date(request.endDate).toLocaleDateString()}</span></div>
+            <div className="text-xs text-gray-500 mb-1">목적: <span className="text-gray-800">{request.purpose}</span></div>
+            <div className="text-xs text-gray-500 mb-1">상태: <span className="text-gray-800">{getStatusBadge(request.status)}</span></div>
+            {request.status === 'APPROVED' && (
+              <button
+                onClick={() => handleStatusChange(request.id, 'COMPLETED', request)}
+                className="mt-2 w-full text-blue-600 border border-blue-200 rounded px-3 py-1 text-xs bg-white hover:bg-blue-50"
+              >
+                반납 처리
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
       {/* 로딩 표시 */}
       {loading && (
         <div className="text-center py-4 text-gray-500">로딩 중...</div>
