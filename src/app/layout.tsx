@@ -8,6 +8,11 @@ const outfit = Outfit({
   subsets: ["latin"],
 });
 
+export const metadata = {
+  title: "HYBE 자산관리 솔루션 데모 - GS ITM",
+  description: "HYBE 자산관리 솔루션 데모 - GS ITM",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{

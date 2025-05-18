@@ -5,10 +5,13 @@ import { ApexOptions } from "apexcharts";
 import ChartTab from "../common/ChartTab";
 import dynamic from "next/dynamic";
 
-// 월별 입출고 이력 mock data (한글)
-const monthlyCounts = [10, 15, 20, 18, 25, 30, 28, 22, 19, 24, 27, 21];
-const inData = monthlyCounts.map((v, i) => (i % 2 === 0 ? v : 0)); // 짝수월: 입고
-const outData = monthlyCounts.map((v, i) => (i % 2 === 1 ? v : 0)); // 홀수월: 출고
+// 월별 입출고/대여/회수/폐기/분실 mock data (한글)
+const inData = [10, 15, 20, 18, 25, 30, 28, 22, 19, 24, 27, 21]; // 입고
+const outData = [8, 12, 18, 15, 20, 25, 23, 18, 15, 20, 22, 17]; // 출고
+const rentData = [6, 10, 14, 12, 18, 22, 20, 15, 13, 17, 19, 14]; // 대여
+const returnData = [5, 9, 13, 11, 16, 20, 18, 13, 11, 15, 17, 12]; // 회수
+const disposeData = [1, 2, 1, 2, 2, 3, 2, 1, 2, 2, 3, 2]; // 폐기
+const lostData = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]; // 분실
 
 // Dynamically import the ReactApexChart component
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
@@ -22,7 +25,14 @@ export default function StatisticsChart() {
       position: "top",
       horizontalAlign: "left",
     },
-    colors: ["#465FFF", "#9CB9FF"],
+    colors: [
+      "#3b82f6", // 입고 - 파랑
+      "#f59e42", // 출고 - 주황
+      "#22c55e", // 대여 - 초록
+      "#a855f7", // 회수 - 보라
+      "#ef4444", // 폐기 - 빨강
+      "#6b7280", // 분실 - 회색
+    ],
     chart: {
       fontFamily: "Outfit, sans-serif",
       height: 310,
@@ -62,14 +72,12 @@ export default function StatisticsChart() {
   };
 
   const series = [
-    {
-      name: "입고",
-      data: inData,
-    },
-    {
-      name: "출고",
-      data: outData,
-    },
+    { name: "입고", data: inData },
+    { name: "출고", data: outData },
+    { name: "대여", data: rentData },
+    { name: "회수", data: returnData },
+    { name: "폐기", data: disposeData },
+    { name: "분실", data: lostData },
   ];
   return (
     <div className="rounded-2xl border border-gray-200 bg-white px-5 pb-5 pt-5 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6 sm:pt-6">
@@ -79,7 +87,7 @@ export default function StatisticsChart() {
             월별 입출고 통계
           </h3>
           <p className="mt-1 text-gray-500 text-theme-sm dark:text-gray-400">
-            월별 입고/출고 현황 (mock data)
+            월별 입고/출고 현황
           </p>
         </div>
         <div className="flex items-start w-full gap-3 sm:justify-end">

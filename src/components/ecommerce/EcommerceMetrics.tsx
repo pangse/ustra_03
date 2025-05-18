@@ -9,6 +9,15 @@ export const EcommerceMetrics = () => {
   const [historyCount, setHistoryCount] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // 금일 대여/반납 mock data
+  const todayRentCount = 12;
+  const todayReturnCount = 9;
+
+  // 금월 대여/반납/폐기 mock data
+  const thisMonthRentCount = 48; // 예시
+  const thisMonthReturnCount = 41; // 예시
+  const thisMonthDisposeCount = 3; // 예시
+
   useEffect(() => {
     async function fetchCounts() {
       setLoading(true);
@@ -36,7 +45,7 @@ export const EcommerceMetrics = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4 md:gap-6">
       {/* Users Metric */}
       <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
         <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-xl dark:bg-gray-800">
@@ -49,10 +58,7 @@ export const EcommerceMetrics = () => {
               {loading ? '...' : userCount ?? '-'}
             </h4>
           </div>
-          <Badge color="success">
-            <ArrowUpIcon />
-            {/* 예시: 증가율 등 */}
-          </Badge>
+          <Badge color="success"> </Badge>
         </div>
       </div>
       {/* Materials Metric */}
@@ -67,9 +73,7 @@ export const EcommerceMetrics = () => {
               {loading ? '...' : materialCount ?? '-'}
             </h4>
           </div>
-          <Badge color="info">
-            {/* 예시: 변화율 등 */}
-          </Badge>
+          <Badge color="info"> </Badge>
         </div>
       </div>
       {/* Material History Metric */}
@@ -84,9 +88,84 @@ export const EcommerceMetrics = () => {
               259 건 {/* {loading ? '...' : historyCount ?? '-'} */}
             </h4>
           </div>
-          <Badge color="warning">
-            {/* 예시: 변화율 등 */}
-          </Badge>
+          <Badge color="warning"> </Badge>
+        </div>
+      </div>
+      {/* Today Rent Metric */}
+      <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
+        <div className="flex items-center justify-center w-12 h-12 bg-green-100 rounded-xl dark:bg-green-900/30">
+          {/* 대여 아이콘 (예시: ArrowUpIcon) */}
+          <ArrowUpIcon className="text-green-600 dark:text-green-400" />
+        </div>
+        <div className="flex items-end justify-between mt-5">
+          <div>
+            <span className="text-sm text-gray-500 dark:text-gray-400">오늘 대여</span>
+            <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
+              {todayRentCount} 건
+            </h4>
+          </div>
+          <Badge color="success"> </Badge>
+        </div>
+      </div>
+      {/* Today Return Metric */}
+      <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
+        <div className="flex items-center justify-center w-12 h-12 bg-purple-100 rounded-xl dark:bg-purple-900/30">
+          {/* 반납 아이콘 (예시: ArrowDownIcon) */}
+          <ArrowDownIcon className="text-purple-600 dark:text-purple-400" />
+        </div>
+        <div className="flex items-end justify-between mt-5">
+          <div>
+            <span className="text-sm text-gray-500 dark:text-gray-400">오늘 반납</span>
+            <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
+              {todayReturnCount} 건
+            </h4>
+          </div>
+          <Badge color="info"> </Badge>
+        </div>
+      </div>
+      {/* This Month Rent Metric */}
+      <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
+        <div className="flex items-center justify-center w-12 h-12 bg-green-100 rounded-xl dark:bg-green-900/30">
+          <ArrowUpIcon className="text-green-600 dark:text-green-400" />
+        </div>
+        <div className="flex items-end justify-between mt-5">
+          <div>
+            <span className="text-sm text-gray-500 dark:text-gray-400">5월 대여</span>
+            <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
+              {thisMonthRentCount} 건
+            </h4>
+          </div>
+          <Badge color="success"> </Badge>
+        </div>
+      </div>
+      {/* This Month Return Metric */}
+      <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
+        <div className="flex items-center justify-center w-12 h-12 bg-purple-100 rounded-xl dark:bg-purple-900/30">
+          <ArrowDownIcon className="text-purple-600 dark:text-purple-400" />
+        </div>
+        <div className="flex items-end justify-between mt-5">
+          <div>
+            <span className="text-sm text-gray-500 dark:text-gray-400">5월 반납</span>
+            <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
+              {thisMonthReturnCount} 건
+            </h4>
+          </div>
+          <Badge color="info"> </Badge>
+        </div>
+      </div>
+      {/* This Month Dispose Metric */}
+      <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] md:p-6">
+        <div className="flex items-center justify-center w-12 h-12 bg-red-100 rounded-xl dark:bg-red-900/30">
+          <BoxIconLine className="text-red-600 dark:text-red-400" />
+        </div>
+        <div className="flex items-end justify-between mt-5">
+          <div>
+            <span className="text-sm text-gray-500 dark:text-gray-400">5월 폐기</span>
+            <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
+              {thisMonthDisposeCount} 건
+            </h4>
+          </div>
+          <Badge color="error"> </Badge>
         </div>
       </div>
     </div>

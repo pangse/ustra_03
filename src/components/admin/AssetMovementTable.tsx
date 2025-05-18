@@ -44,30 +44,44 @@ export default function AssetMovementTable() {
   return (
     <div className="p-6 bg-white rounded-lg shadow">
       <h2 className="text-xl font-bold mb-4">자산 이동 이력</h2>
-      <table className="min-w-full border text-sm">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border px-4 py-2">자산명</th>
-            <th className="border px-4 py-2">이동 전 위치</th>
-            <th className="border px-4 py-2">이동 후 위치</th>
-            <th className="border px-4 py-2">담당자</th>
-            <th className="border px-4 py-2">이동일</th>
-            <th className="border px-4 py-2">메모</th>
-          </tr>
-        </thead>
-        <tbody>
-          {movements.map((m) => (
-            <tr key={m.id}>
-              <td className="border px-4 py-2">{m.assetName}</td>
-              <td className="border px-4 py-2">{m.fromLocation}</td>
-              <td className="border px-4 py-2">{m.toLocation}</td>
-              <td className="border px-4 py-2">{m.handler}</td>
-              <td className="border px-4 py-2">{m.date}</td>
-              <td className="border px-4 py-2">{m.memo || "-"}</td>
+      {/* 데스크탑: 테이블 */}
+      <div className="hidden md:block">
+        <table className="min-w-full border text-sm">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="border px-4 py-2">자산명</th>
+              <th className="border px-4 py-2">이동 전 위치</th>
+              <th className="border px-4 py-2">이동 후 위치</th>
+              <th className="border px-4 py-2">담당자</th>
+              <th className="border px-4 py-2">이동일</th>
+              <th className="border px-4 py-2">메모</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {movements.map((m) => (
+              <tr key={m.id}>
+                <td className="border px-4 py-2">{m.assetName}</td>
+                <td className="border px-4 py-2">{m.fromLocation}</td>
+                <td className="border px-4 py-2">{m.toLocation}</td>
+                <td className="border px-4 py-2">{m.handler}</td>
+                <td className="border px-4 py-2">{m.date}</td>
+                <td className="border px-4 py-2">{m.memo || "-"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {/* 모바일: 카드 */}
+      <div className="block md:hidden space-y-4">
+        {movements.map((m) => (
+          <div key={m.id} className="border rounded-lg p-4 shadow-sm bg-gray-50">
+            <div className="font-semibold text-base mb-2">{m.assetName}</div>
+            <div className="text-xs text-gray-500 mb-1">이동 전 위치: <span className="text-gray-800">{m.fromLocation}</span></div>
+            <div className="text-xs text-gray-500 mb-1">이동 후 위치: <span className="text-gray-800">{m.toLocation}</span></div>
+            <div className="text-xs text-gray-500 mb-1">이동일: <span className="text-gray-800">{m.date}</span></div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 } 
