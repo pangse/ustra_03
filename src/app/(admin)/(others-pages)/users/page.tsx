@@ -102,20 +102,27 @@ export default function UsersPage() {
       <h1 className="text-xl font-semibold mb-4">사용자 목록</h1>
       {/* 검색/액션 영역 */}
       <form className="bg-white rounded shadow p-4 mb-6 space-y-2" onSubmit={e => { e.preventDefault(); setPage(1); fetchUsers(1); }}>
-        <div className="grid grid-cols-6 gap-4 items-center">
+        {/* 데스크탑: grid, 모바일: flex-col */}
+        <div className="hidden md:grid grid-cols-6 gap-4 items-center">
           <label className="col-span-1 text-sm">이름</label>
           <input name="name" className="col-span-2 border rounded px-2 py-1" value={filter.name} onChange={e => setFilter(f => ({ ...f, name: e.target.value }))} placeholder="이름 검색" />
           <label className="col-span-1 text-sm">이메일</label>
           <input name="email" className="col-span-2 border rounded px-2 py-1" value={filter.email} onChange={e => setFilter(f => ({ ...f, email: e.target.value }))} placeholder="이메일 검색" />
         </div>
-        <div className="mt-4 flex items-center justify-between gap-2">
+        <div className="md:hidden flex flex-col gap-2">
+          <label className="text-sm">이름</label>
+          <input name="name" className="border rounded px-2 py-2 w-full" value={filter.name} onChange={e => setFilter(f => ({ ...f, name: e.target.value }))} placeholder="이름 검색" />
+          <label className="text-sm mt-2">이메일</label>
+          <input name="email" className="border rounded px-2 py-2 w-full" value={filter.email} onChange={e => setFilter(f => ({ ...f, email: e.target.value }))} placeholder="이메일 검색" />
+        </div>
+        <div className="mt-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2">
           <div className="flex gap-2">
-            <button type="button" className="border p-2 rounded bg-white text-sm" onClick={handleRegisterClick} disabled={loading}>사용자 등록</button>
-            <button type="button" className="border p-2 rounded bg-white text-sm" onClick={() => { setPage(1); fetchUsers(1); }} disabled={loading}>{loading ? '로딩 중...' : '조회'}</button>
+            <button type="button" className="border p-2 rounded bg-white text-sm w-full md:w-auto" onClick={handleRegisterClick} disabled={loading}>사용자 등록</button>
+            <button type="button" className="border p-2 rounded bg-white text-sm w-full md:w-auto" onClick={() => { setPage(1); fetchUsers(1); }} disabled={loading}>{loading ? '로딩 중...' : '조회'}</button>
           </div>
           <div className="flex gap-2">
-            <button type="submit" className="bg-black text-white px-3 py-1 rounded">검색</button>
-            <button type="button" className="border p-2 rounded bg-white text-sm" onClick={() => { setFilter({ name: '', email: '' }); setPage(1); fetchUsers(1); }}>초기화</button>
+            <button type="submit" className="bg-black text-white px-3 py-2 rounded w-full md:w-auto">검색</button>
+            <button type="button" className="border p-2 rounded bg-white text-sm w-full md:w-auto" onClick={() => { setFilter({ name: '', email: '' }); setPage(1); fetchUsers(1); }}>초기화</button>
           </div>
         </div>
       </form>

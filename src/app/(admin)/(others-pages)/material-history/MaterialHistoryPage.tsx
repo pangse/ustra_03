@@ -271,7 +271,8 @@ export default function MaterialHistoryPage() {
         className="bg-white rounded shadow p-4 mb-6 space-y-2"
         onSubmit={e => { e.preventDefault(); /* 검색 로직은 상태로 필터링 */ }}
       >
-        <div className="grid grid-cols-6 gap-4 items-center">
+        {/* 데스크탑: grid, 모바일: flex-col */}
+        <div className="hidden md:grid grid-cols-6 gap-4 items-center">
           <label className="col-span-1 text-sm">자산</label>
           <select
             name="materialId"
@@ -308,11 +309,48 @@ export default function MaterialHistoryPage() {
             <option value="출고">출고</option>
           </select>
         </div>
-        <div className="mt-4 flex items-center justify-between gap-2">
+        <div className="md:hidden flex flex-col gap-2">
+          <label className="text-sm">자산</label>
+          <select
+            name="materialId"
+            className="border rounded px-2 py-2 w-full"
+            value={filters.materialId}
+            onChange={e => setFilters(prev => ({ ...prev, materialId: Number(e.target.value) }))}
+          >
+            <option value={0}>전체</option>
+            {materials.map(material => (
+              <option key={material.id} value={material.id}>{material.name}</option>
+            ))}
+          </select>
+          <label className="text-sm mt-2">담당자</label>
+          <select
+            name="handlerId"
+            className="border rounded px-2 py-2 w-full"
+            value={filters.handlerId}
+            onChange={e => setFilters(prev => ({ ...prev, handlerId: Number(e.target.value) }))}
+          >
+            <option value={0}>전체</option>
+            {users.map(user => (
+              <option key={user.id} value={user.id}>{user.name}</option>
+            ))}
+          </select>
+          <label className="text-sm mt-2">유형</label>
+          <select
+            name="type"
+            className="border rounded px-2 py-2 w-full"
+            value={filters.type}
+            onChange={e => setFilters(prev => ({ ...prev, type: e.target.value }))}
+          >
+            <option value="">전체</option>
+            <option value="입고">입고</option>
+            <option value="출고">출고</option>
+          </select>
+        </div>
+        <div className="mt-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2">
           <div className="flex gap-2">
             <button
               type="button"
-              className="border p-2 rounded bg-white text-sm"
+              className="border p-2 rounded bg-white text-sm w-full md:w-auto"
               onClick={() => {
                 setEditingHistory(null);
                 setIsModalOpen(true);
@@ -322,10 +360,10 @@ export default function MaterialHistoryPage() {
             </button>
           </div>
           <div className="flex gap-2">
-            <button type="submit" className="bg-black text-white px-3 py-1 rounded">검색</button>
+            <button type="submit" className="bg-black text-white px-3 py-2 rounded w-full md:w-auto">검색</button>
             <button
               type="button"
-              className="border p-2 rounded bg-white text-sm"
+              className="border p-2 rounded bg-white text-sm w-full md:w-auto"
               onClick={() => setFilters({ materialId: 0, handlerId: 0, type: '' })}
             >
               초기화

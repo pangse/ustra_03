@@ -92,7 +92,8 @@ export default function AssetMovementTable() {
       </div>
       {/* 검색 영역 */}
       <form className="bg-white rounded shadow p-4 mb-6 space-y-2" onSubmit={e => { e.preventDefault(); handleSearch(); }}>
-        <div className="grid grid-cols-6 gap-4 items-center">
+        {/* 데스크탑: grid, 모바일: flex-col */}
+        <div className="hidden md:grid grid-cols-6 gap-4 items-center">
           <label className="col-span-1 text-sm">자산명</label>
           <input className="col-span-2 border rounded px-2 py-1" value={search.assetName} onChange={e => setSearch(s => ({ ...s, assetName: e.target.value }))} placeholder="자산명 입력" />
           <label className="col-span-1 text-sm">이동 전 위치</label>
@@ -106,8 +107,22 @@ export default function AssetMovementTable() {
             {[...new Set(mockMovements.map(m => m.toLocation))].map(loc => <option key={loc} value={loc}>{loc}</option>)}
           </select>
         </div>
-        <div className="mt-4 flex justify-end">
-          <button type="submit" className="bg-black text-white px-3 py-1 rounded">조회</button>
+        <div className="md:hidden flex flex-col gap-2">
+          <label className="text-sm">자산명</label>
+          <input className="border rounded px-2 py-2 w-full" value={search.assetName} onChange={e => setSearch(s => ({ ...s, assetName: e.target.value }))} placeholder="자산명 입력" />
+          <label className="text-sm mt-2">이동 전 위치</label>
+          <select className="border rounded px-2 py-2 w-full" value={search.fromLocation} onChange={e => setSearch(s => ({ ...s, fromLocation: e.target.value }))}>
+            <option value="">전체</option>
+            {[...new Set(mockMovements.map(m => m.fromLocation))].map(loc => <option key={loc} value={loc}>{loc}</option>)}
+          </select>
+          <label className="text-sm mt-2">이동 후 위치</label>
+          <select className="border rounded px-2 py-2 w-full" value={search.toLocation} onChange={e => setSearch(s => ({ ...s, toLocation: e.target.value }))}>
+            <option value="">전체</option>
+            {[...new Set(mockMovements.map(m => m.toLocation))].map(loc => <option key={loc} value={loc}>{loc}</option>)}
+          </select>
+        </div>
+        <div className="mt-4 flex flex-col md:flex-row items-stretch md:items-center justify-end gap-2">
+          <button type="submit" className="bg-black text-white px-3 py-2 rounded w-full md:w-auto">조회</button>
         </div>
       </form>
       {/* 데스크탑: 테이블 */}

@@ -186,7 +186,8 @@ export default function MaterialsPage() {
       <h1 className="text-xl font-semibold mb-4">자산 관리</h1>
       {/* 검색/액션 영역 */}
       <form className="bg-white rounded shadow p-4 mb-6 space-y-2" onSubmit={e => { e.preventDefault(); setPage(1); fetchMaterials(1); }}>
-        <div className="grid grid-cols-6 gap-4 items-center">
+        {/* 데스크탑: grid, 모바일: flex-col */}
+        <div className="hidden md:grid grid-cols-6 gap-4 items-center">
           <label className="col-span-1 text-sm">자산명</label>
           <input name="name" className="col-span-2 border rounded px-2 py-1" value={filter.name} onChange={handleFilterChange} placeholder="자산명 입력" />
           <label className="col-span-1 text-sm">카테고리</label>
@@ -205,14 +206,33 @@ export default function MaterialsPage() {
             {users.map(u => <option key={u.id} value={u.id}>{u.name}</option>)}
           </select>
         </div>
-        <div className="mt-4 flex items-center justify-between gap-2">
+        <div className="md:hidden flex flex-col gap-2">
+          <label className="text-sm">자산명</label>
+          <input name="name" className="border rounded px-2 py-2 w-full" value={filter.name} onChange={handleFilterChange} placeholder="자산명 입력" />
+          <label className="text-sm mt-2">카테고리</label>
+          <select name="categoryId" className="border rounded px-2 py-2 w-full" value={filter.categoryId} onChange={handleFilterChange}>
+            <option value="">전체</option>
+            {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+          </select>
+          <label className="text-sm mt-2">위치</label>
+          <select name="locationId" className="border rounded px-2 py-2 w-full" value={filter.locationId} onChange={handleFilterChange}>
+            <option value="">전체</option>
+            {locations.map(l => <option key={l.id} value={l.id}>{l.name}</option>)}
+          </select>
+          <label className="text-sm mt-2">담당자</label>
+          <select name="handlerId" className="border rounded px-2 py-2 w-full" value={filter.handlerId} onChange={handleFilterChange}>
+            <option value="">전체</option>
+            {users.map(u => <option key={u.id} value={u.id}>{u.name}</option>)}
+          </select>
+        </div>
+        <div className="mt-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2">
           <div className="flex gap-2">
-            <button type="button" className="border p-2 rounded bg-white text-sm" onClick={handleRegisterClick} disabled={loading}>등록</button>
-            <button type="button" className="border p-2 rounded bg-white text-sm" onClick={() => { setPage(1); fetchMaterials(1); }} disabled={loading}>{loading ? '로딩 중...' : '조회'}</button>
+            <button type="button" className="border p-2 rounded bg-white text-sm w-full md:w-auto" onClick={handleRegisterClick} disabled={loading}>등록</button>
+            <button type="button" className="border p-2 rounded bg-white text-sm w-full md:w-auto" onClick={() => { setPage(1); fetchMaterials(1); }} disabled={loading}>{loading ? '로딩 중...' : '조회'}</button>
           </div>
           <div className="flex gap-2">
-            <button type="submit" className="bg-black text-white px-3 py-1 rounded">검색</button>
-            <button type="button" className="border p-2 rounded bg-white text-sm" onClick={() => { setFilter({ name: '', categoryId: '', locationId: '', handlerId: '' }); setPage(1); fetchMaterials(1); }}>초기화</button>
+            <button type="submit" className="bg-black text-white px-3 py-2 rounded w-full md:w-auto">검색</button>
+            <button type="button" className="border p-2 rounded bg-white text-sm w-full md:w-auto" onClick={() => { setFilter({ name: '', categoryId: '', locationId: '', handlerId: '' }); setPage(1); fetchMaterials(1); }}>초기화</button>
           </div>
         </div>
       </form>

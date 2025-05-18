@@ -197,33 +197,35 @@ export default function RentalManagementPage() {
       </div>
       {/* 모바일: 카드 */}
       <div className="block md:hidden space-y-4">
-        {filteredRequests.map((request) => (
-          <div key={request.id} className="border rounded-lg p-4 shadow-sm bg-gray-50">
-            <div className="font-semibold text-base mb-2">{request.material?.name}</div>
-            <div className="text-xs text-gray-500 mb-1">신청자: <span className="text-gray-800">{request.material.location?.name}</span></div>
-            <div className="text-xs text-gray-500 mb-1">대여 기간: <span className="text-gray-800">{new Date(request.startDate).toLocaleDateString()} ~ {new Date(request.endDate).toLocaleDateString()}</span></div>
-            <div className="text-xs text-gray-500 mb-1">목적: <span className="text-gray-800">{request.purpose}</span></div>
-            <div className="text-xs text-gray-500 mb-1">상태: <span className="text-gray-800">{getStatusBadge(request.status)}</span></div>
-            {request.status === 'APPROVED' && (
-              <button
-                onClick={() => handleStatusChange(request.id, 'COMPLETED', request)}
-                className="mt-2 w-full rounded-full p-2 border border-transparent hover:bg-gray-100 flex items-center gap-1 text-blue-600 bg-white"
-                aria-label="Return"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6A2.25 2.25 0 0 0 5.25 5.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H9.75m0 0l3-3m-3 3l3 3" />
-                </svg>
-                Return
-              </button>
-            )}
-          </div>
-        ))}
+        {loading ? (
+          <div className="text-center text-gray-500 py-8 bg-white rounded shadow">로딩 중...</div>
+        ) : filteredRequests.length === 0 ? (
+          <div className="text-center text-gray-500 py-8 bg-white rounded shadow">데이터가 없습니다</div>
+        ) : (
+          filteredRequests.map((request) => (
+            <div key={request.id} className="border rounded-lg p-4 shadow-sm bg-white">
+              <div className="font-semibold text-base mb-2">{request.material?.name}</div>
+              <div className="text-xs text-gray-500 mb-1">신청자: <span className="text-gray-800">{request.material.location?.name}</span></div>
+              <div className="text-xs text-gray-500 mb-1">대여 기간: <span className="text-gray-800">{new Date(request.startDate).toLocaleDateString()} ~ {new Date(request.endDate).toLocaleDateString()}</span></div>
+              <div className="text-xs text-gray-500 mb-1">목적: <span className="text-gray-800">{request.purpose}</span></div>
+              <div className="text-xs text-gray-500 mb-1">상태: <span className="text-gray-800">{getStatusBadge(request.status)}</span></div>
+              {request.status === 'APPROVED' && (
+                <button
+                  onClick={() => handleStatusChange(request.id, 'COMPLETED', request)}
+                  className="mt-2 w-full rounded-full p-2 border border-transparent hover:bg-gray-100 flex items-center gap-1 text-blue-600 bg-white justify-center"
+                  aria-label="Return"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6A2.25 2.25 0 0 0 5.25 5.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H9.75m0 0l3-3m-3 3l3 3" />
+                  </svg>
+                  Return
+                </button>
+              )}
+            </div>
+          ))
+        )}
       </div>
-      {/* 로딩 표시 */}
-      {loading && (
-        <div className="text-center py-4 text-gray-500">로딩 중...</div>
-      )}
     </div>
   );
 } 
