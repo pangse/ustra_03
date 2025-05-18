@@ -265,94 +265,108 @@ export default function MaterialHistoryPage() {
 
   return (
     <div className="container mx-auto p-6 bg-gray-50 min-h-screen">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">자산 이력 관리</h1>
-        <button
-          onClick={() => {
-            setEditingHistory(null);
-            setIsModalOpen(true);
-          }}
-          className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
-        >
-          이력 등록
-        </button>
-      </div>
-
-      {/* 필터 */}
-      <form className="mb-6 flex flex-wrap gap-2 items-center">
-        <select
-          name="materialId"
-          value={filters.materialId}
-          onChange={e => setFilters(prev => ({ ...prev, materialId: Number(e.target.value) }))}
-          className="px-4 py-2 border rounded-md bg-white"
-        >
-          <option value={0}>자산 선택</option>
-          {materials.map(material => (
-            <option key={material.id} value={material.id}>
-              {material.name}
-            </option>
-          ))}
-        </select>
-
-        <select
-          name="handlerId"
-          value={filters.handlerId}
-          onChange={e => setFilters(prev => ({ ...prev, handlerId: Number(e.target.value) }))}
-          className="px-4 py-2 border rounded-md bg-white"
-        >
-          <option value={0}>담당자 선택</option>
-          {users.map(user => (
-            <option key={user.id} value={user.id}>
-              {user.name}
-            </option>
-          ))}
-        </select>
-
-        <select
-          name="type"
-          value={filters.type}
-          onChange={handleFilterChange}
-          className="px-4 py-2 border rounded-md bg-white"
-        >
-          <option value="">유형 선택</option>
-          <option value="입고">입고</option>
-          <option value="출고">출고</option>
-        </select>
+      <h1 className="text-2xl font-bold text-gray-900 mb-4">자산 이력 관리</h1>
+      {/* 검색/액션 영역 */}
+      <form
+        className="bg-white rounded shadow p-4 mb-6 space-y-2"
+        onSubmit={e => { e.preventDefault(); /* 검색 로직은 상태로 필터링 */ }}
+      >
+        <div className="grid grid-cols-6 gap-4 items-center">
+          <label className="col-span-1 text-sm">자산</label>
+          <select
+            name="materialId"
+            className="col-span-2 border rounded px-2 py-1"
+            value={filters.materialId}
+            onChange={e => setFilters(prev => ({ ...prev, materialId: Number(e.target.value) }))}
+          >
+            <option value={0}>전체</option>
+            {materials.map(material => (
+              <option key={material.id} value={material.id}>{material.name}</option>
+            ))}
+          </select>
+          <label className="col-span-1 text-sm">담당자</label>
+          <select
+            name="handlerId"
+            className="col-span-2 border rounded px-2 py-1"
+            value={filters.handlerId}
+            onChange={e => setFilters(prev => ({ ...prev, handlerId: Number(e.target.value) }))}
+          >
+            <option value={0}>전체</option>
+            {users.map(user => (
+              <option key={user.id} value={user.id}>{user.name}</option>
+            ))}
+          </select>
+          <label className="col-span-1 text-sm">유형</label>
+          <select
+            name="type"
+            className="col-span-2 border rounded px-2 py-1"
+            value={filters.type}
+            onChange={e => setFilters(prev => ({ ...prev, type: e.target.value }))}
+          >
+            <option value="">전체</option>
+            <option value="입고">입고</option>
+            <option value="출고">출고</option>
+          </select>
+        </div>
+        <div className="mt-4 flex items-center justify-between gap-2">
+          <div className="flex gap-2">
+            <button
+              type="button"
+              className="border p-2 rounded bg-white text-sm"
+              onClick={() => {
+                setEditingHistory(null);
+                setIsModalOpen(true);
+              }}
+            >
+              이력 등록
+            </button>
+          </div>
+          <div className="flex gap-2">
+            <button type="submit" className="bg-black text-white px-3 py-1 rounded">검색</button>
+            <button
+              type="button"
+              className="border p-2 rounded bg-white text-sm"
+              onClick={() => setFilters({ materialId: 0, handlerId: 0, type: '' })}
+            >
+              초기화
+            </button>
+          </div>
+        </div>
       </form>
 
       {/* 이력 목록 */}
-      <div className="bg-white rounded-lg shadow overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200">
+      <div className="overflow-x-auto">
+        <table className="min-w-full border text-sm bg-white">
           <thead>
             <tr className="bg-gray-100">
-              <th className="px-4 py-2 border">날짜</th>
-              <th className="px-4 py-2 border">자산</th>
-              <th className="px-4 py-2 border">유형</th>
-              <th className="px-4 py-2 border">수량</th>
-              <th className="px-4 py-2 border">담당자</th>
-              <th className="px-4 py-2 border">메모</th>
-              <th className="px-4 py-2 border">관리</th>
+              <th className="border px-4 py-2">날짜</th>
+              <th className="border px-4 py-2">자산</th>
+              <th className="border px-4 py-2">유형</th>
+              <th className="border px-4 py-2">수량</th>
+              <th className="border px-4 py-2">담당자</th>
+              <th className="border px-4 py-2">메모</th>
+              <th className="border px-4 py-2">관리</th>
             </tr>
           </thead>
           <tbody>
             {filteredHistories.map((history) => (
-              <tr key={history.id} className="hover:bg-gray-50">
-                <td className="px-4 py-2 border">{new Date(history.date).toLocaleString()}</td>
-                <td className="px-4 py-2 border">{history.material?.name}</td>
-                <td className="px-4 py-2 border">{history.type}</td>
-                <td className="px-4 py-2 border">{history.quantity}</td>
-                <td className="px-4 py-2 border">{history.handler?.name}</td>
-                <td className="px-4 py-2 border">{history.memo}</td>
-                <td className="px-4 py-2 border">
+              <tr key={history.id}>
+                <td className="border px-4 py-2">{new Date(history.date).toLocaleString()}</td>
+                <td className="border px-4 py-2">{history.material?.name}</td>
+                <td className="border px-4 py-2">{history.type}</td>
+                <td className="border px-4 py-2">{history.quantity}</td>
+                <td className="border px-4 py-2">{history.handler?.name}</td>
+                <td className="border px-4 py-2">{history.memo}</td>
+                <td className="border px-4 py-2">
                   <button
                     onClick={() => handleEdit(history)}
-                    className="text-blue-600 hover:text-blue-700 focus:outline-none mr-4"
+                    className="text-blue-600 hover:underline mr-2"
                   >
                     수정
                   </button>
                   <button
                     onClick={() => handleDelete(history.id)}
-                    className="text-red-600 hover:text-red-700 focus:outline-none"
+                    className="text-red-600 hover:underline"
                   >
                     삭제
                   </button>

@@ -423,7 +423,7 @@ export default function AssetManagementMockPage() {
                     <td className="border px-4 py-2">{r.processType}</td>
                     <td className="border px-4 py-2">{r.requestDate}</td>
                     <td className="border px-4 py-2">{r.status}</td>
-                    <td className="border px-4 py-2 text-blue-600 hover:underline cursor-pointer" onClick={() => { const h = mockHandlers.find(h => h.name === r.handler); if(h) setSelectedHandler(h); }}>{r.handler}</td>
+                    <td className="border px-4 py-2 text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedHandler(mockHandlers.find(h => h.name === r.handler) || null)}>{r.handler}</td>
                     <td className="border px-4 py-2">{r.location}</td>
                     <td className="border px-4 py-2">{r.memo || '-'}</td>
                   </tr>
@@ -469,7 +469,7 @@ export default function AssetManagementMockPage() {
                 <div className="text-xs text-gray-500 mb-1">처리유형: <span className="text-gray-800">{r.processType}</span></div>
                 <div className="text-xs text-gray-500 mb-1">요청일: <span className="text-gray-800">{r.requestDate}</span></div>
                 <div className="text-xs text-gray-500 mb-1">상태: <span className="text-gray-800">{r.status}</span></div>
-                <div className="text-xs text-gray-500 mb-1">담당자: <span className="text-blue-600 hover:underline cursor-pointer" onClick={() => { const h = mockHandlers.find(h => h.name === r.handler); if(h) setSelectedHandler(h); }}>{r.handler}</span></div>
+                <div className="text-xs text-gray-500 mb-1">담당자: <span className="text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedHandler(mockHandlers.find(h => h.name === r.handler) || null)}>{r.handler}</span></div>
                 <div className="text-xs text-gray-500 mb-1">위치: <span className="text-gray-800">{r.location}</span></div>
                 <div className="text-xs text-gray-500 mb-1">메모: <span className="text-gray-800">{r.memo || '-'}</span></div>
               </div>

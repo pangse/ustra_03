@@ -153,7 +153,7 @@ export default function MasterDataPage() {
       <div className="overflow-x-auto">
         <table className="min-w-full border text-sm bg-white">
           <thead>
-            <tr>
+            <tr className="bg-gray-100">
               <th className="border px-4 py-2">구분</th>
               <th className="border px-4 py-2">이름</th>
               <th className="border px-4 py-2">설명</th>

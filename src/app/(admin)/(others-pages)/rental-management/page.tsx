@@ -137,7 +137,7 @@ export default function RentalManagementPage() {
       <h1 className="text-xl font-semibold mb-4">자산 대여 관리</h1>
 
       {/* 검색 영역 */}
-      <form className="bg-white rounded shadow p-4 mb-6 space-y-2" onSubmit={e => { e.preventDefault(); }}>
+      <form className="bg-white rounded shadow p-4 mb-6 space-y-2" onSubmit={e => e.preventDefault()}>
         <div className="grid grid-cols-6 gap-4 items-center">
           <label className="col-span-1 text-sm">자산명</label>
           <input className="col-span-2 border rounded px-2 py-1" value={search.name} onChange={e => setSearch(s => ({ ...s, name: e.target.value }))} placeholder="자산명 입력" />

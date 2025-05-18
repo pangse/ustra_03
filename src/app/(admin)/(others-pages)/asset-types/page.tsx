@@ -78,8 +78,8 @@ export default function AssetTypesPage() {
       <div className="overflow-x-auto">
         <table className="min-w-full border text-sm bg-white">
           <thead>
-            <tr>
-              <th className="border px-4 py-2"><input type="checkbox" /></th>
+            <tr className="bg-gray-100">
+              <th className="border px-4 py-2 text-center"><input type="checkbox" /></th>
               <th className="border px-4 py-2">자산유형 ID</th>
               <th className="border px-4 py-2">자산유형명</th>
               <th className="border px-4 py-2">설명</th>
@@ -97,7 +97,7 @@ export default function AssetTypesPage() {
               <tr><td colSpan={9} className="text-center py-8">데이터가 없습니다</td></tr>
             ) : assetTypes.map(t => (
               <tr key={t.id}>
-                <td className="border px-4 py-2"><input type="checkbox" /></td>
+                <td className="border px-4 py-2 text-center"><input type="checkbox" /></td>
                 <td className="border px-4 py-2">{t.typeCode}</td>
                 <td className="border px-4 py-2">{t.name}</td>
                 <td className="border px-4 py-2">{t.description}</td>
