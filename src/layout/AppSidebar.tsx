@@ -46,6 +46,7 @@ const navItems: NavItem[] = [
       { name: "자재 이력", path: "/material-history", pro: false },
       { name: "자산 유형", path: "/asset-types", pro: false },
       { name: "자산 대여 관리", path: "/rental-management", pro: false },
+      { name: "자산 이동 이력", path: "/asset-movement", pro: false },
     ],
   },
   {
