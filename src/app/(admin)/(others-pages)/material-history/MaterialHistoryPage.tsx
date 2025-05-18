@@ -360,13 +360,13 @@ export default function MaterialHistoryPage() {
                 <td className="border px-4 py-2">
                   <button
                     onClick={() => handleEdit(history)}
-                    className="text-blue-600 hover:underline mr-2"
+                    className="px-2 py-1 rounded text-xs font-medium border border-blue-600 text-blue-600 hover:bg-gray-100 mr-2"
                   >
                     수정
                   </button>
                   <button
                     onClick={() => handleDelete(history.id)}
-                    className="text-red-600 hover:underline"
+                    className="px-2 py-1 rounded text-xs font-medium border border-red-600 text-red-600 hover:bg-gray-100"
                   >
                     삭제
                   </button>

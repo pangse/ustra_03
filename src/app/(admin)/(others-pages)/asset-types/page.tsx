@@ -106,8 +106,22 @@ export default function AssetTypesPage() {
                 <td className="border px-4 py-2">{t.createdAt?.slice(0, 10)}</td>
                 <td className="border px-4 py-2">{t.createdBy || '-'}</td>
                 <td className="border px-4 py-2">
-                  <button className="text-blue-600 hover:underline mr-2" onClick={() => { setEditItem(t); setShowModal(true); }}>수정</button>
-                  <button className="text-red-600 hover:underline">삭제</button>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      className="px-2 py-1 rounded text-xs font-medium border border-blue-600 text-blue-600 hover:bg-gray-100"
+                      onClick={() => { setEditItem(t); setShowModal(true); }}
+                    >
+                      수정
+                    </button>
+                    <button
+                      type="button"
+                      className="px-2 py-1 rounded text-xs font-medium border border-red-600 text-red-600 hover:bg-gray-100"
+                      onClick={() => {/* 삭제 핸들러 */}}
+                    >
+                      삭제
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

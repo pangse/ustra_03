@@ -161,7 +161,7 @@ export default function UsersPage() {
                         type="button"
                         onClick={() => handleEdit(u)}
                         disabled={loading}
-                        className="text-blue-600 hover:underline"
+                        className="px-2 py-1 rounded text-xs font-medium border border-blue-600 text-blue-600 hover:bg-gray-100"
                       >
                         수정
                       </button>
@@ -169,7 +169,7 @@ export default function UsersPage() {
                         type="button"
                         onClick={() => handleDelete(u.id)}
                         disabled={loading}
-                        className="text-red-600 hover:underline"
+                        className="px-2 py-1 rounded text-xs font-medium border border-red-600 text-red-600 hover:bg-gray-100"
                       >
                         삭제
                       </button>

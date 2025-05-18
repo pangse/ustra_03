@@ -30,7 +30,7 @@ const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
-    subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+    subItems: [{ name: "A.M.S", path: "/", pro: false }],
   },
   {
     icon: <CalenderIcon />,
@@ -41,7 +41,7 @@ const navItems: NavItem[] = [
     icon: <TableIcon />,
     name: "데이터 관리",
     subItems: [
-      { name: "마스터 데이터", path: "/masterdata", pro: false },
+      { name: "기준 데이터", path: "/masterdata", pro: false },
       { name: "자재 관리", path: "/materials", pro: false },
       { name: "자재 이력", path: "/material-history", pro: false },
       { name: "자산 유형", path: "/asset-types", pro: false },
