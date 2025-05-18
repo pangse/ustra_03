@@ -18,10 +18,34 @@ interface MaterialHistory {
   memo?: string;
 }
 
+// 월별 입출고 이력 mock data (한글)
+const monthlyCounts = [10, 15, 20, 18, 25, 30, 28, 22, 19, 24, 27, 21];
+const handlerNames = ["홍지은", "김현수", "박지수", "이수민", "최민호"];
+const assetNames = ["무대 테이블", "LED 조명", "음향 믹서", "마이크", "프로젝터", "스피커", "조명 스탠드", "카메라", "노트북", "태블릿"];
+
 export default function RecentOrders() {
   const [histories, setHistories] = useState<MaterialHistory[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    // 최근 10건 mock data 생성 (최신순)
+    const now = new Date();
+    const mock = Array.from({ length: 10 }, (_, idx) => {
+      const monthIdx = (11 - idx) % 12;
+      return {
+        id: idx + 1,
+        material: { name: assetNames[idx % assetNames.length] },
+        type: monthIdx % 2 === 0 ? "입고" : "출고",
+        quantity: monthlyCounts[monthIdx],
+        date: new Date(now.getFullYear(), monthIdx, 1).toISOString(),
+        handler: { name: handlerNames[idx % handlerNames.length] },
+        memo: `${monthIdx + 1}월 ${monthIdx % 2 === 0 ? "입고" : "출고"} (mock)`
+      };
+    });
+    setHistories(mock);
+    setLoading(false);
+  }, []);
 
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white px-4 pb-3 pt-4 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6">
@@ -61,7 +85,7 @@ export default function RecentOrders() {
               histories.map(h => (
                 <TableRow key={h.id}>
                   <TableCell className="py-3">{h.material?.name || '-'}</TableCell>
-                  <TableCell className="py-3">{h.type === 'IN' ? '입고' : '출고'}</TableCell>
+                  <TableCell className="py-3">{h.type}</TableCell>
                   <TableCell className="py-3">{h.quantity}</TableCell>
                   <TableCell className="py-3">{h.handler?.name || '-'}</TableCell>
                   <TableCell className="py-3">{new Date(h.date).toLocaleDateString()}</TableCell>
