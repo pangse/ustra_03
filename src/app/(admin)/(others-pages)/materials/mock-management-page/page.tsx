@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import RentalRequestModal, { RentalRequestForm } from "@/components/RentalRequestModal";
 import { useRouter } from "next/navigation";
+import RepairRequestModal from "@/components/RepairRequestModal";
 
 interface Asset {
   id: number;
@@ -44,18 +45,28 @@ const mockAssetsInit: Asset[] = [
   { id: 3, group: "IT장비", type: "노트북", assetId: "IT3000_30123", name: "맥북프로 16", warehouse: "서울 본사", status: "수선중" },
   { id: 4, group: "음향", type: "스피커", assetId: "A4000_40101", name: "JBL 스피커", warehouse: "도쿄 지사", status: "정상" },
   { id: 5, group: "조명", type: "LED 조명", assetId: "L5000_50111", name: "LED 무대조명", warehouse: "부산 지사", status: "폐기완료" },
+  { id: 6, group: "의상", type: "무대의상", assetId: "C1000_10126", name: "블랙 퍼포먼스 슈트", warehouse: "서울 본사", status: "정상" },
+  { id: 7, group: "소품", type: "마이크", assetId: "P2000_20112", name: "유선 마이크 B", warehouse: "도쿄 지사", status: "대여중" },
+  { id: 8, group: "IT장비", type: "노트북", assetId: "IT3000_30124", name: "삼성 갤럭시북", warehouse: "부산 지사", status: "정상" },
+  { id: 9, group: "음향", type: "스피커", assetId: "A4000_40102", name: "BOSE 스피커", warehouse: "서울 본사", status: "수선중" },
+  { id: 10, group: "조명", type: "LED 조명", assetId: "L5000_50112", name: "무빙라이트", warehouse: "도쿄 지사", status: "정상" }
 ];
 
 const mockRepairLaundry: RepairLaundry[] = [
-  { id: 1, assetId: 'C1000_10125', name: '루시 화이트 셋업', type: '무대의상', requestDate: '2024-06-01', processType: '수선', status: '진행중', handler: '김관리', location: '서울 본사', memo: '단추 교체' },
-  { id: 2, assetId: 'P2000_20111', name: '무선 마이크 A', type: '마이크', requestDate: '2024-06-02', processType: '세탁', status: '완료', handler: '이세탁', location: '부산 지사', memo: '외관 세척' },
-  { id: 3, assetId: 'IT3000_30123', name: '맥북프로 16', type: '노트북', requestDate: '2024-06-03', processType: '수선', status: '대기', handler: '박수리', location: '서울 본사', memo: '키보드 수리' },
+  { id: 1, assetId: 'C1000_10125', name: '루시 화이트 셋업', type: '무대의상', requestDate: '2025-05-01', processType: '수선', status: '진행중', handler: '김관리', location: '서울 본사', memo: '단추 교체' },
+  { id: 2, assetId: 'P2000_20111', name: '무선 마이크 A', type: '마이크', requestDate: '2025-05-02', processType: '세탁', status: '완료', handler: '이세탁', location: '부산 지사', memo: '외관 세척' },
+  { id: 3, assetId: 'IT3000_30123', name: '맥북프로 16', type: '노트북', requestDate: '2025-05-03', processType: '수선', status: '대기', handler: '박수리', location: '서울 본사', memo: '키보드 수리' },
+  { id: 4, assetId: 'C1000_10126', name: '블랙 퍼포먼스 슈트', type: '무대의상', requestDate: '2025-05-04', processType: '세탁', status: '진행중', handler: '이세탁', location: '서울 본사', memo: '얼룩 제거' },
+  { id: 5, assetId: 'A4000_40102', name: 'BOSE 스피커', type: '스피커', requestDate: '2025-05-05', processType: '수선', status: '대기', handler: '박수리', location: '서울 본사', memo: '배선 교체' },
+  { id: 6, assetId: 'L5000_50111', name: 'LED 무대조명', type: 'LED 조명', requestDate: '2025-05-06', processType: '수선', status: '완료', handler: '김관리', location: '부산 지사', memo: 'LED 모듈 교체' }
 ];
 
 const mockHandlers: HandlerInfo[] = [
   { name: '김관리', phone: '010-1234-5678', email: 'kim@hybe.com', department: '자산관리팀' },
   { name: '이세탁', phone: '010-2345-6789', email: 'lee@hybe.com', department: '세탁팀' },
   { name: '박수리', phone: '010-3456-7890', email: 'park@hybe.com', department: '수리팀' },
+  { name: '정담당', phone: '010-4567-8901', email: 'jung@hybe.com', department: '자산관리팀' },
+  { name: '최기사', phone: '010-5678-9012', email: 'choi@hybe.com', department: '수리팀' }
 ];
 
 export default function AssetManagementMockPage() {
@@ -73,6 +84,10 @@ export default function AssetManagementMockPage() {
   const [repairSearch, setRepairSearch] = useState({ processType: '', handler: '', assetId: '', name: '', location: '' });
   const [checkedRental, setCheckedRental] = useState<number[]>([]);
   const [checkedRepair, setCheckedRepair] = useState<number[]>([]);
+  const [selectedAssets, setSelectedAssets] = useState<Asset[]>([]);
+  const [repairModalOpen, setRepairModalOpen] = useState(false);
+  const [selectedRepairs, setSelectedRepairs] = useState<RepairLaundry[]>([]);
+  const [selectedCompletedRepair, setSelectedCompletedRepair] = useState<RepairLaundry | null>(null);
 
   // 검색 필터링
   const filtered = assets.filter(a =>
@@ -185,7 +200,24 @@ export default function AssetManagementMockPage() {
         <button className="px-4 py-2 border rounded text-sm bg-white" onClick={() => setModal("excel-download")}>엑셀 양식 다운로드</button>
         <button className="px-4 py-2 border rounded text-sm bg-blue-600 text-white" onClick={() => setModal("excel-upload")}>엑셀업로드</button>
         <button className="px-4 py-2 border rounded text-sm bg-green-500 hover:bg-green-600 text-white" onClick={() => setModal("register")}>자산 등록</button>
-        <button className="px-4 py-2 border rounded text-sm bg-yellow-400 hover:bg-yellow-500" onClick={() => setRentalModalOpen(true)}>대여 요청</button>
+        {activeTab === 'rental' && (
+          <button className="px-4 py-2 border rounded text-sm bg-yellow-400 hover:bg-yellow-500" onClick={() => {
+            const selected = assets.filter(a => checkedRental.includes(a.id));
+            setSelectedAssets(selected);
+            setRentalModalOpen(true);
+          }}>
+            대여 요청
+          </button>
+        )}
+        {activeTab === 'repair' && (
+          <button className="px-4 py-2 border rounded text-sm bg-yellow-400 hover:bg-yellow-500" onClick={() => {
+            const selected = filteredRepair.filter(r => checkedRepair.includes(r.id));
+            setSelectedRepairs(selected);
+            setRepairModalOpen(true);
+          }}>
+            수선 요청
+          </button>
+        )}
       </div>
       {/* 엑셀 양식 다운로드 모달 */}
       {modal === "excel-download" && (
@@ -269,6 +301,13 @@ export default function AssetManagementMockPage() {
         onSubmit={(data: RentalRequestForm) => {
           alert("대여 요청 완료: " + JSON.stringify(data, null, 2));
         }}
+        selectedAssets={selectedAssets}
+      />
+      {/* 수선 요청 모달 */}
+      <RepairRequestModal
+        open={repairModalOpen}
+        onClose={() => setRepairModalOpen(false)}
+        selectedRepairs={selectedRepairs}
       />
       {/* 자산 상세 레이어 팝업 (대여/수선 공통) */}
       {(selectedAsset || selectedRepair) && (
@@ -316,6 +355,25 @@ export default function AssetManagementMockPage() {
           </div>
         </div>
       )}
+      {/* 완료 내역 상세 레이어 팝업 */}
+      {selectedCompletedRepair && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 min-w-[350px] max-w-[90vw] shadow-lg relative">
+            <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl" onClick={() => setSelectedCompletedRepair(null)}>&times;</button>
+            <h2 className="text-lg font-bold mb-4">완료된 수선/세탁 내역</h2>
+            <div className="space-y-2 text-sm">
+              <div><span className="font-semibold">자산명:</span> {selectedCompletedRepair.name}</div>
+              <div><span className="font-semibold">자산 ID:</span> {selectedCompletedRepair.assetId}</div>
+              <div><span className="font-semibold">분류:</span> {selectedCompletedRepair.type}</div>
+              <div><span className="font-semibold">처리유형:</span> {selectedCompletedRepair.processType}</div>
+              <div><span className="font-semibold">요청일:</span> {selectedCompletedRepair.requestDate}</div>
+              <div><span className="font-semibold">담당자:</span> {selectedCompletedRepair.handler}</div>
+              <div><span className="font-semibold">위치:</span> {selectedCompletedRepair.location}</div>
+              <div><span className="font-semibold">메모:</span> {selectedCompletedRepair.memo || '-'}</div>
+            </div>
+          </div>
+        </div>
+      )}
       {/* 데스크탑: 테이블 */}
       {activeTab === 'rental' && (
         <div className="hidden md:block">
@@ -331,12 +389,12 @@ export default function AssetManagementMockPage() {
                     }}
                   />
                 </th>
-                <th className="border px-4 py-2">자산 그룹</th>
-                <th className="border px-4 py-2">자산 분류</th>
-                <th className="border px-4 py-2">자산 ID</th>
-                <th className="border px-4 py-2">자산명</th>
-                <th className="border px-4 py-2">자산 창고</th>
-                <th className="border px-4 py-2">상태</th>
+                <th className="border px-4 py-2 text-center">자산 그룹</th>
+                <th className="border px-4 py-2 text-center">자산 분류</th>
+                <th className="border px-4 py-2 text-center">자산 ID</th>
+                <th className="border px-4 py-2 text-center">자산명</th>
+                <th className="border px-4 py-2 text-center">자산창고</th>
+                <th className="border px-4 py-2 text-center">상태</th>
               </tr>
             </thead>
             <tbody>
@@ -358,12 +416,12 @@ export default function AssetManagementMockPage() {
                         }}
                       />
                     </td>
-                    <td className="border px-4 py-2">{a.group}</td>
-                    <td className="border px-4 py-2">{a.type}</td>
-                    <td className="border px-4 py-2">{a.assetId}</td>
-                    <td className="border px-4 py-2 text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedAsset(a)}>{a.name}</td>
-                    <td className="border px-4 py-2">{a.warehouse}</td>
-                    <td className="border px-4 py-2">{a.status}</td>
+                    <td className="border px-4 py-2 text-center">{a.group}</td>
+                    <td className="border px-4 py-2 text-center">{a.type}</td>
+                    <td className="border px-4 py-2 text-center">{a.assetId}</td>
+                    <td className="border px-4 py-2 text-center text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedAsset(a)}>{a.name}</td>
+                    <td className="border px-4 py-2 text-center">{a.warehouse}</td>
+                    <td className="border px-4 py-2 text-center">{a.status}</td>
                   </tr>
                 ))
               )}
@@ -377,24 +435,26 @@ export default function AssetManagementMockPage() {
             <thead>
               <tr className="bg-gray-100">
                 <th className="border px-4 py-2 w-8">
-                  <input type="checkbox"
-                    checked={filteredRepair.length > 0 && checkedRepair.length === filteredRepair.length}
-                    onChange={e => {
-                      if (e.target.checked) setCheckedRepair(filteredRepair.map(r => r.id));
-                      else setCheckedRepair([]);
-                    }}
-                  />
+                  {filteredRepair.length > 0 && checkedRepair.length === filteredRepair.length && (
+                    <input type="checkbox"
+                      checked={filteredRepair.length > 0 && checkedRepair.length === filteredRepair.length}
+                      onChange={e => {
+                        if (e.target.checked) setCheckedRepair(filteredRepair.map(r => r.id));
+                        else setCheckedRepair([]);
+                      }}
+                    />
+                  )}
                 </th>
-                <th className="border px-4 py-2">NO</th>
-                <th className="border px-4 py-2">자산 ID</th>
-                <th className="border px-4 py-2">자산명</th>
-                <th className="border px-4 py-2">분류</th>
-                <th className="border px-4 py-2">처리유형</th>
-                <th className="border px-4 py-2">요청일</th>
-                <th className="border px-4 py-2">상태</th>
-                <th className="border px-4 py-2">담당자</th>
-                <th className="border px-4 py-2">위치</th>
-                <th className="border px-4 py-2">메모</th>
+                <th className="border px-4 py-2 text-center">NO</th>
+                <th className="border px-4 py-2 text-center">자산 ID</th>
+                <th className="border px-4 py-2 text-center">자산명</th>
+                <th className="border px-4 py-2 text-center">분류</th>
+                <th className="border px-4 py-2 text-center">처리유형</th>
+                <th className="border px-4 py-2 text-center">요청일</th>
+                <th className="border px-4 py-2 text-center">상태</th>
+                <th className="border px-4 py-2 text-center">담당자</th>
+                <th className="border px-4 py-2 text-center">위치</th>
+                <th className="border px-4 py-2 text-center">메모</th>
               </tr>
             </thead>
             <tbody>
@@ -408,24 +468,37 @@ export default function AssetManagementMockPage() {
                 filteredRepair.map((r, idx) => (
                   <tr key={r.id}>
                     <td className="border px-4 py-2 text-center">
-                      <input type="checkbox"
-                        checked={checkedRepair.includes(r.id)}
-                        onChange={e => {
-                          if (e.target.checked) setCheckedRepair(prev => [...prev, r.id]);
-                          else setCheckedRepair(prev => prev.filter(id => id !== r.id));
-                        }}
-                      />
+                      {r.status !== '완료' && (
+                        <input type="checkbox"
+                          checked={checkedRepair.includes(r.id)}
+                          onChange={e => {
+                            if (e.target.checked) setCheckedRepair(prev => [...prev, r.id]);
+                            else setCheckedRepair(prev => prev.filter(id => id !== r.id));
+                          }}
+                        />
+                      )}
                     </td>
-                    <td className="border px-4 py-2">{idx + 1}</td>
-                    <td className="border px-4 py-2">{r.assetId}</td>
-                    <td className="border px-4 py-2 text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedRepair(r)}>{r.name}</td>
-                    <td className="border px-4 py-2">{r.type}</td>
-                    <td className="border px-4 py-2">{r.processType}</td>
-                    <td className="border px-4 py-2">{r.requestDate}</td>
-                    <td className="border px-4 py-2">{r.status}</td>
-                    <td className="border px-4 py-2 text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedHandler(mockHandlers.find(h => h.name === r.handler) || null)}>{r.handler}</td>
-                    <td className="border px-4 py-2">{r.location}</td>
-                    <td className="border px-4 py-2">{r.memo || '-'}</td>
+                    <td className="border px-4 py-2 text-center">{idx + 1}</td>
+                    <td className="border px-4 py-2 text-center">{r.assetId}</td>
+                    <td className="border px-4 py-2 text-center text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedRepair(r)}>{r.name}</td>
+                    <td className="border px-4 py-2 text-center">{r.type}</td>
+                    <td className="border px-4 py-2 text-center">{r.processType}</td>
+                    <td className="border px-4 py-2 text-center">{r.requestDate}</td>
+                    <td className="border px-4 py-2 text-center">
+                      {r.status === '완료' ? (
+                        <span
+                          className="text-blue-600 underline cursor-pointer"
+                          onClick={() => setSelectedCompletedRepair(r)}
+                        >
+                          {r.status}
+                        </span>
+                      ) : (
+                        r.status
+                      )}
+                    </td>
+                    <td className="border px-4 py-2 text-center text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedHandler(mockHandlers.find(h => h.name === r.handler) || null)}>{r.handler}</td>
+                    <td className="border px-4 py-2 text-center">{r.location}</td>
+                    <td className="border px-4 py-2 text-center">{r.memo || '-'}</td>
                   </tr>
                 ))
               )}

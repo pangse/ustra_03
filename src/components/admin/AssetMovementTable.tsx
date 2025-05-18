@@ -115,23 +115,23 @@ export default function AssetMovementTable() {
         <table className="min-w-full border text-sm">
           <thead>
             <tr className="bg-gray-100">
-              <th className="border px-4 py-2">자산명</th>
-              <th className="border px-4 py-2">이동 전 위치</th>
-              <th className="border px-4 py-2">이동 후 위치</th>
-              <th className="border px-4 py-2">담당자</th>
-              <th className="border px-4 py-2">이동일</th>
-              <th className="border px-4 py-2">메모</th>
+              <th className="border px-4 py-2 text-center">자산명</th>
+              <th className="border px-4 py-2 text-center">이동 전 위치</th>
+              <th className="border px-4 py-2 text-center">이동 후 위치</th>
+              <th className="border px-4 py-2 text-center">담당자</th>
+              <th className="border px-4 py-2 text-center">이동일</th>
+              <th className="border px-4 py-2 text-center">메모</th>
             </tr>
           </thead>
           <tbody>
             {filtered.map((m) => (
               <tr key={m.id}>
-                <td className="border px-4 py-2 text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedAsset(m.assetName)}>{m.assetName}</td>
-                <td className="border px-4 py-2 text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedLocation(m.fromLocation)}>{m.fromLocation}</td>
-                <td className="border px-4 py-2 text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedLocation(m.toLocation)}>{m.toLocation}</td>
-                <td className="border px-4 py-2 text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedHandler(m.handler)}>{m.handler}</td>
-                <td className="border px-4 py-2">{m.date}</td>
-                <td className="border px-4 py-2">{m.memo || "-"}</td>
+                <td className="border px-4 py-2 text-center text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedAsset(m.assetName)}>{m.assetName}</td>
+                <td className="border px-4 py-2 text-center text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedLocation(m.fromLocation)}>{m.fromLocation}</td>
+                <td className="border px-4 py-2 text-center text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedLocation(m.toLocation)}>{m.toLocation}</td>
+                <td className="border px-4 py-2 text-center text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedHandler(m.handler)}>{m.handler}</td>
+                <td className="border px-4 py-2 text-center">{m.date}</td>
+                <td className="border px-4 py-2 text-center">{m.memo || "-"}</td>
               </tr>
             ))}
           </tbody>

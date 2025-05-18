@@ -80,14 +80,14 @@ export default function AssetTypesPage() {
           <thead>
             <tr className="bg-gray-100">
               <th className="border px-4 py-2 text-center"><input type="checkbox" /></th>
-              <th className="border px-4 py-2">자산유형 ID</th>
-              <th className="border px-4 py-2">자산유형명</th>
-              <th className="border px-4 py-2">설명</th>
-              <th className="border px-4 py-2">대표확장자</th>
-              <th className="border px-4 py-2">활성여부</th>
-              <th className="border px-4 py-2">생성일시</th>
-              <th className="border px-4 py-2">생성자</th>
-              <th className="border px-4 py-2">관리</th>
+              <th className="border px-4 py-2 text-center">자산유형 ID</th>
+              <th className="border px-4 py-2 text-center">자산유형명</th>
+              <th className="border px-4 py-2 text-center">설명</th>
+              <th className="border px-4 py-2 text-center">대표확장자</th>
+              <th className="border px-4 py-2 text-center">활성여부</th>
+              <th className="border px-4 py-2 text-center">생성일시</th>
+              <th className="border px-4 py-2 text-center">생성자</th>
+              <th className="border px-4 py-2 text-center">관리</th>
             </tr>
           </thead>
           <tbody>
@@ -98,28 +98,34 @@ export default function AssetTypesPage() {
             ) : assetTypes.map(t => (
               <tr key={t.id}>
                 <td className="border px-4 py-2 text-center"><input type="checkbox" /></td>
-                <td className="border px-4 py-2">{t.typeCode}</td>
-                <td className="border px-4 py-2">{t.name}</td>
-                <td className="border px-4 py-2">{t.description}</td>
-                <td className="border px-4 py-2">{t.extension}</td>
-                <td className="border px-4 py-2">{t.isActive ? '활성' : '비활성'}</td>
-                <td className="border px-4 py-2">{t.createdAt?.slice(0, 10)}</td>
-                <td className="border px-4 py-2">{t.createdBy || '-'}</td>
-                <td className="border px-4 py-2">
-                  <div className="flex gap-2">
+                <td className="border px-4 py-2 text-center">{t.typeCode}</td>
+                <td className="border px-4 py-2 text-center">{t.name}</td>
+                <td className="border px-4 py-2 text-center">{t.description}</td>
+                <td className="border px-4 py-2 text-center">{t.extension}</td>
+                <td className="border px-4 py-2 text-center">{t.isActive ? '활성' : '비활성'}</td>
+                <td className="border px-4 py-2 text-center">{t.createdAt?.slice(0, 10)}</td>
+                <td className="border px-4 py-2 text-center">{t.createdBy || '-'}</td>
+                <td className="border px-4 py-2 text-center">
+                  <div className="flex gap-2 justify-center">
                     <button
                       type="button"
-                      className="px-2 py-1 rounded text-xs font-medium border border-blue-600 text-blue-600 hover:bg-gray-100"
+                      className="rounded-full p-2 border border-transparent hover:bg-gray-100 flex items-center gap-1 text-blue-600"
                       onClick={() => { setEditItem(t); setShowModal(true); }}
                     >
-                      수정
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 3.487a2.25 2.25 0 1 1 3.182 3.182L7.5 19.213l-4 1 1-4 12.362-12.726z" />
+                      </svg>
+                      Edit
                     </button>
                     <button
                       type="button"
-                      className="px-2 py-1 rounded text-xs font-medium border border-red-600 text-red-600 hover:bg-gray-100"
+                      className="rounded-full p-2 border border-transparent hover:bg-gray-100 flex items-center gap-1 text-red-600"
                       onClick={() => {/* 삭제 핸들러 */}}
                     >
-                      삭제
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                      Delete
                     </button>
                   </div>
                 </td>

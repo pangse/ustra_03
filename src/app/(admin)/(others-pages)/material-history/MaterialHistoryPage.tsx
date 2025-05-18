@@ -339,37 +339,45 @@ export default function MaterialHistoryPage() {
         <table className="min-w-full border text-sm bg-white">
           <thead>
             <tr className="bg-gray-100">
-              <th className="border px-4 py-2">날짜</th>
-              <th className="border px-4 py-2">자산</th>
-              <th className="border px-4 py-2">유형</th>
-              <th className="border px-4 py-2">수량</th>
-              <th className="border px-4 py-2">담당자</th>
-              <th className="border px-4 py-2">메모</th>
-              <th className="border px-4 py-2">관리</th>
+              <th className="border px-4 py-2 text-center">날짜</th>
+              <th className="border px-4 py-2 text-center">자산</th>
+              <th className="border px-4 py-2 text-center">유형</th>
+              <th className="border px-4 py-2 text-center">수량</th>
+              <th className="border px-4 py-2 text-center">담당자</th>
+              <th className="border px-4 py-2 text-center">메모</th>
+              <th className="border px-4 py-2 text-center">관리</th>
             </tr>
           </thead>
           <tbody>
             {filteredHistories.map((history) => (
               <tr key={history.id}>
-                <td className="border px-4 py-2">{new Date(history.date).toLocaleString()}</td>
-                <td className="border px-4 py-2">{history.material?.name}</td>
-                <td className="border px-4 py-2">{history.type}</td>
-                <td className="border px-4 py-2">{history.quantity}</td>
-                <td className="border px-4 py-2">{history.handler?.name}</td>
-                <td className="border px-4 py-2">{history.memo}</td>
-                <td className="border px-4 py-2">
-                  <button
-                    onClick={() => handleEdit(history)}
-                    className="px-2 py-1 rounded text-xs font-medium border border-blue-600 text-blue-600 hover:bg-gray-100 mr-2"
-                  >
-                    수정
-                  </button>
-                  <button
-                    onClick={() => handleDelete(history.id)}
-                    className="px-2 py-1 rounded text-xs font-medium border border-red-600 text-red-600 hover:bg-gray-100"
-                  >
-                    삭제
-                  </button>
+                <td className="border px-4 py-2 text-center">{new Date(history.date).toLocaleString()}</td>
+                <td className="border px-4 py-2 text-center">{history.material?.name}</td>
+                <td className="border px-4 py-2 text-center">{history.type}</td>
+                <td className="border px-4 py-2 text-center">{history.quantity}</td>
+                <td className="border px-4 py-2 text-center">{history.handler?.name}</td>
+                <td className="border px-4 py-2 text-center">{history.memo}</td>
+                <td className="border px-4 py-2 text-center">
+                  <div className="flex gap-2 justify-center">
+                    <button
+                      onClick={() => handleEdit(history)}
+                      className="rounded-full p-2 border border-transparent hover:bg-gray-100 flex items-center gap-1 text-blue-600 mr-2"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 3.487a2.25 2.25 0 1 1 3.182 3.182L7.5 19.213l-4 1 1-4 12.362-12.726z" />
+                      </svg>
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(history.id)}
+                      className="rounded-full p-2 border border-transparent hover:bg-gray-100 flex items-center gap-1 text-red-600"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                      Delete
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

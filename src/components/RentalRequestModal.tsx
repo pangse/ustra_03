@@ -5,6 +5,7 @@ interface RentalRequestModalProps {
   open: boolean;
   onClose: () => void;
   onSubmit: (data: RentalRequestForm) => void;
+  selectedAssets?: Asset[];
 }
 
 export interface RentalRequestForm {
@@ -17,6 +18,16 @@ export interface RentalRequestForm {
   memo?: string;
 }
 
+export interface Asset {
+  id: number;
+  group: string;
+  type: string;
+  assetId: string;
+  name: string;
+  warehouse: string;
+  status: string;
+}
+
 const initialForm: RentalRequestForm = {
   requester: "",
   assetName: "",
@@ -27,7 +38,7 @@ const initialForm: RentalRequestForm = {
   memo: "",
 };
 
-const RentalRequestModal: React.FC<RentalRequestModalProps> = ({ open, onClose, onSubmit }) => {
+const RentalRequestModal: React.FC<RentalRequestModalProps> = ({ open, onClose, onSubmit, selectedAssets }) => {
   const [form, setForm] = React.useState<RentalRequestForm>(initialForm);
   const [errors, setErrors] = React.useState<{ [k: string]: string }>({});
   const overlayRef = useRef<HTMLDivElement>(null);
@@ -88,6 +99,16 @@ const RentalRequestModal: React.FC<RentalRequestModalProps> = ({ open, onClose, 
     >
       <div className="bg-white rounded shadow-lg w-full max-w-md p-6 relative animate-fadeIn">
         <h2 className="text-lg font-bold mb-4">대여 요청</h2>
+        {selectedAssets && selectedAssets.length > 0 && (
+          <div className="mb-4">
+            <h3 className="font-semibold mb-2 text-sm">선택된 자산</h3>
+            <ul className="list-disc pl-5 text-sm text-gray-700">
+              {selectedAssets.map(a => (
+                <li key={a.id}>{a.name} ({a.assetId}) - {a.warehouse}</li>
+              ))}
+            </ul>
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="space-y-3">
           <div>
             <label className="block text-sm mb-1">요청인 <span className="text-red-500">*</span></label>

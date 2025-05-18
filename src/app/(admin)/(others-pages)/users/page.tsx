@@ -130,12 +130,12 @@ export default function UsersPage() {
         <table className="min-w-full border text-sm bg-white">
           <thead>
             <tr className="bg-gray-100">
-              <th className="border px-4 py-2">이름</th>
-              <th className="border px-4 py-2">이메일</th>
-              <th className="border px-4 py-2">부서</th>
-              <th className="border px-4 py-2">역할</th>
-              <th className="border px-4 py-2">전화번호</th>
-              <th className="border px-4 py-2">관리</th>
+              <th className="border px-4 py-2 text-center">이름</th>
+              <th className="border px-4 py-2 text-center">이메일</th>
+              <th className="border px-4 py-2 text-center">부서</th>
+              <th className="border px-4 py-2 text-center">역할</th>
+              <th className="border px-4 py-2 text-center">전화번호</th>
+              <th className="border px-4 py-2 text-center">관리</th>
             </tr>
           </thead>
           <tbody>
@@ -150,28 +150,34 @@ export default function UsersPage() {
             ) : (
               filteredUsers.map(u => (
                 <tr key={u.id}>
-                  <td className="border px-4 py-2">{u.name}</td>
-                  <td className="border px-4 py-2">{u.email}</td>
-                  <td className="border px-4 py-2">{u.department}</td>
-                  <td className="border px-4 py-2">{u.role}</td>
-                  <td className="border px-4 py-2">{u.phone_number}</td>
-                  <td className="border px-4 py-2">
-                    <div className="flex gap-2">
+                  <td className="border px-4 py-2 text-center">{u.name}</td>
+                  <td className="border px-4 py-2 text-center">{u.email}</td>
+                  <td className="border px-4 py-2 text-center">{u.department}</td>
+                  <td className="border px-4 py-2 text-center">{u.role}</td>
+                  <td className="border px-4 py-2 text-center">{u.phone_number}</td>
+                  <td className="border px-4 py-2 text-center">
+                    <div className="flex gap-2 justify-center">
                       <button
                         type="button"
                         onClick={() => handleEdit(u)}
                         disabled={loading}
-                        className="px-2 py-1 rounded text-xs font-medium border border-blue-600 text-blue-600 hover:bg-gray-100"
+                        className="rounded-full p-2 border border-transparent hover:bg-gray-100 flex items-center gap-1 text-blue-600"
                       >
-                        수정
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 3.487a2.25 2.25 0 1 1 3.182 3.182L7.5 19.213l-4 1 1-4 12.362-12.726z" />
+                        </svg>
+                        Edit
                       </button>
                       <button
                         type="button"
                         onClick={() => handleDelete(u.id)}
                         disabled={loading}
-                        className="px-2 py-1 rounded text-xs font-medium border border-red-600 text-red-600 hover:bg-gray-100"
+                        className="rounded-full p-2 border border-transparent hover:bg-gray-100 flex items-center gap-1 text-red-600"
                       >
-                        삭제
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        Delete
                       </button>
                     </div>
                   </td>

@@ -164,7 +164,7 @@ export default function RentalManagementPage() {
               <th className="border px-4 py-2">대여 기간</th>
               <th className="border px-4 py-2">목적</th>
               <th className="border px-4 py-2">상태</th>
-              <th className="border px-4 py-2">관리</th>
+              <th className="border px-4 py-2 text-center">관리</th>
             </tr>
           </thead>
           <tbody>
@@ -175,13 +175,18 @@ export default function RentalManagementPage() {
                 <td className="border px-4 py-2">{new Date(request.startDate).toLocaleDateString()} ~ {new Date(request.endDate).toLocaleDateString()}</td>
                 <td className="border px-4 py-2">{request.purpose}</td>
                 <td className="border px-4 py-2">{getStatusBadge(request.status)}</td>
-                <td className="border px-4 py-2">
+                <td className="border px-4 py-2 text-center">
                   {request.status === 'APPROVED' && (
                     <button
                       onClick={() => handleStatusChange(request.id, 'COMPLETED', request)}
-                      className="text-blue-600 hover:underline"
+                      className="rounded-full p-2 border border-transparent hover:bg-gray-100 flex items-center gap-1 text-blue-600"
+                      aria-label="Return"
                     >
-                      반납 처리
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6A2.25 2.25 0 0 0 5.25 5.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H9.75m0 0l3-3m-3 3l3 3" />
+                      </svg>
+                      Return
                     </button>
                   )}
                 </td>
@@ -202,9 +207,14 @@ export default function RentalManagementPage() {
             {request.status === 'APPROVED' && (
               <button
                 onClick={() => handleStatusChange(request.id, 'COMPLETED', request)}
-                className="mt-2 w-full text-blue-600 border border-blue-200 rounded px-3 py-1 text-xs bg-white hover:bg-blue-50"
+                className="mt-2 w-full rounded-full p-2 border border-transparent hover:bg-gray-100 flex items-center gap-1 text-blue-600 bg-white"
+                aria-label="Return"
               >
-                반납 처리
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6A2.25 2.25 0 0 0 5.25 5.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H9.75m0 0l3-3m-3 3l3 3" />
+                </svg>
+                Return
               </button>
             )}
           </div>
