@@ -42,12 +42,13 @@ const navItems: NavItem[] = [
     name: "데이터 관리",
     subItems: [
       { name: "기준 데이터", path: "/masterdata", pro: false },
-      { name: "자재 관리", path: "/materials", pro: false },
-      { name: "자재 이력", path: "/material-history", pro: false },
-      { name: "자산 유형", path: "/asset-types", pro: false },
+      { name: "자산 관리 Type 1", path: "/materials", pro: false },
+      { name: "자산 관리 Type 2", path: "/materials/mock-management-page", pro: false },
+      { name: "자산 이력 관리", path: "/material-history", pro: false },
+      { name: "자산 유형 관리", path: "/asset-types", pro: false },
       { name: "자산 대여 관리", path: "/rental-management", pro: false },
       { name: "자산 이동 이력", path: "/asset-movement", pro: false },
-      { name: "자산 관리 2", path: "/materials/mock-management-page", pro: false },
+      
     ],
   },
   {
@@ -118,7 +119,7 @@ const navItems: NavItem[] = [
 // ];
 
 const AppSidebar: React.FC = () => {
-  const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
+  const { isExpanded, isMobileOpen, isHovered, setIsHovered, toggleMobileSidebar } = useSidebar();
   const pathname = usePathname();
   const [openSubmenu, setOpenSubmenu] = useState<{
     type: "main" | "others";
@@ -261,6 +262,11 @@ const AppSidebar: React.FC = () => {
                           ? "menu-dropdown-item-active"
                           : "menu-dropdown-item-inactive"
                       }`}
+                      onClick={() => {
+                        if (isMobileOpen && typeof toggleMobileSidebar === 'function') {
+                          toggleMobileSidebar();
+                        }
+                      }}
                     >
                       {subItem.name}
                       <span className="flex items-center">

@@ -75,7 +75,7 @@ export default function AssetTypesPage() {
         </div>
       </form>
       {/* 리스트 테이블 */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto hidden md:block">
         <table className="min-w-full border text-sm bg-white">
           <thead>
             <tr className="bg-gray-100">
@@ -133,6 +133,48 @@ export default function AssetTypesPage() {
             ))}
           </tbody>
         </table>
+      </div>
+      {/* 모바일: 카드 리스트 */}
+      <div className="block md:hidden space-y-4">
+        {loading ? (
+          <div className="text-center text-gray-500 py-8 bg-white rounded shadow">로딩 중...</div>
+        ) : assetTypes.length === 0 ? (
+          <div className="text-center text-gray-500 py-8 bg-white rounded shadow">데이터가 없습니다</div>
+        ) : (
+          assetTypes.map(t => (
+            <div key={t.id} className="border rounded-lg p-4 shadow-sm bg-white">
+              <div className="font-semibold text-base mb-1">{t.name}</div>
+              <div className="text-xs text-gray-500 mb-1">ID: <span className="text-gray-800">{t.typeCode}</span></div>
+              <div className="text-xs text-gray-500 mb-1">설명: <span className="text-gray-800">{t.description}</span></div>
+              <div className="text-xs text-gray-500 mb-1">대표확장자: <span className="text-gray-800">{t.extension}</span></div>
+              <div className="text-xs text-gray-500 mb-1">활성여부: <span className="text-gray-800">{t.isActive ? '활성' : '비활성'}</span></div>
+              <div className="text-xs text-gray-500 mb-1">생성일시: <span className="text-gray-800">{t.createdAt?.slice(0, 10)}</span></div>
+              <div className="text-xs text-gray-500 mb-2">생성자: <span className="text-gray-800">{t.createdBy || '-'}</span></div>
+              <div className="flex gap-2 mt-2">
+                <button
+                  type="button"
+                  className="rounded-full p-2 border border-transparent hover:bg-gray-100 flex items-center gap-1 text-blue-600 text-xs"
+                  onClick={() => { setEditItem(t); setShowModal(true); }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 3.487a2.25 2.25 0 1 1 3.182 3.182L7.5 19.213l-4 1 1-4 12.362-12.726z" />
+                  </svg>
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  className="rounded-full p-2 border border-transparent hover:bg-gray-100 flex items-center gap-1 text-red-600 text-xs"
+                  onClick={() => {/* 삭제 핸들러 */}}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))
+        )}
       </div>
       {/* 등록/수정 모달 (스캐폴딩) */}
       {showModal && (

@@ -159,22 +159,22 @@ export default function RentalManagementPage() {
         <table className="min-w-full border text-sm bg-white">
           <thead>
             <tr className="bg-gray-100">
-              <th className="border px-4 py-2">자산</th>
-              <th className="border px-4 py-2">신청자</th>
-              <th className="border px-4 py-2">대여 기간</th>
-              <th className="border px-4 py-2">목적</th>
-              <th className="border px-4 py-2">상태</th>
+              <th className="border px-4 py-2 text-center">자산</th>
+              <th className="border px-4 py-2 text-center">신청자</th>
+              <th className="border px-4 py-2 text-center">대여 기간</th>
+              <th className="border px-4 py-2 text-center">목적</th>
+              <th className="border px-4 py-2 text-center">상태</th>
               <th className="border px-4 py-2 text-center">관리</th>
             </tr>
           </thead>
           <tbody>
             {filteredRequests.map((request) => (
               <tr key={request.id}>
-                <td className="border px-4 py-2">{request.material?.name}</td>
-                <td className="border px-4 py-2">{request.material.location?.name}</td>
-                <td className="border px-4 py-2">{new Date(request.startDate).toLocaleDateString()} ~ {new Date(request.endDate).toLocaleDateString()}</td>
-                <td className="border px-4 py-2">{request.purpose}</td>
-                <td className="border px-4 py-2">{getStatusBadge(request.status)}</td>
+                <td className="border px-4 py-2 text-center">{request.material?.name}</td>
+                <td className="border px-4 py-2 text-center">{request.material.location?.name}</td>
+                <td className="border px-4 py-2 text-center">{new Date(request.startDate).toLocaleDateString()} ~ {new Date(request.endDate).toLocaleDateString()}</td>
+                <td className="border px-4 py-2 text-center">{request.purpose}</td>
+                <td className="border px-4 py-2 text-center">{getStatusBadge(request.status)}</td>
                 <td className="border px-4 py-2 text-center">
                   {request.status === 'APPROVED' && (
                     <button

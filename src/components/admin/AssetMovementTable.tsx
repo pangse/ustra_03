@@ -184,14 +184,26 @@ export default function AssetMovementTable() {
       )}
       {/* 모바일: 카드 */}
       <div className="block md:hidden space-y-4">
-        {filtered.map((m) => (
-          <div key={m.id} className="border rounded-lg p-4 shadow-sm bg-gray-50">
-            <div className="font-semibold text-base mb-2">{m.assetName}</div>
-            <div className="text-xs text-gray-500 mb-1">이동 전 위치: <span className="text-gray-800">{m.fromLocation}</span></div>
-            <div className="text-xs text-gray-500 mb-1">이동 후 위치: <span className="text-gray-800">{m.toLocation}</span></div>
-            <div className="text-xs text-gray-500 mb-1">이동일: <span className="text-gray-800">{m.date}</span></div>
-          </div>
-        ))}
+        {filtered.length === 0 ? (
+          <div className="text-center text-gray-500 py-8 bg-white rounded shadow">데이터가 없습니다</div>
+        ) : (
+          filtered.map((m) => (
+            <div key={m.id} className="border rounded-lg p-4 shadow-sm bg-white">
+              <div className="font-semibold text-base mb-2 text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedAsset(m.assetName)}>{m.assetName}</div>
+              <div className="text-xs text-gray-500 mb-1">
+                이동 전 위치: <span className="text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedLocation(m.fromLocation)}>{m.fromLocation}</span>
+              </div>
+              <div className="text-xs text-gray-500 mb-1">
+                이동 후 위치: <span className="text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedLocation(m.toLocation)}>{m.toLocation}</span>
+              </div>
+              <div className="text-xs text-gray-500 mb-1">
+                담당자: <span className="text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedHandler(m.handler)}>{m.handler}</span>
+              </div>
+              <div className="text-xs text-gray-500 mb-1">이동일: <span className="text-gray-800">{m.date}</span></div>
+              <div className="text-xs text-gray-500 mb-1">메모: <span className="text-gray-800">{m.memo || '-'}</span></div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

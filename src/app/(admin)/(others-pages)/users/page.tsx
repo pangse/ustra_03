@@ -126,7 +126,8 @@ export default function UsersPage() {
         </div>
       )}
 
-      <div className="overflow-x-auto">
+      {/* 데스크탑: 테이블 */}
+      <div className="overflow-x-auto hidden md:block">
         <table className="min-w-full border text-sm bg-white">
           <thead>
             <tr className="bg-gray-100">
@@ -186,6 +187,48 @@ export default function UsersPage() {
             )}
           </tbody>
         </table>
+      </div>
+      {/* 모바일: 카드 리스트 */}
+      <div className="block md:hidden space-y-4">
+        {filteredUsers.length === 0 && !loading ? (
+          <div className="text-center text-gray-500 py-8 bg-white rounded shadow">데이터가 없습니다</div>
+        ) : loading && page === 1 ? (
+          <div className="text-center text-gray-500 py-8 bg-white rounded shadow">로딩 중...</div>
+        ) : (
+          filteredUsers.map(u => (
+            <div key={u.id} className="border rounded-lg p-4 shadow-sm bg-white">
+              <div className="font-semibold text-base mb-1">{u.name}</div>
+              <div className="text-xs text-gray-500 mb-1">이메일: <span className="text-gray-800">{u.email}</span></div>
+              <div className="text-xs text-gray-500 mb-1">부서: <span className="text-gray-800">{u.department}</span></div>
+              <div className="text-xs text-gray-500 mb-1">역할: <span className="text-gray-800">{u.role}</span></div>
+              <div className="text-xs text-gray-500 mb-2">전화번호: <span className="text-gray-800">{u.phone_number}</span></div>
+              <div className="flex gap-2 mt-2">
+                <button
+                  type="button"
+                  onClick={() => handleEdit(u)}
+                  disabled={loading}
+                  className="rounded-full p-2 border border-transparent hover:bg-gray-100 flex items-center gap-1 text-blue-600 text-xs"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 3.487a2.25 2.25 0 1 1 3.182 3.182L7.5 19.213l-4 1 1-4 12.362-12.726z" />
+                  </svg>
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleDelete(u.id)}
+                  disabled={loading}
+                  className="rounded-full p-2 border border-transparent hover:bg-gray-100 flex items-center gap-1 text-red-600 text-xs"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))
+        )}
       </div>
 
       <Modal
