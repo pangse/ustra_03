@@ -11,7 +11,7 @@ import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
 interface Material {
-  id: string;
+  id: number;
   name: string;
   category?: { id: number; name: string };
   brand?: string;
@@ -25,7 +25,14 @@ interface User {
   email: string;
 }
 
-interface MaterialHistoryWithDetails extends MaterialHistory {
+interface MaterialHistoryWithDetails {
+  id: number;
+  materialId: number;
+  handlerId: number;
+  type: string;
+  quantity: number;
+  date: string;
+  memo: string;
   material: {
     name: string;
     rfid_tag: string;

@@ -66,8 +66,9 @@ export default function RentalManagementPage() {
     setFilters(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleStatusChange = async (id: string, newStatus: string) => {
+  const handleStatusChange = async (id: number, newStatus: string, request: RentalRequest) => {
     try {
+      // 1. 상태 변경
       const response = await fetch(`/api/rental-requests/${id}`, {
         method: 'PATCH',
         headers: {
@@ -78,14 +79,27 @@ export default function RentalManagementPage() {
 
       if (!response.ok) throw new Error('상태 변경에 실패했습니다.');
 
+      // 2. 이력 등록 (handlerId는 임시로 1)
+      await fetch('/api/material-history', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          materialId: request.material.id,
+          handlerId: 2, // TODO: 실제 로그인 사용자 id로 교체
+          type: newStatus === 'COMPLETED' ? '입고' : '출고',
+          quantity: 1,
+          memo: '대여 반납 처리',
+        }),
+      });
+
       setRentalRequests(prev =>
-        prev.map(request =>
-          request.id === id ? { ...request, status: newStatus } : request
+        prev.map(r =>
+          r.id === id ? { ...r, status: newStatus } : r
         )
       );
     } catch (err) {
-      console.error('Error updating status:', err);
-      alert('상태 변경에 실패했습니다.');
+      console.error('Error updating status or registering history:', err);
+      alert('상태 변경 또는 이력 등록에 실패했습니다.');
     }
   };
 
@@ -182,7 +196,7 @@ export default function RentalManagementPage() {
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   {request.status === 'APPROVED' && (
                     <button
-                      onClick={() => handleStatusChange(request.id.toString(), 'COMPLETED')}
+                      onClick={() => handleStatusChange(request.id, 'COMPLETED', request)}
                       className="text-blue-600 hover:text-blue-900"
                     >
                       반납 처리

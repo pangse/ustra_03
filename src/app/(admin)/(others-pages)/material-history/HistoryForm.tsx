@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 
 interface Material {
-  id: string;
+  id: number;
   name: string;
 }
 
 interface User {
-  id: string;
+  id: number;
   name: string;
 }
 
 interface MaterialHistory {
-  id: string;
-  materialId: string;
-  handlerId: string;
+  id: number;
+  materialId: number;
+  handlerId: number;
   type: string;
   quantity: number;
   date: string;
@@ -32,8 +32,8 @@ interface HistoryFormProps {
 
 export default function HistoryForm({ materials, users, initialData, onSave, onCancel }: HistoryFormProps) {
   const [formData, setFormData] = useState({
-    materialId: '',
-    handlerId: '',
+    materialId: 0,
+    handlerId: 0,
     type: '입고',
     quantity: 1,
     memo: ''
@@ -55,7 +55,7 @@ export default function HistoryForm({ materials, users, initialData, onSave, onC
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'quantity' ? Number(value) : value
+      [name]: name === 'quantity' ? Number(value) : name === 'materialId' || name === 'handlerId' ? Number(value) : value
     }));
   };
 
@@ -75,7 +75,7 @@ export default function HistoryForm({ materials, users, initialData, onSave, onC
           required
           className="px-4 py-2 border rounded-md bg-white w-full"
         >
-          <option value="">자산 선택</option>
+          <option value={0}>자산 선택</option>
           {materials.map(material => (
             <option key={material.id} value={material.id}>
               {material.name}
@@ -93,7 +93,7 @@ export default function HistoryForm({ materials, users, initialData, onSave, onC
           required
           className="px-4 py-2 border rounded-md bg-white w-full"
         >
-          <option value="">담당자 선택</option>
+          <option value={0}>담당자 선택</option>
           {users.map(user => (
             <option key={user.id} value={user.id}>
               {user.name}

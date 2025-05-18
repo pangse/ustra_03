@@ -6,7 +6,7 @@ import HistoryForm from "./HistoryForm";
 import { useRouter } from 'next/navigation';
 
 interface Material {
-  id: string;
+  id: number;
   name: string;
   category?: { id: number; name: string };
   brand?: string;
@@ -15,15 +15,15 @@ interface Material {
 }
 
 interface User {
-  id: string;
+  id: number;
   name: string;
   email: string;
 }
 
 interface MaterialHistory {
-  id: string;
-  materialId: string;
-  handlerId: string;
+  id: number;
+  materialId: number;
+  handlerId: number;
   type: string;
   quantity: number;
   date: string;
@@ -44,8 +44,8 @@ export default function MaterialHistoryPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingHistory, setEditingHistory] = useState<MaterialHistory | null>(null);
   const [filters, setFilters] = useState({
-    materialId: '',
-    handlerId: '',
+    materialId: 0,
+    handlerId: 0,
     type: ''
   });
 
@@ -187,7 +187,7 @@ export default function MaterialHistoryPage() {
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFilters(prev => ({ ...prev, [name]: value }));
+    setFilters(prev => ({ ...prev, [name]: Number(value) }));
   };
 
   const filteredHistories = histories.filter(history => {
@@ -202,7 +202,7 @@ export default function MaterialHistoryPage() {
     setIsModalOpen(true);
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: number) => {
     if (!confirm('정말로 이 이력을 삭제하시겠습니까?')) return;
 
     try {
@@ -283,10 +283,10 @@ export default function MaterialHistoryPage() {
         <select
           name="materialId"
           value={filters.materialId}
-          onChange={handleFilterChange}
+          onChange={e => setFilters(prev => ({ ...prev, materialId: Number(e.target.value) }))}
           className="px-4 py-2 border rounded-md bg-white"
         >
-          <option value="">자산 선택</option>
+          <option value={0}>자산 선택</option>
           {materials.map(material => (
             <option key={material.id} value={material.id}>
               {material.name}
@@ -297,10 +297,10 @@ export default function MaterialHistoryPage() {
         <select
           name="handlerId"
           value={filters.handlerId}
-          onChange={handleFilterChange}
+          onChange={e => setFilters(prev => ({ ...prev, handlerId: Number(e.target.value) }))}
           className="px-4 py-2 border rounded-md bg-white"
         >
-          <option value="">담당자 선택</option>
+          <option value={0}>담당자 선택</option>
           {users.map(user => (
             <option key={user.id} value={user.id}>
               {user.name}
