@@ -98,31 +98,29 @@ export default function UsersPage() {
   };
 
   return (
-    <div className="container mx-auto p-6 bg-gray-50 min-h-screen">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">사용자 목록</h1>
-        <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={() => { setPage(1); fetchUsers(1); }}
-            className="px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-md hover:bg-gray-100"
-            disabled={loading}
-          >
-            {loading ? '로딩 중...' : '조회'}
-          </button>
-          <button
-            type="button"
-            onClick={handleRegisterClick}
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
-            disabled={loading}
-          >
-            사용자 등록
-          </button>
-        </div>
+    <div className="p-4">
+      <h1 className="text-xl font-semibold mb-4">사용자 목록</h1>
+      <div className="mb-4 flex gap-2">
+        <button
+          type="button"
+          onClick={() => { setPage(1); fetchUsers(1); }}
+          className="border p-2 rounded bg-white text-sm"
+          disabled={loading}
+        >
+          {loading ? '로딩 중...' : '조회'}
+        </button>
+        <button
+          type="button"
+          onClick={handleRegisterClick}
+          className="border p-2 rounded bg-white text-sm"
+          disabled={loading}
+        >
+          사용자 등록
+        </button>
       </div>
 
       {error && (
-        <div className="mb-4 p-4 bg-red-50 text-red-600 rounded">
+        <div className="mb-4 p-4 border border-red-300 bg-red-50 text-red-700 rounded">
           {error}
         </div>
       )}
@@ -134,7 +132,7 @@ export default function UsersPage() {
           value={filter.name}
           onChange={handleFilterChange}
           placeholder="이름 검색"
-          className="px-4 py-2 border rounded-md bg-white"
+          className="border rounded p-2 text-sm bg-white"
         />
         <input
           type="text"
@@ -142,28 +140,28 @@ export default function UsersPage() {
           value={filter.email}
           onChange={handleFilterChange}
           placeholder="이메일 검색"
-          className="px-4 py-2 border rounded-md bg-white"
+          className="border rounded p-2 text-sm bg-white"
         />
         <button 
           type="button" 
           onClick={() => { setPage(1); fetchUsers(1); }}
-          className="px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-md hover:bg-gray-100"
+          className="border p-2 rounded bg-white text-sm"
           disabled={loading}
         >
           초기화
         </button>
       </form>
 
-      <div className="bg-white rounded-lg shadow overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200">
+      <div className="overflow-x-auto">
+        <table className="min-w-full border text-sm bg-white">
           <thead>
-            <tr className="bg-gray-100">
-              <th className="px-4 py-2 border">이름</th>
-              <th className="px-4 py-2 border">이메일</th>
-              <th className="px-4 py-2 border">부서</th>
-              <th className="px-4 py-2 border">역할</th>
-              <th className="px-4 py-2 border">전화번호</th>
-              <th className="px-4 py-2 border">관리</th>
+            <tr>
+              <th className="border px-4 py-2">이름</th>
+              <th className="border px-4 py-2">이메일</th>
+              <th className="border px-4 py-2">부서</th>
+              <th className="border px-4 py-2">역할</th>
+              <th className="border px-4 py-2">전화번호</th>
+              <th className="border px-4 py-2">관리</th>
             </tr>
           </thead>
           <tbody>
@@ -177,19 +175,19 @@ export default function UsersPage() {
               </tr>
             ) : (
               filteredUsers.map(u => (
-                <tr key={u.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-2 border">{u.name}</td>
-                  <td className="px-4 py-2 border">{u.email}</td>
-                  <td className="px-4 py-2 border">{u.department}</td>
-                  <td className="px-4 py-2 border">{u.role}</td>
-                  <td className="px-4 py-2 border">{u.phone_number}</td>
-                  <td className="px-4 py-2 border">
+                <tr key={u.id}>
+                  <td className="border px-4 py-2">{u.name}</td>
+                  <td className="border px-4 py-2">{u.email}</td>
+                  <td className="border px-4 py-2">{u.department}</td>
+                  <td className="border px-4 py-2">{u.role}</td>
+                  <td className="border px-4 py-2">{u.phone_number}</td>
+                  <td className="border px-4 py-2">
                     <div className="flex gap-2">
                       <button
                         type="button"
                         onClick={() => handleEdit(u)}
                         disabled={loading}
-                        className="text-blue-600 hover:text-blue-700 focus:outline-none"
+                        className="text-blue-600 hover:underline"
                       >
                         수정
                       </button>
@@ -197,7 +195,7 @@ export default function UsersPage() {
                         type="button"
                         onClick={() => handleDelete(u.id)}
                         disabled={loading}
-                        className="text-red-600 hover:text-red-700 focus:outline-none"
+                        className="text-red-600 hover:underline"
                       >
                         삭제
                       </button>
@@ -216,10 +214,9 @@ export default function UsersPage() {
         className="max-w-[600px] p-5 lg:p-10"
       >
         <UserForm
-          initial={selectedUser ?? undefined}
-          onSave={handleSave}
+          user={selectedUser}
           onClose={closeModal}
-          loading={loading}
+          onSave={handleSave}
         />
       </Modal>
     </div>

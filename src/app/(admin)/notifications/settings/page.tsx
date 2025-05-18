@@ -5,7 +5,7 @@ import PageBreadcrumb from "@/components/common/PageBreadCrumb";
 import NotificationSettings from "@/components/notifications/NotificationSettings";
 
 export default function NotificationSettingsPage() {
-  const [userId, setUserId] = useState<number>(1); // 임시로 1로 설정, 실제로는 로그인한 사용자의 ID를 사용해야 함
+  const [userId, setUserId] = useState<number>(2); // 임시로 2로 설정, 실제로는 로그인한 사용자의 ID를 사용해야 함
 
   return (
     <div>

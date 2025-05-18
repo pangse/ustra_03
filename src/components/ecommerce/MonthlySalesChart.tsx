@@ -12,25 +12,29 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 });
 
 export default function MonthlySalesChart() {
-  const [monthlyCounts, setMonthlyCounts] = useState<number[]>(Array(12).fill(0));
-  const [loading, setLoading] = useState(true);
+  // const [monthlyCounts, setMonthlyCounts] = useState<number[]>(Array(12).fill(0));
+  // const [loading, setLoading] = useState(true);
+  // const [isOpen, setIsOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  // mook data for 월별 입출고 이력
+  const monthlyCounts = [10, 15, 20, 18, 25, 30, 28, 22, 19, 24, 27, 21];
+  const loading = false;
 
-  useEffect(() => {
-    async function fetchStats() {
-      setLoading(true);
-      try {
-        const res = await fetch("/api/material-history/stats");
-        const data = await res.json();
-        setMonthlyCounts(data.monthlyCounts || Array(12).fill(0));
-      } catch (e) {
-        setMonthlyCounts(Array(12).fill(0));
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchStats();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchStats() {
+  //     setLoading(true);
+  //     try {
+  //       const res = await fetch("/api/material-history/stats");
+  //       const data = await res.json();
+  //       setMonthlyCounts(data.monthlyCounts || Array(12).fill(0));
+  //     } catch (e) {
+  //       setMonthlyCounts(Array(12).fill(0));
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
+  //   fetchStats();
+  // }, []);
 
   const options: ApexOptions = {
     colors: ["#465fff"],

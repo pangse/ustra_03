@@ -66,39 +66,35 @@ export default function Page() {
     }
   };
 
-  if (loading) return <div>로딩 중...</div>;
-  if (error) return <div>에러: {error}</div>;
+  if (loading) return <div className="text-center py-8 text-gray-500">로딩 중...</div>;
+  if (error) return <div className="text-center py-8 text-red-600">에러: {error}</div>;
 
   return (
-    <div className="container mx-auto p-6 bg-gray-50 min-h-screen">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">자산 이력 관리</h1>
-      </div>
-      <div className="bg-white rounded-lg shadow overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200">
+    <div className="p-4">
+      <h1 className="text-xl font-semibold mb-4">자산 이력 관리</h1>
+      <div className="overflow-x-auto">
+        <table className="min-w-full border text-sm bg-white">
           <thead>
-            <tr className="bg-gray-100">
-              <th className="px-4 py-2 border">자산명</th>
-              <th className="px-4 py-2 border">RFID 태그</th>
-              <th className="px-4 py-2 border">유형</th>
-              <th className="px-4 py-2 border">수량</th>
-              <th className="px-4 py-2 border">처리자</th>
-              <th className="px-4 py-2 border">처리일시</th>
-              <th className="px-4 py-2 border">메모</th>
+            <tr>
+              <th className="border px-4 py-2">자산명</th>
+              <th className="border px-4 py-2">RFID 태그</th>
+              <th className="border px-4 py-2">유형</th>
+              <th className="border px-4 py-2">수량</th>
+              <th className="border px-4 py-2">처리자</th>
+              <th className="border px-4 py-2">처리일시</th>
+              <th className="border px-4 py-2">메모</th>
             </tr>
           </thead>
           <tbody>
             {histories.map((history) => (
-              <tr key={history.id} className="hover:bg-gray-50">
-                <td className="px-4 py-2 border">{history.material.name}</td>
-                <td className="px-4 py-2 border">{history.material.rfid_tag}</td>
-                <td className="px-4 py-2 border">{history.type}</td>
-                <td className="px-4 py-2 border">{history.quantity}</td>
-                <td className="px-4 py-2 border">{history.handler.name}</td>
-                <td className="px-4 py-2 border">
-                  {format(new Date(history.date), 'yyyy-MM-dd HH:mm', { locale: ko })}
-                </td>
-                <td className="px-4 py-2 border">{history.memo}</td>
+              <tr key={history.id}>
+                <td className="border px-4 py-2">{history.material.name}</td>
+                <td className="border px-4 py-2">{history.material.rfid_tag}</td>
+                <td className="border px-4 py-2">{history.type}</td>
+                <td className="border px-4 py-2">{history.quantity}</td>
+                <td className="border px-4 py-2">{history.handler.name}</td>
+                <td className="border px-4 py-2">{format(new Date(history.date), 'yyyy-MM-dd HH:mm', { locale: ko })}</td>
+                <td className="border px-4 py-2">{history.memo}</td>
               </tr>
             ))}
           </tbody>

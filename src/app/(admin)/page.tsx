@@ -5,7 +5,8 @@ import MonthlyTarget from "@/components/ecommerce/MonthlyTarget";
 import MonthlySalesChart from "@/components/ecommerce/MonthlySalesChart";
 import StatisticsChart from "@/components/ecommerce/StatisticsChart";
 import RecentOrders from "@/components/ecommerce/RecentOrders";
-import DemographicCard from "@/components/ecommerce/DemographicCard";
+// import DemographicCard from "@/components/ecommerce/DemographicCard";
+import HouseMapCard from "./HouseMapCard";
 
 // 이번 달 대여 회수율 카드 (서버 컴포넌트)
 async function MonthlyReturnRateCard() {
@@ -46,16 +47,14 @@ export default function Ecommerce() {
         <MonthlySalesChart />
       </div>
 
-      <div className="col-span-12 xl:col-span-5">
+      <div className="col-span-12 xl:col-span-5 space-y-6">
         <MonthlyTarget />
+        {/* <DemographicCard /> */}
+        <HouseMapCard />
       </div>
 
       <div className="col-span-12">
         <StatisticsChart />
-      </div>
-
-      <div className="col-span-12 xl:col-span-5">
-        <DemographicCard />
       </div>
 
       <div className="col-span-12 xl:col-span-7">

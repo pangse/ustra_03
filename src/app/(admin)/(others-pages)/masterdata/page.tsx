@@ -123,26 +123,24 @@ export default function MasterDataPage() {
   );
 
   return (
-    <div className="container mx-auto p-6 bg-gray-50 min-h-screen">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">기준데이터 관리</h1>
-        <div className="flex gap-2">
-          <button
-            type="button"
-            className="px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-md hover:bg-gray-100"
-            onClick={() => { setPage(1); fetchData(1); }}
-            disabled={loading}
-          >
-            조회
-          </button>
-          <button
-            type="button"
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
-            onClick={handleRegisterClick}
-          >
-            등록
-          </button>
-        </div>
+    <div className="p-4">
+      <h1 className="text-xl font-semibold mb-4">기준데이터 관리</h1>
+      <div className="mb-4 flex gap-2">
+        <button
+          type="button"
+          className="border p-2 rounded bg-white text-sm"
+          onClick={() => { setPage(1); fetchData(1); }}
+          disabled={loading}
+        >
+          조회
+        </button>
+        <button
+          type="button"
+          className="border p-2 rounded bg-white text-sm"
+          onClick={handleRegisterClick}
+        >
+          등록
+        </button>
       </div>
 
       <form className="mb-6 flex flex-wrap gap-2 items-center">
@@ -150,7 +148,7 @@ export default function MasterDataPage() {
           name="type"
           value={filter.type}
           onChange={e => setFilter(f => ({ ...f, type: e.target.value }))}
-          className="px-4 py-2 border rounded-md bg-white"
+          className="border rounded p-2 text-sm bg-white"
         >
           <option value="">전체 구분</option>
           {typeOptions.map(opt => (
@@ -162,31 +160,31 @@ export default function MasterDataPage() {
           value={filter.name}
           onChange={e => setFilter(f => ({ ...f, name: e.target.value }))}
           placeholder="이름 검색"
-          className="px-4 py-2 border rounded-md bg-white"
+          className="border rounded p-2 text-sm bg-white"
         />
       </form>
 
-      <div className="bg-white rounded-lg shadow overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200">
+      <div className="overflow-x-auto">
+        <table className="min-w-full border text-sm bg-white">
           <thead>
-            <tr className="bg-gray-100">
-              <th className="px-4 py-2 border">구분</th>
-              <th className="px-4 py-2 border">이름</th>
-              <th className="px-4 py-2 border">설명</th>
-              <th className="px-4 py-2 border">관리</th>
+            <tr>
+              <th className="border px-4 py-2">구분</th>
+              <th className="border px-4 py-2">이름</th>
+              <th className="border px-4 py-2">설명</th>
+              <th className="border px-4 py-2">관리</th>
             </tr>
           </thead>
           <tbody>
             {filteredData.map((item) => (
-              <tr key={item.id} className="hover:bg-gray-50">
-                <td className="px-4 py-2 border">{item.type}</td>
-                <td className="px-4 py-2 border">{item.name}</td>
-                <td className="px-4 py-2 border">{item.description}</td>
-                <td className="px-4 py-2 border">
+              <tr key={item.id}>
+                <td className="border px-4 py-2">{item.type}</td>
+                <td className="border px-4 py-2">{item.name}</td>
+                <td className="border px-4 py-2">{item.description}</td>
+                <td className="border px-4 py-2">
                   <div className="flex gap-2">
                     <button
                       type="button"
-                      className="text-blue-600 hover:text-blue-700 focus:outline-none"
+                      className="text-blue-600 hover:underline"
                       onClick={() => handleEdit(item)}
                       disabled={loading}
                     >
@@ -194,7 +192,7 @@ export default function MasterDataPage() {
                     </button>
                     <button
                       type="button"
-                      className="text-red-600 hover:text-red-700 focus:outline-none"
+                      className="text-red-600 hover:underline"
                       onClick={() => handleDelete(item.id)}
                       disabled={loading}
                     >
@@ -208,76 +206,44 @@ export default function MasterDataPage() {
         </table>
       </div>
 
+      <div ref={loader} className="h-10" />
+
       <Modal
         isOpen={modalOpen}
         onClose={closeModal}
         className="max-w-[600px] p-5 lg:p-10"
       >
-        <div className="p-6">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-            {editingId ? "기준데이터 수정" : "기준데이터 등록"}
-          </h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">구분</label>
-              <select
-                name="type"
-                value={form.type}
-                onChange={handleChange}
-                className="form-select w-full"
-                required
-              >
-                {typeOptions.map((opt) => (
-                  <option key={opt.value} value={opt.value}>{opt.label}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">이름</label>
-              <input
-                name="name"
-                value={form.name || ""}
-                onChange={handleChange}
-                placeholder="이름"
-                className="form-input w-full"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">설명</label>
-              <input
-                name="description"
-                value={form.description || ""}
-                onChange={handleChange}
-                placeholder="설명"
-                className="form-input w-full"
-              />
-            </div>
-            <div className="flex justify-end gap-2 mt-6">
-              <button
-                type="button"
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                onClick={() => { setForm({ type: "카테고리" }); setEditingId(null); closeModal(); }}
-              >
-                취소
-              </button>
-              <button
-                type="submit"
-                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                disabled={loading}
-              >
-                {editingId ? "수정" : "등록"}
-              </button>
-            </div>
-          </form>
-        </div>
+        <form onSubmit={handleSubmit}>
+          <select
+            name="type"
+            value={form.type}
+            onChange={handleChange}
+            className="border rounded p-2 mb-2 w-full text-sm bg-white"
+          >
+            {typeOptions.map(opt => (
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            ))}
+          </select>
+          <input
+            name="name"
+            value={form.name || ''}
+            onChange={handleChange}
+            placeholder="이름"
+            className="border rounded p-2 mb-2 w-full text-sm bg-white"
+          />
+          <input
+            name="description"
+            value={form.description || ''}
+            onChange={handleChange}
+            placeholder="설명"
+            className="border rounded p-2 mb-2 w-full text-sm bg-white"
+          />
+          <div className="flex gap-2 mt-2">
+            <button type="submit" className="border p-2 rounded bg-white text-sm">저장</button>
+            <button type="button" className="border p-2 rounded bg-white text-sm" onClick={closeModal}>취소</button>
+          </div>
+        </form>
       </Modal>
-
-      {hasMore && (
-        <div ref={loader} className="h-10 flex items-center justify-center">
-          {loading && <span className="text-sm text-gray-500">로딩중...</span>}
-        </div>
-      )}
     </div>
   );
 } 

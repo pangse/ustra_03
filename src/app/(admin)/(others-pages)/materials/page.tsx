@@ -182,31 +182,29 @@ export default function MaterialsPage() {
   );
 
   return (
-    <div className="container mx-auto p-6 bg-gray-50 min-h-screen">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">자산 관리</h1>
-        <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={() => { setPage(1); fetchMaterials(1); }}
-            className="px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-md hover:bg-gray-100"
-            disabled={loading}
-          >
-            {loading ? '로딩 중...' : '조회'}
-          </button>
-          <button
-            type="button"
-            onClick={handleRegisterClick}
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
-            disabled={loading}
-          >
-            자산 등록
-          </button>
-        </div>
+    <div className="p-4">
+      <h1 className="text-xl font-semibold mb-4">자산 관리</h1>
+      <div className="mb-4 flex gap-2">
+        <button
+          type="button"
+          onClick={() => { setPage(1); fetchMaterials(1); }}
+          className="border p-2 rounded bg-white text-sm"
+          disabled={loading}
+        >
+          {loading ? '로딩 중...' : '조회'}
+        </button>
+        <button
+          type="button"
+          onClick={handleRegisterClick}
+          className="border p-2 rounded bg-white text-sm"
+          disabled={loading}
+        >
+          자산 등록
+        </button>
       </div>
 
       {error && (
-        <div className="mb-4 p-4 bg-red-50 text-red-600 rounded">
+        <div className="mb-4 p-4 border border-red-300 bg-red-50 text-red-700 rounded">
           {error}
         </div>
       )}
@@ -218,13 +216,13 @@ export default function MaterialsPage() {
           value={filter.name}
           onChange={handleFilterChange}
           placeholder="자산명 검색"
-          className="px-4 py-2 border rounded-md bg-white"
+          className="border rounded p-2 text-sm bg-white"
         />
         <select
           name="categoryId"
           value={filter.categoryId}
           onChange={handleFilterChange}
-          className="px-4 py-2 border rounded-md bg-white"
+          className="border rounded p-2 text-sm bg-white"
         >
           <option value="">카테고리 전체</option>
           {categories.map(c => (
@@ -235,7 +233,7 @@ export default function MaterialsPage() {
           name="locationId"
           value={filter.locationId}
           onChange={handleFilterChange}
-          className="px-4 py-2 border rounded-md bg-white"
+          className="border rounded p-2 text-sm bg-white"
         >
           <option value="">위치 전체</option>
           {locations.map(l => (
@@ -246,7 +244,7 @@ export default function MaterialsPage() {
           name="handlerId"
           value={filter.handlerId}
           onChange={handleFilterChange}
-          className="px-4 py-2 border rounded-md bg-white"
+          className="border rounded p-2 text-sm bg-white"
         >
           <option value="">담당자 전체</option>
           {users.map(u => (
@@ -256,25 +254,25 @@ export default function MaterialsPage() {
         <button 
           type="button" 
           onClick={() => { setPage(1); fetchMaterials(1); }}
-          className="px-4 py-2 text-sm font-medium bg-white border border-gray-300 rounded-md hover:bg-gray-100"
+          className="border p-2 rounded bg-white text-sm"
           disabled={loading}
         >
           초기화
         </button>
       </form>
 
-      <div className="bg-white rounded-lg shadow overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-200">
+      <div className="overflow-x-auto">
+        <table className="min-w-full border text-sm bg-white">
           <thead>
-            <tr className="bg-gray-100">
-              <th className="px-4 py-2 border">자산명</th>
-              <th className="px-4 py-2 border">카테고리</th>
-              <th className="px-4 py-2 border">위치</th>
-              <th className="px-4 py-2 border">담당자</th>
-              <th className="px-4 py-2 border">RFID</th>
-              <th className="px-4 py-2 border">수량</th>
-              <th className="px-4 py-2 border">상태</th>
-              <th className="px-4 py-2 border">관리</th>
+            <tr>
+              <th className="border px-4 py-2">자산명</th>
+              <th className="border px-4 py-2">카테고리</th>
+              <th className="border px-4 py-2">위치</th>
+              <th className="border px-4 py-2">담당자</th>
+              <th className="border px-4 py-2">RFID</th>
+              <th className="border px-4 py-2">수량</th>
+              <th className="border px-4 py-2">상태</th>
+              <th className="border px-4 py-2">관리</th>
             </tr>
           </thead>
           <tbody>
@@ -288,21 +286,21 @@ export default function MaterialsPage() {
               </tr>
             ) : (
               filteredMaterials.map(m => (
-                <tr key={m.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-2 border">{m.name}</td>
-                  <td className="px-4 py-2 border">{m.category?.name || '-'}</td>
-                  <td className="px-4 py-2 border">{m.location?.name || '-'}</td>
-                  <td className="px-4 py-2 border">{m.handler?.name || '-'}</td>
-                  <td className="px-4 py-2 border">{m.rfid_tag}</td>
-                  <td className="px-4 py-2 border">{m.quantity}</td>
-                  <td className="px-4 py-2 border">{m.status}</td>
-                  <td className="px-4 py-2 border">
+                <tr key={m.id}>
+                  <td className="border px-4 py-2">{m.name}</td>
+                  <td className="border px-4 py-2">{m.category?.name || '-'}</td>
+                  <td className="border px-4 py-2">{m.location?.name || '-'}</td>
+                  <td className="border px-4 py-2">{m.handler?.name || '-'}</td>
+                  <td className="border px-4 py-2">{m.rfid_tag}</td>
+                  <td className="border px-4 py-2">{m.quantity}</td>
+                  <td className="border px-4 py-2">{m.status}</td>
+                  <td className="border px-4 py-2">
                     <div className="flex gap-2">
                       <button
                         type="button"
                         onClick={() => handleEdit(m)}
                         disabled={loading}
-                        className="text-blue-600 hover:text-blue-700 focus:outline-none"
+                        className="text-blue-600 hover:underline"
                       >
                         수정
                       </button>
@@ -310,7 +308,7 @@ export default function MaterialsPage() {
                         type="button"
                         onClick={() => handleDelete(m.id)}
                         disabled={loading}
-                        className="text-red-600 hover:text-red-700 focus:outline-none"
+                        className="text-red-600 hover:underline"
                       >
                         삭제
                       </button>
