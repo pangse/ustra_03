@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
 
 interface Material {
-  id: string;
+  id: number;
   name: string;
-  category?: { id: number; name: string };
+  category?: { name: string };
+  location?: { name: string };
   brand?: string;
   model?: string;
   serial?: string;
@@ -18,17 +19,13 @@ interface User {
 }
 
 interface RentalRequest {
-  id: string;
-  materialId: string;
-  userId: string;
+  id: number;
   startDate: string;
   endDate: string;
   purpose: string;
-  request: string;
   status: string;
-  rejectReason?: string;
+  arrivalDate: string;
   material: Material;
-  user: User;
 }
 
 export default function RentalManagementPage() {
@@ -47,12 +44,12 @@ export default function RentalManagementPage() {
     const fetchRentalRequests = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/api/rental-requests');
+        const response = await fetch('/api/rental-requests/my');
         if (!response.ok) {
           throw new Error('대여 요청 목록을 불러오는데 실패했습니다.');
         }
         const data = await response.json();
-        setRentalRequests(data.rentalRequests || []);
+        setRentalRequests(data.requests || []);
       } catch (err) {
         console.error('Error fetching rental requests:', err);
         setError(err instanceof Error ? err.message : '데이터를 불러오는데 실패했습니다.');
@@ -112,8 +109,8 @@ export default function RentalManagementPage() {
 
   const filteredRequests = rentalRequests.filter(request => {
     if (filters.status && request.status !== filters.status) return false;
-    if (filters.materialId && request.materialId !== filters.materialId) return false;
-    if (filters.userId && request.userId !== filters.userId) return false;
+    if (filters.materialId && request.material.id.toString() !== filters.materialId) return false;
+    if (filters.userId && request.material.location?.name !== filters.userId) return false;
     return true;
   });
 
@@ -168,7 +165,7 @@ export default function RentalManagementPage() {
                   {request.material?.name}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {request.user?.name}
+                  {request.material.location?.name}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {new Date(request.startDate).toLocaleDateString()} ~ {new Date(request.endDate).toLocaleDateString()}
@@ -177,7 +174,7 @@ export default function RentalManagementPage() {
                   {request.purpose}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {request.request}
+                  {request.arrivalDate}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {getStatusBadge(request.status)}
@@ -185,7 +182,7 @@ export default function RentalManagementPage() {
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   {request.status === 'APPROVED' && (
                     <button
-                      onClick={() => handleStatusChange(request.id, 'COMPLETED')}
+                      onClick={() => handleStatusChange(request.id.toString(), 'COMPLETED')}
                       className="text-blue-600 hover:text-blue-900"
                     >
                       반납 처리
