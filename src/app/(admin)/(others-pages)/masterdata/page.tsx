@@ -167,19 +167,19 @@ export default function MasterDataPage() {
         <table className="min-w-full border text-sm bg-white">
           <thead>
             <tr className="bg-gray-100">
-              <th className="border px-4 py-2 text-center">구분</th>
-              <th className="border px-4 py-2 text-center">이름</th>
-              <th className="border px-4 py-2 text-center">설명</th>
-              <th className="border px-4 py-2 text-center">관리</th>
+              <th className="border px-2 py-1 text-center">구분</th>
+              <th className="border px-2 py-1 text-center">이름</th>
+              <th className="border px-2 py-1 text-center">설명</th>
+              <th className="border px-2 py-1 text-center">관리</th>
             </tr>
           </thead>
           <tbody>
             {filteredData.map((item) => (
               <tr key={item.id}>
-                <td className="border px-4 py-2 text-center">{item.type}</td>
-                <td className="border px-4 py-2 text-center">{item.name}</td>
-                <td className="border px-4 py-2 text-center">{item.description}</td>
-                <td className="border px-4 py-2 text-center">
+                <td className="border px-2 py-1 text-center">{item.type}</td>
+                <td className="border px-2 py-1 text-center">{item.name}</td>
+                <td className="border px-2 py-1 text-center">{item.description}</td>
+                <td className="border px-2 py-1 text-center">
                   <div className="flex gap-2">
                     <button
                       type="button"

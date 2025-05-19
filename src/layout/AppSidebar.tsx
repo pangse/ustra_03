@@ -42,9 +42,9 @@ const navItems: NavItem[] = [
     name: "데이터 관리",
     subItems: [
       { name: "기준 데이터", path: "/masterdata", pro: false },
-      { name: "자산 관리 Type 1", path: "/materials", pro: false },
-      { name: "자산 관리 Type 2", path: "/materials/mock-management-page", pro: false },
-      { name: "자산 이력 관리", path: "/material-history", pro: false },
+      // { name: "자산 관리 Type 1", path: "/materials", pro: false },
+      { name: "자산 관리", path: "/materials/mock-management-page", pro: false },
+      // { name: "자산 이력 관리", path: "/material-history", pro: false },
       { name: "자산 유형 관리", path: "/asset-types", pro: false },
       { name: "자산 대여 관리", path: "/rental-management", pro: false },
       { name: "자산 이동 이력", path: "/asset-movement", pro: false },
@@ -53,18 +53,18 @@ const navItems: NavItem[] = [
   },
   {
     icon: <TableIcon />,
-    name: "사용자 관리",
+    name: "권한 관리",
     subItems: [
-      { name: "사용자 관리", path: "/users", pro: false },
+      { name: "권한 관리", path: "/users", pro: false },
     ],
   },
   {
     icon: <ListIcon />,
-    name: "RFID 관리",
+    name: "QR 관리",
     subItems: [
-      { name: "RFID 태그 등록", path: "/rfid/register", pro: false },
-      { name: "RFID 스캔", path: "/rfid/scan", pro: false },
-      { name: "RFID 이력", path: "/rfid/history", pro: false },
+      // { name: "QR 등록", path: "/rfid/register", pro: false },
+      // { name: "RFID 스캔", path: "/rfid/scan", pro: false },
+      // { name: "RFID 이력", path: "/rfid/history", pro: false },
     ],
   },
   {
@@ -78,7 +78,7 @@ const navItems: NavItem[] = [
     ],
   },
   {
-    icon: <BellIcon />,
+    icon: <ListIcon />,
     name: "알림 관리",
     subItems: [
       { name: "알림 목록", path: "/notifications", pro: false },

@@ -7,9 +7,12 @@ async function main() {
   
   // 1. 기존 데이터 삭제 (참조 순서 역순)
   console.log('Deleting existing data...');
+  await prisma.rfidHistory.deleteMany({});
   await prisma.materialHistory.deleteMany({});
+  await prisma.return.deleteMany({});
   await prisma.rental.deleteMany({});
   await prisma.rentalRequest.deleteMany({});
+  await prisma.rfidTag.deleteMany({});
   await prisma.materials.deleteMany({});
   await prisma.user.deleteMany({});
   await prisma.category.deleteMany({});
@@ -17,7 +20,462 @@ async function main() {
   await prisma.assetType.deleteMany({});
   console.log('Existing data deleted successfully');
 
-  // 2. 자산 유형(AssetType) 생성
+  // 2. 마스터 데이터 생성
+  console.log('Creating master data...');
+  
+  // 위치 데이터 생성
+  console.log('Creating location master data...');
+  const locations = await Promise.all([
+    prisma.masterData.create({
+      data: { 
+        type: '위치',
+        name: 'IT장비실',
+        description: 'IT 장비 보관실'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '위치',
+        name: '방송장비실',
+        description: '방송 장비 보관실'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '위치',
+        name: '음향장비실',
+        description: '음향 장비 보관실'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '위치',
+        name: '음악실',
+        description: '음악 장비 보관실'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '위치',
+        name: '조명장비실',
+        description: '조명 장비 보관실'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '위치',
+        name: '의상실',
+        description: '의상 보관실'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '위치',
+        name: '소품실',
+        description: '소품 보관실'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '위치',
+        name: '무대실',
+        description: '무대 장비 보관실'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '위치',
+        name: '연습실',
+        description: '연습 장비 보관실'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '위치',
+        name: '보관창고',
+        description: '일반 보관 창고'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '위치',
+        name: '임시보관실',
+        description: '임시 보관 공간'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '위치',
+        name: '수리실',
+        description: '장비 수리 공간'
+      }
+    })
+  ]);
+  console.log(`Created ${locations.length} location entries`);
+
+  // 부서 데이터 생성
+  console.log('Creating department master data...');
+  const departments = await Promise.all([
+    prisma.masterData.create({
+      data: { 
+        type: '부서',
+        name: '프로덕션',
+        description: '프로덕션 총괄'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '부서',
+        name: '관리팀',
+        description: '시스템 관리'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '부서',
+        name: 'IT팀',
+        description: 'IT 시스템 운영'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '부서',
+        name: '방송팀',
+        description: '방송 제작'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '부서',
+        name: '음향팀',
+        description: '음향 시스템 운영'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '부서',
+        name: '조명팀',
+        description: '조명 시스템 운영'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '부서',
+        name: '의상팀',
+        description: '의상 관리'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '부서',
+        name: '소품팀',
+        description: '소품 관리'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '부서',
+        name: '무대팀',
+        description: '무대 운영'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '부서',
+        name: '기획팀',
+        description: '프로그램 기획'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '부서',
+        name: '편집팀',
+        description: '영상 편집'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '부서',
+        name: '기술팀',
+        description: '기술 지원'
+      }
+    })
+  ]);
+  console.log(`Created ${departments.length} department entries`);
+
+  // 역할 데이터 생성
+  console.log('Creating role master data...');
+  const roles = await Promise.all([
+    prisma.masterData.create({
+      data: { 
+        type: '역할',
+        name: '관리자',
+        description: '시스템 관리자'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '역할',
+        name: '담당자',
+        description: '장비 담당자'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '역할',
+        name: '일반',
+        description: '일반 사용자'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '역할',
+        name: '팀장',
+        description: '팀 관리자'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '역할',
+        name: '매니저',
+        description: '프로젝트 매니저'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '역할',
+        name: '실장',
+        description: '실무 책임자'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '역할',
+        name: '감독',
+        description: '프로덕션 감독'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '역할',
+        name: '수퍼바이저',
+        description: '기술 감독'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '역할',
+        name: '코디네이터',
+        description: '업무 조율자'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '역할',
+        name: '어시스턴트',
+        description: '보조 담당자'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '역할',
+        name: '인턴',
+        description: '인턴십'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '역할',
+        name: '외부협력자',
+        description: '외부 협력자'
+      }
+    })
+  ]);
+  console.log(`Created ${roles.length} role entries`);
+
+  // 자산상태 데이터 생성
+  console.log('Creating asset status master data...');
+  const assetStatuses = await Promise.all([
+    prisma.masterData.create({
+      data: { 
+        type: '자산상태',
+        name: '정상',
+        description: '정상 사용 가능'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '자산상태',
+        name: '검수중',
+        description: '검수 진행 중'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '자산상태',
+        name: '수선중',
+        description: '수리 진행 중'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '자산상태',
+        name: '보관중',
+        description: '보관 상태'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '자산상태',
+        name: '임시보관',
+        description: '임시 보관 상태'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '자산상태',
+        name: '분실신고',
+        description: '분실 신고됨'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '자산상태',
+        name: '폐기완료',
+        description: '폐기 처리됨'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '자산상태',
+        name: '이관',
+        description: '다른 위치로 이관'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '자산상태',
+        name: '대여중',
+        description: '현재 대여 중'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '자산상태',
+        name: '예약중',
+        description: '대여 예약됨'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '자산상태',
+        name: '점검중',
+        description: '정기 점검 중'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '자산상태',
+        name: '교체예정',
+        description: '교체 예정'
+      }
+    })
+  ]);
+  console.log(`Created ${assetStatuses.length} asset status entries`);
+
+  // 사용자상태 데이터 생성
+  console.log('Creating user status master data...');
+  const userStatuses = await Promise.all([
+    prisma.masterData.create({
+      data: { 
+        type: '사용자상태',
+        name: '재직',
+        description: '현재 재직 중'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '사용자상태',
+        name: '휴직',
+        description: '휴직 중'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '사용자상태',
+        name: '퇴사',
+        description: '퇴사 처리됨'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '사용자상태',
+        name: '외부',
+        description: '외부 협력자'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '사용자상태',
+        name: '인턴',
+        description: '인턴십 중'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '사용자상태',
+        name: '계약직',
+        description: '계약직 근무'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '사용자상태',
+        name: '파견',
+        description: '파견 근무 중'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '사용자상태',
+        name: '교육중',
+        description: '교육 참여 중'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '사용자상태',
+        name: '휴가중',
+        description: '휴가 사용 중'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '사용자상태',
+        name: '출장중',
+        description: '출장 중'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '사용자상태',
+        name: '병가',
+        description: '병가 중'
+      }
+    }),
+    prisma.masterData.create({
+      data: { 
+        type: '사용자상태',
+        name: '훈련중',
+        description: '직무 훈련 중'
+      }
+    })
+  ]);
+  console.log(`Created ${userStatuses.length} user status entries`);
+
+  console.log('Master data creation completed');
+
+  // 3. 자산 유형(AssetType) 생성
   console.log('Creating asset types...');
   const assetTypes = await Promise.all([
     // IT 장비 유형
@@ -420,7 +878,7 @@ async function main() {
   ]);
   console.log('Created asset types:', assetTypes.length);
 
-  // 3. 카테고리(Category) 생성
+  // 4. 카테고리(Category) 생성
   console.log('Creating categories...');
   const categories = await Promise.all([
     // IT 장비 카테고리
@@ -481,298 +939,174 @@ async function main() {
   ]);
   console.log(`Created ${categories.length} categories`);
 
-  // 4. 위치(MasterData) 생성
-  console.log('Creating master data...');
-  
-  // 위치 데이터
-  const locations = [
-    { name: 'IT장비실', description: 'IT 장비 보관실' },
-    { name: '방송장비실', description: '방송 장비 보관실' },
-    { name: '음향장비실', description: '음향 장비 보관실' },
-    { name: '음악실', description: '음악 장비 보관실' },
-    { name: '조명장비실', description: '조명 장비 보관실' },
-    { name: '의상실', description: '의상 보관실' },
-    { name: '소품실', description: '소품 보관실' },
-    { name: '무대실', description: '무대 장비 보관실' },
-    { name: '연습실', description: '연습 장비 보관실' },
-    { name: '보관창고', description: '일반 보관 창고' },
-    { name: '임시보관실', description: '임시 보관 공간' },
-    { name: '수리실', description: '장비 수리 공간' }
-  ];
-
-  // 부서 데이터
-  const departments = [
-    { name: '프로덕션', description: '프로덕션 총괄' },
-    { name: '관리팀', description: '시스템 관리' },
-    { name: 'IT팀', description: 'IT 시스템 운영' },
-    { name: '방송팀', description: '방송 제작' },
-    { name: '음향팀', description: '음향 시스템 운영' },
-    { name: '조명팀', description: '조명 시스템 운영' },
-    { name: '의상팀', description: '의상 관리' },
-    { name: '소품팀', description: '소품 관리' },
-    { name: '무대팀', description: '무대 운영' },
-    { name: '기획팀', description: '프로그램 기획' },
-    { name: '편집팀', description: '영상 편집' },
-    { name: '기술팀', description: '기술 지원' }
-  ];
-
-  // 역할 데이터
-  const roles = [
-    { name: '관리자', description: '시스템 관리자' },
-    { name: '담당자', description: '장비 담당자' },
-    { name: '일반', description: '일반 사용자' },
-    { name: '팀장', description: '팀 관리자' },
-    { name: '매니저', description: '프로젝트 매니저' },
-    { name: '실장', description: '실무 책임자' },
-    { name: '감독', description: '프로덕션 감독' },
-    { name: '수퍼바이저', description: '기술 감독' },
-    { name: '코디네이터', description: '업무 조율자' },
-    { name: '어시스턴트', description: '보조 담당자' },
-    { name: '인턴', description: '인턴십' },
-    { name: '외부협력자', description: '외부 협력자' }
-  ];
-
-  // 자산상태 데이터
-  const assetStatuses = [
-    { name: '정상', description: '정상 사용 가능' },
-    { name: '검수중', description: '검수 진행 중' },
-    { name: '수선중', description: '수리 진행 중' },
-    { name: '보관중', description: '보관 상태' },
-    { name: '임시보관', description: '임시 보관 상태' },
-    { name: '분실신고', description: '분실 신고됨' },
-    { name: '폐기완료', description: '폐기 처리됨' },
-    { name: '이관', description: '다른 위치로 이관' },
-    { name: '대여중', description: '현재 대여 중' },
-    { name: '예약중', description: '대여 예약됨' },
-    { name: '점검중', description: '정기 점검 중' },
-    { name: '교체예정', description: '교체 예정' }
-  ];
-
-  // 사용자상태 데이터
-  const userStatuses = [
-    { name: '재직', description: '현재 재직 중' },
-    { name: '휴직', description: '휴직 중' },
-    { name: '퇴사', description: '퇴사 처리됨' },
-    { name: '외부', description: '외부 협력자' },
-    { name: '인턴', description: '인턴십 중' },
-    { name: '계약직', description: '계약직 근무' },
-    { name: '파견', description: '파견 근무 중' },
-    { name: '교육중', description: '교육 참여 중' },
-    { name: '휴가중', description: '휴가 사용 중' },
-    { name: '출장중', description: '출장 중' },
-    { name: '병가', description: '병가 중' },
-    { name: '훈련중', description: '직무 훈련 중' }
-  ];
-
-  // 마스터데이터 생성
-  await Promise.all([
-    ...locations.map(data => 
-      prisma.masterData.create({
-        data: { 
-          type: '위치',
-          name: data.name,
-          description: data.description
-        }
-      })
-    ),
-    ...departments.map(data => 
-      prisma.masterData.create({
-        data: { 
-          type: '부서',
-          name: data.name,
-          description: data.description
-        }
-      })
-    ),
-    ...roles.map(data => 
-      prisma.masterData.create({
-        data: { 
-          type: '역할',
-          name: data.name,
-          description: data.description
-        }
-      })
-    ),
-    ...assetStatuses.map(data => 
-      prisma.masterData.create({
-        data: { 
-          type: '자산상태',
-          name: data.name,
-          description: data.description
-        }
-      })
-    ),
-    ...userStatuses.map(data => 
-      prisma.masterData.create({
-        data: { 
-          type: '사용자상태',
-          name: data.name,
-          description: data.description
-        }
-      })
-    ),
-  ]);
-  console.log('Created master data entries');
-
-  
   // 5. 사용자(User) 생성
   console.log('Creating users...');
   const testUsers = [];
-  // 김관리(id=2) upsert
+  
+  // 김관리 upsert
   const adminUser = await prisma.user.upsert({
-    where: { id: 2 },
+    where: { email: 'admin@example.com' },
     update: {},
     create: {
-      id: 2,
       name: '김관리',
       email: 'admin@example.com',
-      role: '관리자',
-      department: '관리팀',
+      role: roles.find(r => r.name === '관리자')?.name,
+      department: departments.find(d => d.name === '관리팀')?.name,
       phone_number: '010-1234-5678',
-      password: '1111',
-      status: '재직'
+      password: '1111'
     }
   });
   testUsers.push(adminUser);
 
   // IT팀
-  prisma.user.create({
+  const itTeamLead = await prisma.user.create({
     data: {
       name: '이IT',
       email: 'it@example.com',
-      role: '팀장',
-      department: 'IT팀',
+      role: roles.find(r => r.name === '팀장')?.name,
+      department: departments.find(d => d.name === 'IT팀')?.name,
       phone_number: '010-2345-6789',
-      password: '1111',
-      status: '재직'
+      password: '1111'
     },
   });
-  prisma.user.create({
+  testUsers.push(itTeamLead);
+
+  const itDev = await prisma.user.create({
     data: {
       name: '박개발',
       email: 'dev@example.com',
-      role: '담당자',
-      department: 'IT팀',
+      role: roles.find(r => r.name === '담당자')?.name,
+      department: departments.find(d => d.name === 'IT팀')?.name,
       phone_number: '010-3456-7890',
-      password: '1111',
-      status: '재직'
+      password: '1111'
     },
   });
+  testUsers.push(itDev);
+
   // 방송팀
-  prisma.user.create({
+  const broadcastLead = await prisma.user.create({
     data: {
       name: '최방송',
       email: 'broadcast@example.com',
-      role: '팀장',
-      department: '방송팀',
+      role: roles.find(r => r.name === '팀장')?.name,
+      department: departments.find(d => d.name === '방송팀')?.name,
       phone_number: '010-4567-8901',
-      password: '1111',
-      status: '재직'
+      password: '1111'
     },
   });
-  prisma.user.create({
+  testUsers.push(broadcastLead);
+
+  const cameraManager = await prisma.user.create({
     data: {
       name: '정카메라',
       email: 'camera@example.com',
-      role: '담당자',
-      department: '방송팀',
+      role: roles.find(r => r.name === '담당자')?.name,
+      department: departments.find(d => d.name === '방송팀')?.name,
       phone_number: '010-5678-9012',
-      password: '1111',
-      status: '재직'
+      password: '1111'
     },
   });
+  testUsers.push(cameraManager);
+
   // 음향팀
-  prisma.user.create({
+  const audioLead = await prisma.user.create({
     data: {
       name: '강음향',
       email: 'audio@example.com',
-      role: '팀장',
-      department: '음향팀',
+      role: roles.find(r => r.name === '팀장')?.name,
+      department: departments.find(d => d.name === '음향팀')?.name,
       phone_number: '010-6789-0123',
-      password: '1111',
-      status: '재직'
+      password: '1111'
     },
   });
-  prisma.user.create({
+  testUsers.push(audioLead);
+
+  const mixerManager = await prisma.user.create({
     data: {
       name: '윤믹서',
       email: 'mixer@example.com',
-      role: '담당자',
-      department: '음향팀',
+      role: roles.find(r => r.name === '담당자')?.name,
+      department: departments.find(d => d.name === '음향팀')?.name,
       phone_number: '010-7890-1234',
-      password: '1111',
-      status: '재직'
+      password: '1111'
     },
   });
+  testUsers.push(mixerManager);
+
   // 조명팀
-  prisma.user.create({
+  const lightLead = await prisma.user.create({
     data: {
       name: '임조명',
       email: 'light@example.com',
-      role: '팀장',
-      department: '조명팀',
+      role: roles.find(r => r.name === '팀장')?.name,
+      department: departments.find(d => d.name === '조명팀')?.name,
       phone_number: '010-8901-2345',
-      password: '1111',
-      status: '재직'
+      password: '1111'
     },
   });
-  prisma.user.create({
+  testUsers.push(lightLead);
+
+  const lightManager = await prisma.user.create({
     data: {
       name: '한라이트',
       email: 'light2@example.com',
-      role: '담당자',
-      department: '조명팀',
+      role: roles.find(r => r.name === '담당자')?.name,
+      department: departments.find(d => d.name === '조명팀')?.name,
       phone_number: '010-9012-3456',
-      password: '1111',
-      status: '재직'
+      password: '1111'
     },
   });
+  testUsers.push(lightManager);
+
   // 의상팀
-  prisma.user.create({
+  const costumeLead = await prisma.user.create({
     data: {
       name: '서의상',
       email: 'costume@example.com',
-      role: '팀장',
-      department: '의상팀',
+      role: roles.find(r => r.name === '팀장')?.name,
+      department: departments.find(d => d.name === '의상팀')?.name,
       phone_number: '010-0123-4567',
-      password: '1111',
-      status: '재직'
+      password: '1111'
     },
   });
-  prisma.user.create({
+  testUsers.push(costumeLead);
+
+  const styleManager = await prisma.user.create({
     data: {
       name: '신스타일',
       email: 'style@example.com',
-      role: '담당자',
-      department: '의상팀',
+      role: roles.find(r => r.name === '담당자')?.name,
+      department: departments.find(d => d.name === '의상팀')?.name,
       phone_number: '010-1234-5679',
-      password: '1111',
-      status: '재직'
+      password: '1111'
     },
   });
+  testUsers.push(styleManager);
+
   // 소품팀
-  prisma.user.create({
+  const propLead = await prisma.user.create({
     data: {
       name: '장소품',
       email: 'prop@example.com',
-      role: '팀장',
-      department: '소품팀',
+      role: roles.find(r => r.name === '팀장')?.name,
+      department: departments.find(d => d.name === '소품팀')?.name,
       phone_number: '010-2345-6780',
-      password: '1111',
-      status: '재직'
+      password: '1111'
     },
   });
-  prisma.user.create({
+  testUsers.push(propLead);
+
+  const designManager = await prisma.user.create({
     data: {
       name: '전디자인',
       email: 'design@example.com',
-      role: '담당자',
-      department: '소품팀',
+      role: roles.find(r => r.name === '담당자')?.name,
+      department: departments.find(d => d.name === '소품팀')?.name,
       phone_number: '010-3456-7891',
-      password: '1111',
-      status: '재직'
+      password: '1111'
     },
   });
+  testUsers.push(designManager);
 
   console.log(`Created ${testUsers.length} test users`);
 
@@ -782,11 +1116,11 @@ async function main() {
     {
       name: 'MacBook Pro 16"',
       categoryName: '컴퓨터',
-      locationIdx: 0,
-      handlerIdx: 1,
+      locationId: locations[0].id,
+      handlerId: testUsers[1].id,
       quantity: 100,
       rfid_tag: 'RFID001',
-      status: '정상',
+      status: assetStatuses.find(s => s.name === '정상')?.name,
       assetTypeCode: 'IT_COMPUTER',
       brand: 'Apple',
       it_model: 'MacBook Pro 16"',
@@ -801,11 +1135,11 @@ async function main() {
     {
       name: 'MacBook Air M2',
       categoryName: '컴퓨터',
-      locationIdx: 0,
-      handlerIdx: 1,
+      locationId: locations[0].id,
+      handlerId: testUsers[1].id,
       quantity: 100,
       rfid_tag: 'RFID002',
-      status: '정상',
+      status: assetStatuses.find(s => s.name === '정상')?.name,
       assetTypeCode: 'IT_COMPUTER',
       brand: 'Apple',
       it_model: 'MacBook Air M2',
@@ -817,227 +1151,194 @@ async function main() {
       screen_size: '13.6"',
       mac_address: '00:11:22:33:44:56',
     },
-    prisma.materials.create({
-      data: {
-        name: 'iPad Pro 12.9"',
-        categoryId: categories.find(cat => cat.name === '컴퓨터').id,
-        locationId: locations[0].id,
-        handlerId: testUsers[1].id,
-        quantity: 100,
-        rfid_tag: 'RFID003',
-        status: '정상',
-        assetTypeId: assetTypes.find(type => type.typeCode === 'IT_MOBILE').id,
-        brand: 'Apple',
-        it_model: 'iPad Pro 12.9"',
-        serial: 'IPAD2023',
-        os: 'iPadOS',
-        storage: '256GB',
-        screen_size: '12.9"',
-        etc: 'Apple Pencil 2세대 포함',
-      },
-    }),
-    // 방송 장비
-    prisma.materials.create({
-      data: {
-        name: 'Sony A7III 카메라',
-        categoryId: categories.find(cat => cat.name === '카메라').id,
-        locationId: locations[1].id,
-        handlerId: testUsers[3].id,
-        quantity: 100,
-        rfid_tag: 'RFID004',
-        status: '정상',
-        assetTypeId: assetTypes.find(type => type.typeCode === 'BROADCAST_CAMERA').id,
-        brand: 'Sony',
-        it_model: 'A7III',
-        serial: 'SN123456',
-        resolution: '4K',
-        etc: '24-70mm 렌즈 포함',
-      },
-    }),
-    prisma.materials.create({
-      data: {
-        name: 'DJI RS3 Pro 짐벌',
-        categoryId: categories.find(cat => cat.name === '카메라').id,
-        locationId: locations[1].id,
-        handlerId: testUsers[3].id,
-        quantity: 100,
-        rfid_tag: 'RFID005',
-        status: '정상',
-        assetTypeId: assetTypes.find(type => type.typeCode === 'BROADCAST_ACCESSORY').id,
-        brand: 'DJI',
-        it_model: 'RS3 Pro',
-        serial: 'DJI789012',
-        etc: '배터리 2개 포함',
-      },
-    }),
-    prisma.materials.create({
-      data: {
-        name: 'DJI Mini 3 Pro 드론',
-        categoryId: categories.find(cat => cat.name === '카메라').id,
-        locationId: locations[1].id,
-        handlerId: testUsers[3].id,
-        quantity: 100,
-        rfid_tag: 'RFID006',
-        status: '정상',
-        assetTypeId: assetTypes.find(type => type.typeCode === 'BROADCAST_DRONE').id,
-        brand: 'DJI',
-        it_model: 'Mini 3 Pro',
-        serial: 'DJI345678',
-        etc: '배터리 3개, 충전기 포함',
-      },
-    }),
-    // 음향 장비
-    prisma.materials.create({
-      data: {
-        name: 'Shure SM7B 마이크',
-        categoryId: categories.find(cat => cat.name === '마이크').id,
-        locationId: locations[2].id,
-        handlerId: testUsers[5].id,
-        quantity: 100,
-        rfid_tag: 'RFID007',
-        status: '정상',
-        assetTypeId: assetTypes.find(type => type.typeCode === 'AUDIO_MIC').id,
-        brand: 'Shure',
-        it_model: 'SM7B',
-        serial: 'SH789012',
-        etc: '마이크 스탠드 포함',
-      },
-    }),
-    prisma.materials.create({
-      data: {
-        name: 'Yamaha MG10XU 믹서',
-        categoryId: categories.find(cat => cat.name === '마이크').id,
-        locationId: locations[2].id,
-        handlerId: testUsers[5].id,
-        quantity: 100,
-        rfid_tag: 'RFID008',
-        status: '정상',
-        assetTypeId: assetTypes.find(type => type.typeCode === 'AUDIO_MIXER').id,
-        brand: 'Yamaha',
-        it_model: 'MG10XU',
-        serial: 'YM123456',
-        etc: 'USB 케이블, 전원 어댑터 포함',
-      },
-    }),
-    prisma.materials.create({
-      data: {
-        name: 'KRK Rokit 5 G4 모니터 스피커',
-        categoryId: categories.find(cat => cat.name === '마이크').id,
-        locationId: locations[2].id,
-        handlerId: testUsers[5].id,
-        quantity: 100,
-        rfid_tag: 'RFID009',
-        status: '정상',
-        assetTypeId: assetTypes.find(type => type.typeCode === 'AUDIO_SPEAKER').id,
-        brand: 'KRK',
-        it_model: 'Rokit 5 G4',
-        serial: 'KRK789012',
-        etc: '스피커 스탠드 포함',
-      },
-    }),
-    // 조명 장비
-    prisma.materials.create({
-      data: {
-        name: 'Aputure 300D Mark II LED 조명',
-        categoryId: categories.find(cat => cat.name === 'LED조명').id,
-        locationId: locations[3].id,
-        handlerId: testUsers[7].id,
-        quantity: 100,
-        rfid_tag: 'RFID010',
-        status: '정상',
-        assetTypeId: assetTypes.find(type => type.typeCode === 'LIGHT_LED').id,
-        brand: 'Aputure',
-        it_model: '300D Mark II',
-        serial: 'AP123456',
-        etc: '소프트박스 포함',
-      },
-    }),
-    prisma.materials.create({
-      data: {
-        name: 'Godox SL-60W LED 조명',
-        categoryId: categories.find(cat => cat.name === 'LED조명').id,
-        locationId: locations[3].id,
-        handlerId: testUsers[7].id,
-        quantity: 100,
-        rfid_tag: 'RFID011',
-        status: '정상',
-        assetTypeId: assetTypes.find(type => type.typeCode === 'LIGHT_LED').id,
-        brand: 'Godox',
-        it_model: 'SL-60W',
-        serial: 'GD789012',
-        etc: '조명 스탠드 포함',
-      },
-    }),
-    // 의상
-    prisma.materials.create({
-      data: {
-        name: '검은색 정장',
-        categoryId: categories.find(cat => cat.name === '정장').id,
-        locationId: locations[4].id,
-        handlerId: testUsers[9].id,
-        quantity: 100,
-        rfid_tag: 'RFID012',
-        status: '정상',
-        assetTypeId: assetTypes.find(type => type.typeCode === 'COSTUME_TOP').id,
-        size: 'L',
-        color: '검정',
-      },
-    }),
-    prisma.materials.create({
-      data: {
-        name: '흰색 셔츠',
-        categoryId: categories.find(cat => cat.name === '정장').id,
-        locationId: locations[4].id,
-        handlerId: testUsers[9].id,
-        quantity: 100,
-        rfid_tag: 'RFID013',
-        status: '정상',
-        assetTypeId: assetTypes.find(type => type.typeCode === 'COSTUME_TOP').id,
-        size: 'M',
-        color: '흰색',
-      },
-    }),
-    prisma.materials.create({
-      data: {
-        name: '검은색 구두',
-        categoryId: categories.find(cat => cat.name === '신발').id,
-        locationId: locations[4].id,
-        handlerId: testUsers[9].id,
-        quantity: 100,
-        rfid_tag: 'RFID014',
-        status: '정상',
-        assetTypeId: assetTypes.find(type => type.typeCode === 'COSTUME_SHOES').id,
-        size: '270',
-        color: '검정',
-      },
-    }),
-    // 소품
-    prisma.materials.create({
-      data: {
-        name: '무대 의자',
-        categoryId: categories.find(cat => cat.name === '가구').id,
-        locationId: locations[5].id,
-        handlerId: testUsers[11].id,
-        quantity: 100,
-        rfid_tag: 'RFID015',
-        status: '정상',
-        assetTypeId: assetTypes.find(type => type.typeCode === 'PROP_FURNITURE').id,
-        etc: '접이식 의자',
-      },
-    }),
-    prisma.materials.create({
-      data: {
-        name: '무대 테이블',
-        categoryId: categories.find(cat => cat.name === '가구').id,
-        locationId: locations[5].id,
-        handlerId: testUsers[11].id,
-        quantity: 100,
-        rfid_tag: 'RFID016',
-        status: '정상',
-        assetTypeId: assetTypes.find(type => type.typeCode === 'PROP_FURNITURE').id,
-        etc: '접이식 테이블',
-      },
-    }),
+    {
+      name: 'iPad Pro 12.9"',
+      categoryName: '컴퓨터',
+      locationId: locations[0].id,
+      handlerId: testUsers[1].id,
+      quantity: 100,
+      rfid_tag: 'RFID003',
+      status: assetStatuses.find(s => s.name === '정상')?.name,
+      assetTypeCode: 'IT_MOBILE',
+      brand: 'Apple',
+      it_model: 'iPad Pro 12.9"',
+      serial: 'IPAD2023',
+      os: 'iPadOS',
+      storage: '256GB',
+      screen_size: '12.9"',
+      etc: 'Apple Pencil 2세대 포함',
+    },
+    {
+      name: 'Sony A7III 카메라',
+      categoryName: '카메라',
+      locationId: locations[1].id,
+      handlerId: testUsers[3].id,
+      quantity: 100,
+      rfid_tag: 'RFID004',
+      status: assetStatuses.find(s => s.name === '정상')?.name,
+      assetTypeCode: 'BROADCAST_CAMERA',
+      brand: 'Sony',
+      it_model: 'A7III',
+      serial: 'SN123456',
+      resolution: '4K',
+      etc: '24-70mm 렌즈 포함',
+    },
+    {
+      name: 'DJI RS3 Pro 짐벌',
+      categoryName: '카메라',
+      locationId: locations[1].id,
+      handlerId: testUsers[3].id,
+      quantity: 100,
+      rfid_tag: 'RFID005',
+      status: assetStatuses.find(s => s.name === '정상')?.name,
+      assetTypeCode: 'BROADCAST_ACCESSORY',
+      brand: 'DJI',
+      it_model: 'RS3 Pro',
+      serial: 'DJI789012',
+      etc: '배터리 2개 포함',
+    },
+    {
+      name: 'DJI Mini 3 Pro 드론',
+      categoryName: '카메라',
+      locationId: locations[1].id,
+      handlerId: testUsers[3].id,
+      quantity: 100,
+      rfid_tag: 'RFID006',
+      status: assetStatuses.find(s => s.name === '정상')?.name,
+      assetTypeCode: 'BROADCAST_DRONE',
+      brand: 'DJI',
+      it_model: 'Mini 3 Pro',
+      serial: 'DJI345678',
+      etc: '배터리 3개, 충전기 포함',
+    },
+    {
+      name: 'Shure SM7B 마이크',
+      categoryName: '마이크',
+      locationId: locations[2].id,
+      handlerId: testUsers[5].id,
+      quantity: 100,
+      rfid_tag: 'RFID007',
+      status: assetStatuses.find(s => s.name === '정상')?.name,
+      assetTypeCode: 'AUDIO_MIC',
+      brand: 'Shure',
+      it_model: 'SM7B',
+      serial: 'SH789012',
+      etc: '마이크 스탠드 포함',
+    },
+    {
+      name: 'Yamaha MG10XU 믹서',
+      categoryName: '마이크',
+      locationId: locations[2].id,
+      handlerId: testUsers[5].id,
+      quantity: 100,
+      rfid_tag: 'RFID008',
+      status: assetStatuses.find(s => s.name === '정상')?.name,
+      assetTypeCode: 'AUDIO_MIXER',
+      brand: 'Yamaha',
+      it_model: 'MG10XU',
+      serial: 'YM123456',
+      etc: 'USB 케이블, 전원 어댑터 포함',
+    },
+    {
+      name: 'KRK Rokit 5 G4 모니터 스피커',
+      categoryName: '마이크',
+      locationId: locations[2].id,
+      handlerId: testUsers[5].id,
+      quantity: 100,
+      rfid_tag: 'RFID009',
+      status: assetStatuses.find(s => s.name === '정상')?.name,
+      assetTypeCode: 'AUDIO_SPEAKER',
+      brand: 'KRK',
+      it_model: 'Rokit 5 G4',
+      serial: 'KRK789012',
+      etc: '스피커 스탠드 포함',
+    },
+    {
+      name: 'Aputure 300D Mark II LED 조명',
+      categoryName: 'LED조명',
+      locationId: locations[3].id,
+      handlerId: testUsers[7].id,
+      quantity: 100,
+      rfid_tag: 'RFID010',
+      status: assetStatuses.find(s => s.name === '정상')?.name,
+      assetTypeCode: 'LIGHT_LED',
+      brand: 'Aputure',
+      it_model: '300D Mark II',
+      serial: 'AP123456',
+      etc: '소프트박스 포함',
+    },
+    {
+      name: 'Godox SL-60W LED 조명',
+      categoryName: 'LED조명',
+      locationId: locations[3].id,
+      handlerId: testUsers[7].id,
+      quantity: 100,
+      rfid_tag: 'RFID011',
+      status: assetStatuses.find(s => s.name === '정상')?.name,
+      assetTypeCode: 'LIGHT_LED',
+      brand: 'Godox',
+      it_model: 'SL-60W',
+      serial: 'GD789012',
+      etc: '조명 스탠드 포함',
+    },
+    {
+      name: '검은색 정장',
+      categoryName: '정장',
+      locationId: locations[4].id,
+      handlerId: testUsers[9].id,
+      quantity: 100,
+      rfid_tag: 'RFID012',
+      status: assetStatuses.find(s => s.name === '정상')?.name,
+      assetTypeCode: 'COSTUME_TOP',
+      size: 'L',
+      color: '검정',
+    },
+    {
+      name: '흰색 셔츠',
+      categoryName: '정장',
+      locationId: locations[4].id,
+      handlerId: testUsers[9].id,
+      quantity: 100,
+      rfid_tag: 'RFID013',
+      status: assetStatuses.find(s => s.name === '정상')?.name,
+      assetTypeCode: 'COSTUME_TOP',
+      size: 'M',
+      color: '흰색',
+    },
+    {
+      name: '검은색 구두',
+      categoryName: '신발',
+      locationId: locations[4].id,
+      handlerId: testUsers[9].id,
+      quantity: 100,
+      rfid_tag: 'RFID014',
+      status: assetStatuses.find(s => s.name === '정상')?.name,
+      assetTypeCode: 'COSTUME_SHOES',
+      size: '270',
+      color: '검정',
+    },
+    {
+      name: '무대 의자',
+      categoryName: '가구',
+      locationId: locations[5].id,
+      handlerId: testUsers[11].id,
+      quantity: 100,
+      rfid_tag: 'RFID015',
+      status: assetStatuses.find(s => s.name === '정상')?.name,
+      assetTypeCode: 'PROP_FURNITURE',
+      etc: '접이식 의자',
+    },
+    {
+      name: '무대 테이블',
+      categoryName: '가구',
+      locationId: locations[5].id,
+      handlerId: testUsers[11].id,
+      quantity: 100,
+      rfid_tag: 'RFID016',
+      status: assetStatuses.find(s => s.name === '정상')?.name,
+      assetTypeCode: 'PROP_FURNITURE',
+      etc: '접이식 테이블',
+    },
   ];
 
   // materialSeedData만 사용하여 자산 및 RFID 태그 생성
@@ -1049,16 +1350,59 @@ async function main() {
     const rfidTagValue = data.rfid_tag ? `${data.rfid_tag}-${idx+1}` : `RFID-TAG-${idx+1}`;
     const macAddressValue = data.mac_address ? `${data.mac_address}-${idx+1}` : `AUTO-MAC-${idx+1}`;
 
+    // 카테고리와 자산 유형 찾기
+    const category = categories.find(cat => cat.name === data.categoryName);
+    const assetType = assetTypes.find(type => type.typeCode === data.assetTypeCode);
+
+    if (!category) {
+      console.error(`Category not found for material: ${data.name}`);
+      continue;
+    }
+
+    if (!assetType) {
+      console.error(`Asset type not found for material: ${data.name}`);
+      continue;
+    }
+
     const material = await prisma.materials.create({
       data: {
-        ...data,
-        categoryId: categories.find(cat => cat.name === data.categoryName).id,
-        locationId: locations[data.locationIdx].id,
-        handlerId: testUsers[data.handlerIdx] ? testUsers[data.handlerIdx].id : testUsers[0].id,
-        assetTypeId: assetTypes.find(type => type.typeCode === data.assetTypeCode).id,
-        serial: serialValue,
+        name: data.name,
+        category: {
+          connect: {
+            id: category.id
+          }
+        },
+        location: {
+          connect: {
+            id: data.locationId
+          }
+        },
+        handler: {
+          connect: {
+            id: data.handlerId
+          }
+        },
+        quantity: data.quantity,
         rfid_tag: rfidTagValue,
+        status: data.status,
+        assetType: {
+          connect: {
+            id: assetType.id
+          }
+        },
+        brand: data.brand,
+        it_model: data.it_model,
+        serial: serialValue,
+        os: data.os,
+        cpu: data.cpu,
+        ram: data.ram,
+        storage: data.storage,
+        screen_size: data.screen_size,
         mac_address: macAddressValue,
+        resolution: data.resolution,
+        size: data.size,
+        color: data.color,
+        etc: data.etc
       }
     });
     materials.push(material);
@@ -1066,7 +1410,11 @@ async function main() {
     const rfidTag = await prisma.rfidTag.create({
       data: {
         tag: rfidTagValue,
-        materialId: material.id,
+        material: {
+          connect: {
+            id: material.id
+          }
+        }
       }
     });
     rfidTags.push(rfidTag);
@@ -1078,6 +1426,7 @@ async function main() {
     const now = new Date();
     const end = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000);
     const user = testUsers[material.handlerId-1] || testUsers[0];
+    
     // RentalRequest
     const request = await prisma.rentalRequest.create({
       data: {
@@ -1091,6 +1440,7 @@ async function main() {
         status: 'APPROVED',
       }
     });
+    
     // Rental
     const rental = await prisma.rental.create({
       data: {
@@ -1102,17 +1452,19 @@ async function main() {
         memo: '자동 생성',
       }
     });
+    
     // Return
     const ret = await prisma.return.create({
       data: {
         rentalRequestId: request.id,
         materialId: material.id,
-        returnLocation: '테스트 위치',
+        returnLocation: locations[0].name,
         returnDate: end,
         status: 'NORMAL',
         statusDescription: '테스트 반납',
       }
     });
+    
     // MaterialHistory 입고/출고
     await prisma.materialHistory.create({
       data: {
@@ -1124,6 +1476,7 @@ async function main() {
         date: now,
       }
     });
+    
     await prisma.materialHistory.create({
       data: {
         materialId: material.id,
@@ -1134,6 +1487,7 @@ async function main() {
         date: end,
       }
     });
+    
     // RFID 이력
     await prisma.rfidHistory.create({
       data: {
@@ -1143,6 +1497,7 @@ async function main() {
         timestamp: now,
       }
     });
+    
     await prisma.rfidHistory.create({
       data: {
         rfidTag: rfidTags[idx].tag,

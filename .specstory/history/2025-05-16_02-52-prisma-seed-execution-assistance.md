@@ -13048,7 +13048,22 @@ Read file: next.config.ts
 이제 항상 빌드 시 ESLint(린트) 검사를 무시하도록 설정했습니다.
 
 - `next.config.ts`에 `eslint: { ignoreDuringBuilds: true }` 옵션이 추가되었습니다.
-- 앞으로 `npm run build`를 실행해도 린트 오류/경고 때문에 빌드가 중단되지
+- 앞으로 `npm run build`를 실행해도 린트 오류/경고 때문에 빌드가 중단되지 않습니다.
+
+이제 빌드를 진행하셔도 됩니다.  
+추가로 궁금한 점이나 요청이 있으시면 말씀해 주세요!
+
+---
+
+_**User**_
+
+@schema.prisma @seed.cjs  프리스마를 초기화 하고 시드파일을 적용해줘
+
+---
+
+_**Assistant**_
+
+
 
 ---
 

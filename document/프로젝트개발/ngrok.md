@@ -1,11 +1,15 @@
 otpauth://totp/ngrok:songutuv@gmail.com?algorithm=SHA1&digits=6&issuer=ngrok&period=30&secret=B3U2EKEA2PII5AYX3SKSMPG6VCZ3LE7K
 
 
+npm install -g ngrok
+
 
 ngrok config add-authtoken 2xFhvOwxHVIOMSoUBedj0YMcBRY_jTNDL5UxxEjfTPEMXbjR
 
 1. 사이트 접속 
    https://dashboard.ngrok.com/get-started/setup/windows
+
+ngrok http 3000
 
 
 2. ngrok config 실행

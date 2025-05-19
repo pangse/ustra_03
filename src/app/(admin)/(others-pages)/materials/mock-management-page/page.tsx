@@ -49,16 +49,19 @@ const WAREHOUSES = ["서울 본사", "부산 지사", "도쿄 지사"];
 const STATUS = ["정상", "대여중", "수선중", "폐기완료"];
 
 const mockAssetsInit: Asset[] = [
-  { id: 1, rentalId: "R20240601-001", group: "의상", type: "무대의상", assetId: "C1000_10125", name: "루시 화이트 셋업", warehouse: "서울 본사", status: "정상", project: "광명 청소년 콘서트", requester: "이지수", arrivalDate: "2025-06-20", destination: "광명 아트홀", rentalPeriod: "2025.06.19~2025.06.22", stockQuantity: 10, requestedQuantity: 2 },
+  { id: 1, rentalId: "R20240601-001", group: "의상", type: "무대의상", assetId: "C1000_10125", name: "루시 화이트 셋업", warehouse: "서울 본사", status: "정상", project: "광명 청소년 콘서트", requester: "이지수", arrivalDate: "2025-04-20", destination: "광명 아트홀", rentalPeriod: "2025.06.19~2025.06.22", stockQuantity: 10, requestedQuantity: 2 },
   { id: 2, rentalId: "R20240601-002", group: "소품", type: "마이크", assetId: "P2000_20111", name: "무선 마이크 A", warehouse: "부산 지사", status: "대여중", project: "부산 뮤직 페스티벌", requester: "김철수", arrivalDate: "2025-07-01", destination: "부산 아트센터", rentalPeriod: "2025.06.30~2025.07.04", stockQuantity: 5, requestedQuantity: 1 },
-  { id: 3, rentalId: "R20240601-003", group: "IT장비", type: "노트북", assetId: "IT3000_30123", name: "맥북프로 16", warehouse: "서울 본사", status: "수선중", project: "서울 IT 컨퍼런스", requester: "박영희", arrivalDate: "2025-08-10", destination: "서울 코엑스", rentalPeriod: "2025.08.10~2025.08.14", stockQuantity: 3, requestedQuantity: 1 },
+  { id: 3, rentalId: "R20240601-003", group: "IT장비", type: "노트북", assetId: "IT3000_30123", name: "맥북프로 16", warehouse: "서울 본사", status: "수선중", project: "서울 IT 컨퍼런스", requester: "박영희", arrivalDate: "2025-04-10", destination: "서울 코엑스", rentalPeriod: "2025.08.10~2025.08.14", stockQuantity: 3, requestedQuantity: 1 },
   { id: 4, rentalId: "R20240601-004", group: "음향", type: "스피커", assetId: "A4000_40101", name: "JBL 스피커", warehouse: "도쿄 지사", status: "정상", project: "도쿄 재즈 나잇", requester: "이유진", arrivalDate: "2025-09-05", destination: "도쿄홀", rentalPeriod: "2025.09.05~2025.09.09", stockQuantity: 8, requestedQuantity: 4 },
   { id: 5, rentalId: "R20240601-005", group: "조명", type: "LED 조명", assetId: "L5000_50111", name: "LED 무대조명", warehouse: "부산 지사", status: "폐기완료", project: "부산 뮤직 페스티벌", requester: "최민수", arrivalDate: "2025-10-01", destination: "부산 체육관", rentalPeriod: "2025.10.01~2025.10.05", stockQuantity: 20, requestedQuantity: 10 },
-  { id: 6, rentalId: "R20240601-006", group: "의상", type: "무대의상", assetId: "C1000_10126", name: "블랙 퍼포먼스 슈트", warehouse: "서울 본사", status: "정상", project: "광명 청소년 콘서트", requester: "이지수", arrivalDate: "2025-06-20", destination: "광명 아트홀", rentalPeriod: "2025.06.19~2025.06.22", stockQuantity: 7, requestedQuantity: 1 },
+  { id: 6, rentalId: "R20240601-006", group: "의상", type: "무대의상", assetId: "C1000_10126", name: "블랙 퍼포먼스 슈트", warehouse: "서울 본사", status: "정상", project: "광명 청소년 콘서트", requester: "이지수", arrivalDate: "2025-05-10", destination: "광명 아트홀", rentalPeriod: "2025.06.19~2025.06.22", stockQuantity: 7, requestedQuantity: 1 },
   { id: 7, rentalId: "R20240601-007", group: "소품", type: "마이크", assetId: "P2000_20112", name: "유선 마이크 B", warehouse: "도쿄 지사", status: "대여중", project: "도쿄 재즈 나잇", requester: "이유진", arrivalDate: "2025-09-05", destination: "도쿄홀", rentalPeriod: "2025.09.05~2025.09.09", stockQuantity: 6, requestedQuantity: 2 },
   { id: 8, rentalId: "R20240601-008", group: "IT장비", type: "노트북", assetId: "IT3000_30124", name: "삼성 갤럭시북", warehouse: "부산 지사", status: "정상", project: "부산 뮤직 페스티벌", requester: "김철수", arrivalDate: "2025-07-01", destination: "부산 아트센터", rentalPeriod: "2025.06.30~2025.07.04", stockQuantity: 4, requestedQuantity: 1 },
   { id: 9, rentalId: "R20240601-009", group: "음향", type: "스피커", assetId: "A4000_40102", name: "BOSE 스피커", warehouse: "서울 본사", status: "수선중", project: "서울 IT 컨퍼런스", requester: "박영희", arrivalDate: "2025-08-10", destination: "서울 코엑스", rentalPeriod: "2025.08.10~2025.08.14", stockQuantity: 2, requestedQuantity: 1 },
-  { id: 10, rentalId: "R20240601-010", group: "조명", type: "LED 조명", assetId: "L5000_50112", name: "무빙라이트", warehouse: "도쿄 지사", status: "정상", project: "도쿄 재즈 나잇", requester: "이유진", arrivalDate: "2025-09-05", destination: "도쿄홀", rentalPeriod: "2025.09.05~2025.09.09", stockQuantity: 9, requestedQuantity: 3 }
+  { id: 10, rentalId: "R20240601-010", group: "조명", type: "LED 조명", assetId: "L5000_50112", name: "무빙라이트", warehouse: "도쿄 지사", status: "정상", project: "도쿄 재즈 나잇", requester: "이유진", arrivalDate: "2025-09-05", destination: "도쿄홀", rentalPeriod: "2025.09.05~2025.09.09", stockQuantity: 9, requestedQuantity: 3 },
+  { id: 11, rentalId: "R20240301-001", group: "의상", type: "무대의상", assetId: "C1000_10127", name: "레드 퍼포먼스 드레스", warehouse: "서울 본사", status: "대여중", project: "서울 봄 축제", requester: "김지원", arrivalDate: "2024-03-15", destination: "서울 올림픽공원", rentalPeriod: "2024.03.15~2024.03.20", stockQuantity: 5, requestedQuantity: 1 },
+  { id: 12, rentalId: "R20240301-002", group: "음향", type: "스피커", assetId: "A4000_40103", name: "소형 스피커 세트", warehouse: "부산 지사", status: "대여중", project: "부산 해변 축제", requester: "박해수", arrivalDate: "2024-03-10", destination: "부산 해운대", rentalPeriod: "2024.03.10~2024.03.15", stockQuantity: 3, requestedQuantity: 2 },
+  { id: 13, rentalId: "R20240301-003", group: "IT장비", type: "노트북", assetId: "IT3000_30125", name: "LG 그램", warehouse: "서울 본사", status: "대여중", project: "서울 스타트업 데모데이", requester: "이창업", arrivalDate: "2024-03-05", destination: "서울 강남", rentalPeriod: "2024.03.05~2024.03.10", stockQuantity: 2, requestedQuantity: 1 }
 ];
 
 const mockRepairLaundry: RepairLaundry[] = [
@@ -88,7 +91,7 @@ function getRemainingDays(rentalPeriod?: string) {
   const endDate = dayjs(end);
   if (!endDate.isValid()) return null;
   const diff = endDate.diff(today, "day");
-  if (diff >= 0) return { text: `D+${diff}`, overdue: false };
+  if (diff >= 0) return { text: `+${diff}`, overdue: false };
   else return { text: `${diff}`, overdue: true };
 }
 
@@ -113,6 +116,11 @@ export default function AssetManagementMockPage() {
   const [selectedCompletedRepair, setSelectedCompletedRepair] = useState<RepairLaundry | null>(null);
   const [returnedQuantity, setReturnedQuantity] = useState<number | null>(null);
   const [editForm, setEditForm] = useState<any>(null);
+  const [showReturnConfirm, setShowReturnConfirm] = useState(false);
+  const [returnConfirmData, setReturnConfirmData] = useState<{
+    requestedQuantity: number;
+    returnedQuantity: number;
+  } | null>(null);
 
   useEffect(() => {
     if (selectedAsset) {
@@ -166,9 +174,34 @@ export default function AssetManagementMockPage() {
     setForm({ group: GROUPS[0], type: TYPES[0], assetId: "", name: "", warehouse: WAREHOUSES[0], status: STATUS[0] });
   };
 
+  const handleReturnSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editForm) return;
+    
+    const remaining = editForm.requestedQuantity - editForm.returnedQuantity;
+    if (remaining > 0) {
+      setReturnConfirmData({
+        requestedQuantity: editForm.requestedQuantity,
+        returnedQuantity: editForm.returnedQuantity
+      });
+      setShowReturnConfirm(true);
+    } else {
+      // 전체 반납인 경우 바로 처리
+      handleReturnConfirm();
+    }
+  };
+
+  const handleReturnConfirm = () => {
+    // 여기에 실제 반납 처리 로직 추가
+    alert("반납 처리 완료");
+    setShowReturnConfirm(false);
+    setReturnConfirmData(null);
+    setSelectedAsset(null);
+  };
+
   return (
     <div className="p-6 bg-white rounded-lg shadow">
-      <h2 className="text-xl font-bold mb-4">자산 관리 2</h2>
+      <h2 className="text-xl font-bold mb-4">자산 관리</h2>
       {/* Tabs */}
       <div className="flex mb-4 space-x-2">
         <button
@@ -245,10 +278,10 @@ export default function AssetManagementMockPage() {
       {/* Buttons */}
       <div className="flex justify-end items-center mb-2 space-x-2">
         <button className="px-4 py-2 border rounded text-sm bg-white" onClick={() => setModal("excel-download")}>엑셀 양식 다운로드</button>
-        <button className="px-4 py-2 border rounded text-sm bg-blue-600 text-white" onClick={() => setModal("excel-upload")}>엑셀업로드</button>
-        <button className="px-4 py-2 border rounded text-sm bg-green-500 hover:bg-green-600 text-white" onClick={() => setModal("register")}>자산 등록</button>
+        <button className="px-4 py-2 border rounded text-sm bg-white" onClick={() => setModal("excel-upload")}>엑셀업로드</button>
+        <button className="px-4 py-2 border rounded text-sm bg-white" onClick={() => setModal("register")}>자산 등록</button>
         {activeTab === 'rental' && (
-          <button className="px-4 py-2 border rounded text-sm bg-yellow-400 hover:bg-yellow-500" onClick={() => {
+          <button className="px-4 py-2 border rounded text-sm bg-white" onClick={() => {
             const selected = assets.filter(a => checkedRental.includes(a.id));
             setSelectedAssets(selected);
             setRentalModalOpen(true);
@@ -257,7 +290,7 @@ export default function AssetManagementMockPage() {
           </button>
         )}
         {activeTab === 'repair' && (
-          <button className="px-4 py-2 border rounded text-sm bg-yellow-400 hover:bg-yellow-500" onClick={() => {
+          <button className="px-4 py-2 border rounded text-sm bg-white" onClick={() => {
             const selected = filteredRepair.filter(r => checkedRepair.includes(r.id));
             setSelectedRepairs(selected);
             setRepairModalOpen(true);
@@ -272,7 +305,7 @@ export default function AssetManagementMockPage() {
           <div className="bg-white rounded-lg p-6 min-w-[350px] max-w-[90vw]">
             <h2 className="text-lg font-bold mb-4">엑셀 양식 다운로드</h2>
             <div className="mb-4 text-gray-700">자산 등록/업로드용 샘플 엑셀 파일을 다운로드할 수 있습니다.</div>
-            <a href="#" download className="inline-block px-4 py-2 bg-blue-600 text-white rounded mb-4">샘플 엑셀 다운로드</a>
+            <a href="#" download className="inline-block px-4 py-2 text-gray rounded mb-4">샘플 엑셀 다운로드</a>
             <div className="flex gap-2 mt-2">
               <button type="button" className="border p-2 rounded bg-white text-sm" onClick={() => setModal(null)}>닫기</button>
             </div>
@@ -288,7 +321,7 @@ export default function AssetManagementMockPage() {
               <input type="file" accept=".xlsx,.xls,.csv" className="border rounded p-2 w-full" />
               <div className="text-xs text-gray-500">엑셀 파일을 선택 후 업로드하세요. (실제 업로드는 mock)</div>
               <div className="flex gap-2 mt-2">
-                <button type="button" className="border p-2 rounded bg-blue-600 text-white text-sm">업로드</button>
+                <button type="button" className="border p-2 rounded bg-white text-sm">업로드</button>
                 <button type="button" className="border p-2 rounded bg-white text-sm" onClick={() => setModal(null)}>취소</button>
               </div>
             </form>
@@ -334,7 +367,7 @@ export default function AssetManagementMockPage() {
                 </select>
               </div>
               <div className="flex gap-2 mt-2">
-                <button type="submit" className="border p-2 rounded bg-blue-600 text-white text-sm">저장</button>
+                <button type="submit" className="border p-2 rounded bg-white text-sm">저장</button>
                 <button type="button" className="border p-2 rounded bg-white text-sm" onClick={() => setModal(null)}>취소</button>
               </div>
             </form>
@@ -392,210 +425,167 @@ export default function AssetManagementMockPage() {
       )}
       {/* 데스크탑: 테이블 */}
       {activeTab === 'rental' && (
-        <div className="hidden md:flex md:flex-row md:gap-4">
-          <div className={selectedAsset ? "w-1/2 transition-all" : "w-full transition-all"}>
-            <table className="min-w-full border text-sm">
-              <thead>
-                <tr className="bg-gray-100">
-                  <th className="border px-4 py-2 w-8"></th>
-                  <th className="border px-4 py-2 text-center">대여ID</th>
-                  <th className="border px-4 py-2 text-center">자산 ID</th>
-                  <th className="border px-4 py-2 text-center">요청인</th>
-                  <th className="border px-4 py-2 text-center">도착 희망일</th>
-                  <th className="border px-4 py-2 text-center">대여지</th>
-                  <th className="border px-4 py-2 text-center">프로젝트</th>
-                  <th className="border px-4 py-2 text-center">대여기간</th>
-                  <th className="border px-4 py-2 text-center">잔여일수</th>
-                  <th className="border px-4 py-2 text-center">자산 이름</th>
-                  <th className="border px-4 py-2 text-center">자산 유형</th>
-                  <th className="border px-4 py-2 text-center">재고 수량</th>
-                  <th className="border px-4 py-2 text-center">요청 수량</th>
-                  <th className="border px-4 py-2 text-center">재고 위치</th>
-                  <th className="border px-4 py-2 text-center">상태</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.length === 0 ? (
-                  <tr>
-                    <td colSpan={15} className="text-center py-8 text-gray-400">
-                      조회된 데이터가 없습니다
-                    </td>
-                  </tr>
-                ) : (
-                  filtered.map((a, idx) => {
-                    const remain = getRemainingDays(a.rentalPeriod);
-                    return (
-                    <tr key={a.id} className={selectedAsset && selectedAsset.id === a.id ? "bg-yellow-50" : "cursor-pointer hover:bg-gray-50"} onClick={() => setSelectedAsset(a)}>
-                      <td className="border px-4 py-2 text-center" onClick={e => e.stopPropagation()}>
-                        <input type="checkbox"
-                          checked={checkedRental.includes(a.id)}
-                          disabled={a.status === '폐기완료' || a.status === '수선중'}
-                          onChange={e => {
-                            if (e.target.checked) setCheckedRental(prev => [...prev, a.id]);
-                            else setCheckedRental(prev => prev.filter(id => id !== a.id));
-                          }}
-                        />
-                      </td>
-                      <td className="border px-4 py-2 text-center">{a.rentalId}</td>
-                      <td className="border px-4 py-2 text-center">{a.assetId}</td>
-                      <td className="border px-4 py-2 text-center">{a.requester}</td>
-                      <td className="border px-4 py-2 text-center">{a.arrivalDate}</td>
-                      <td className="border px-4 py-2 text-center">{a.destination}</td>
-                      <td className="border px-4 py-2 text-center">{a.project}</td>
-                      <td className="border px-4 py-2 text-center">{a.rentalPeriod}</td>
-                      <td className="border px-4 py-2 text-center">
-                        {remain ? (
-                          remain.overdue ? <span className="text-red-500 font-bold">{remain.text} (연체)</span> : remain.text
-                        ) : '-'}
-                      </td>
-                      <td className="border px-4 py-2 text-center text-blue-600 hover:underline cursor-pointer" onClick={e => { e.stopPropagation(); setSelectedAsset(a); }}>{a.name}</td>
-                      <td className="border px-4 py-2 text-center">{a.type}</td>
-                      <td className="border px-4 py-2 text-center">{a.stockQuantity}</td>
-                      <td className="border px-4 py-2 text-center">{a.requestedQuantity}</td>
-                      <td className="border px-4 py-2 text-center">{a.warehouse}</td>
-                      <td className="border px-4 py-2 text-center">{a.status}</td>
-                    </tr>
-                  )})
-                )}
-              </tbody>
-            </table>
-          </div>
-          {selectedAsset && (
-            <div className="w-1/2 bg-white rounded-lg shadow-lg p-6 ml-4 relative flex flex-col h-fit">
-              <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl" onClick={() => setSelectedAsset(null)}>&times;</button>
-              <h2 className="text-lg font-bold mb-4">대여 내역 수정</h2>
-              {editForm && (
-                <form className="space-y-3 text-sm" onSubmit={e => {e.preventDefault(); /* handle save here */}}>
-                  <div>
-                    <label className="block font-semibold mb-1">대여ID</label>
-                    <input className="border rounded p-2 w-full" value={editForm.rentalId} onChange={e => setEditForm((f:any) => ({...f, rentalId: e.target.value}))} />
-                  </div>
-                  <div>
-                    <label className="block font-semibold mb-1">자산 ID</label>
-                    <input className="border rounded p-2 w-full" value={editForm.assetId} onChange={e => setEditForm((f:any) => ({...f, assetId: e.target.value}))} />
-                  </div>
-                  <div>
-                    <label className="block font-semibold mb-1">요청인</label>
-                    <input className="border rounded p-2 w-full" value={editForm.requester} onChange={e => setEditForm((f:any) => ({...f, requester: e.target.value}))} />
-                  </div>
-                  <div>
-                    <label className="block font-semibold mb-1">도착일</label>
-                    <input type="date" className="border rounded p-2 w-full" value={editForm.arrivalDate} onChange={e => setEditForm((f:any) => ({...f, arrivalDate: e.target.value}))} />
-                  </div>
-                  <div>
-                    <label className="block font-semibold mb-1">콘텐츠</label>
-                    <input className="border rounded p-2 w-full" value={editForm.project} onChange={e => setEditForm((f:any) => ({...f, project: e.target.value}))} />
-                  </div>
-                  <div>
-                    <label className="block font-semibold mb-1">대여 기간</label>
-                    <input className="border rounded p-2 w-full" value={editForm.rentalPeriod} onChange={e => setEditForm((f:any) => ({...f, rentalPeriod: e.target.value}))} />
-                  </div>
-                  <div>
-                    <label className="block font-semibold mb-1">자산 이름</label>
-                    <input className="border rounded p-2 w-full" value={editForm.name} onChange={e => setEditForm((f:any) => ({...f, name: e.target.value}))} />
-                  </div>
-                  <div>
-                    <label className="block font-semibold mb-1">자산 유형</label>
-                    <input className="border rounded p-2 w-full" value={editForm.type} onChange={e => setEditForm((f:any) => ({...f, type: e.target.value}))} />
-                  </div>
-                  <div>
-                    <label className="block font-semibold mb-1">요청 수량</label>
-                    <input type="number" className="border rounded p-2 w-full" value={editForm.requestedQuantity} onChange={e => setEditForm((f:any) => ({...f, requestedQuantity: Number(e.target.value)}))} />
-                  </div>
-                  <div>
-                    <label className="block font-semibold mb-1">반납 수량</label>
-                    <input type="number" className="border rounded p-2 w-full" value={editForm.returnedQuantity} onChange={e => setEditForm((f:any) => ({...f, returnedQuantity: Number(e.target.value)}))} />
-                  </div>
-                  <div>
-                    <label className="block font-semibold mb-1">재고 위치</label>
-                    <input className="border rounded p-2 w-full" value={editForm.warehouse} onChange={e => setEditForm((f:any) => ({...f, warehouse: e.target.value}))} />
-                  </div>
-                  <div className="flex gap-2 mt-4">
-                    <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">저장</button>
-                    <button type="button" className="bg-gray-200 text-gray-700 px-4 py-2 rounded" onClick={() => setSelectedAsset(null)}>취소</button>
-                  </div>
-                </form>
-              )}
-            </div>
-          )}
-        </div>
-      )}
-      {activeTab === 'repair' && (
         <div className="hidden md:block">
           <table className="min-w-full border text-sm">
             <thead>
               <tr className="bg-gray-100">
-                <th className="border px-4 py-2 w-8">
-                  {filteredRepair.length > 0 && checkedRepair.length === filteredRepair.length && (
-                    <input type="checkbox"
-                      checked={filteredRepair.length > 0 && checkedRepair.length === filteredRepair.length}
-                      onChange={e => {
-                        if (e.target.checked) setCheckedRepair(filteredRepair.map(r => r.id));
-                        else setCheckedRepair([]);
-                      }}
-                    />
-                  )}
-                </th>
-                <th className="border px-4 py-2 text-center">NO</th>
-                <th className="border px-4 py-2 text-center">자산 ID</th>
-                <th className="border px-4 py-2 text-center">자산명</th>
-                <th className="border px-4 py-2 text-center">분류</th>
-                <th className="border px-4 py-2 text-center">처리유형</th>
-                <th className="border px-4 py-2 text-center">요청일</th>
-                <th className="border px-4 py-2 text-center">상태</th>
-                <th className="border px-4 py-2 text-center">담당자</th>
-                <th className="border px-4 py-2 text-center">위치</th>
-                <th className="border px-4 py-2 text-center">메모</th>
+                <th className="border px-1 py-0.5 w-8"></th>
+                <th className="border px-1 py-0.5 text-center">NO</th>
+                <th className="border px-1 py-0.5 text-center">대여ID</th>
+                <th className="border px-1 py-0.5 text-center">자산 ID</th>
+                <th className="border px-1 py-0.5 text-center">자산 그룹</th>
+                <th className="border px-1 py-0.5 text-center">자산명</th>
+                <th className="border px-1 py-0.5 text-center">요청 수량</th>
+                <th className="border px-1 py-0.5 text-center">요청인</th>
+                <th className="border px-1 py-0.5 text-center">프로젝트</th>
+                <th className="border px-1 py-0.5 text-center">대여지</th>
+                <th className="border px-1 py-0.5 text-center">대여기간</th>
+                <th className="border px-1 py-0.5 text-center">수령일</th>
+                <th className="border px-1 py-0.5 text-center">잔여일수</th>
+                <th className="border px-1 py-0.5 text-center">상태</th>
               </tr>
             </thead>
             <tbody>
-              {filteredRepair.length === 0 ? (
+              {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={11} className="text-center py-8 text-gray-400">
+                  <td colSpan={14} className="text-center py-8 text-gray-400">
                     조회된 데이터가 없습니다
                   </td>
                 </tr>
               ) : (
-                filteredRepair.map((r, idx) => (
-                  <tr key={r.id}>
-                    <td className="border px-4 py-2 text-center">
-                      {r.status !== '완료' && (
-                        <input type="checkbox"
-                          checked={checkedRepair.includes(r.id)}
-                          disabled={r.status === '폐기완료' || r.status === '수선중'}
-                          onChange={e => {
-                            if (e.target.checked) setCheckedRepair(prev => [...prev, r.id]);
-                            else setCheckedRepair(prev => prev.filter(id => id !== r.id));
-                          }}
-                        />
-                      )}
+                filtered.map((a, idx) => {
+                  const remain = getRemainingDays(a.rentalPeriod);
+                  return (
+                  <tr key={a.id} className={selectedAsset && selectedAsset.id === a.id ? "bg-yellow-50" : "cursor-pointer hover:bg-gray-50"} onClick={() => setSelectedAsset(a)}>
+                    <td className="border px-1 py-0.5 text-center" onClick={e => e.stopPropagation()}>
+                      <input type="checkbox"
+                        checked={checkedRental.includes(a.id)}
+                        disabled={a.status === '폐기완료' || a.status === '수선중'}
+                        onChange={e => {
+                          if (e.target.checked) setCheckedRental(prev => [...prev, a.id]);
+                          else setCheckedRental(prev => prev.filter(id => id !== a.id));
+                        }}
+                      />
                     </td>
-                    <td className="border px-4 py-2 text-center">{idx + 1}</td>
-                    <td className="border px-4 py-2 text-center">{r.assetId}</td>
-                    <td className="border px-4 py-2 text-center text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedRepair(r)}>{r.name}</td>
-                    <td className="border px-4 py-2 text-center">{r.type}</td>
-                    <td className="border px-4 py-2 text-center">{r.processType}</td>
-                    <td className="border px-4 py-2 text-center">{r.requestDate}</td>
-                    <td className="border px-4 py-2 text-center">
-                      {r.status === '완료' ? (
-                        <span
-                          className="text-blue-600 underline cursor-pointer"
-                          onClick={() => setSelectedCompletedRepair(r)}
-                        >
-                          {r.status}
-                        </span>
-                      ) : (
-                        r.status
-                      )}
+                    <td className="border px-1 py-0.5 text-center">{idx + 1}</td>
+                    <td className="border px-1 py-0.5 text-center">{a.rentalId}</td>
+                    <td className="border px-1 py-0.5 text-center">{a.assetId}</td>
+                    <td className="border px-1 py-0.5 text-center">{a.group}</td>
+                    <td className="border px-1 py-0.5 text-center text-blue-600 hover:underline cursor-pointer" onClick={e => { e.stopPropagation(); setSelectedAsset(a); }}>{a.name}</td>
+                    <td className="border px-1 py-0.5 text-center">{a.requestedQuantity}</td>
+                    <td className="border px-1 py-0.5 text-center">{a.requester}</td>
+                    <td className="border px-1 py-0.5 text-center">{a.project}</td>
+                    <td className="border px-1 py-0.5 text-center">{a.destination}</td>
+                    <td className="border px-1 py-0.5 text-center">{a.rentalPeriod}</td>
+                    <td className="border px-1 py-0.5 text-center">{a.arrivalDate}</td>
+                    <td className="border px-1 py-0.5 text-center">
+                      {remain ? (
+                        remain.overdue ? <span className="text-red-500 font-bold">{remain.text}</span> : remain.text
+                      ) : '-'}
                     </td>
-                    <td className="border px-4 py-2 text-center text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedHandler(mockHandlers.find(h => h.name === r.handler) || null)}>{r.handler}</td>
-                    <td className="border px-4 py-2 text-center">{r.location}</td>
-                    <td className="border px-4 py-2 text-center">{r.memo || '-'}</td>
+                    <td className="border px-1 py-0.5 text-center">{a.status}</td>
                   </tr>
-                ))
+                )})
               )}
             </tbody>
           </table>
+        </div>
+      )}
+      {/* 대여 내역 수정 모달 */}
+      {selectedAsset && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-4 min-w-[300px] max-w-[45vw] max-h-[45vh] shadow-lg relative flex flex-col">
+            <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl" onClick={() => setSelectedAsset(null)}>&times;</button>
+            <h2 className="text-base font-bold mb-3">대여 내역 수정</h2>
+            {editForm && (
+              <form className="space-y-2 text-xs overflow-y-auto pr-2" onSubmit={handleReturnSubmit}>
+                <div>
+                  <label className="block font-semibold mb-1">대여ID</label>
+                  <input className="border rounded p-1.5 w-full" value={editForm.rentalId} onChange={e => setEditForm((f:any) => ({...f, rentalId: e.target.value}))} />
+                </div>
+                <div>
+                  <label className="block font-semibold mb-1">자산 ID</label>
+                  <input className="border rounded p-1.5 w-full" value={editForm.assetId} onChange={e => setEditForm((f:any) => ({...f, assetId: e.target.value}))} />
+                </div>
+                <div>
+                  <label className="block font-semibold mb-1">요청인</label>
+                  <input className="border rounded p-1.5 w-full" value={editForm.requester} onChange={e => setEditForm((f:any) => ({...f, requester: e.target.value}))} />
+                </div>
+                <div>
+                  <label className="block font-semibold mb-1">도착일</label>
+                  <input type="date" className="border rounded p-1.5 w-full" value={editForm.arrivalDate} onChange={e => setEditForm((f:any) => ({...f, arrivalDate: e.target.value}))} />
+                </div>
+                <div>
+                  <label className="block font-semibold mb-1">콘텐츠</label>
+                  <input className="border rounded p-1.5 w-full" value={editForm.project} onChange={e => setEditForm((f:any) => ({...f, project: e.target.value}))} />
+                </div>
+                <div>
+                  <label className="block font-semibold mb-1">대여 기간</label>
+                  <input className="border rounded p-1.5 w-full" value={editForm.rentalPeriod} onChange={e => setEditForm((f:any) => ({...f, rentalPeriod: e.target.value}))} />
+                </div>
+                <div>
+                  <label className="block font-semibold mb-1">자산 이름</label>
+                  <input className="border rounded p-1.5 w-full" value={editForm.name} onChange={e => setEditForm((f:any) => ({...f, name: e.target.value}))} />
+                </div>
+                <div>
+                  <label className="block font-semibold mb-1">자산 유형</label>
+                  <input className="border rounded p-1.5 w-full" value={editForm.type} onChange={e => setEditForm((f:any) => ({...f, type: e.target.value}))} />
+                </div>
+                <div>
+                  <label className="block font-semibold mb-1">요청 수량</label>
+                  <input type="number" className="border rounded p-1.5 w-full" value={editForm.requestedQuantity} onChange={e => setEditForm((f:any) => ({...f, requestedQuantity: Number(e.target.value)}))} />
+                </div>
+                <div>
+                  <label className="block font-semibold mb-1">반납 수량</label>
+                  <input type="number" className="border rounded p-1.5 w-full" value={editForm.returnedQuantity} onChange={e => setEditForm((f:any) => ({...f, returnedQuantity: Number(e.target.value)}))} />
+                </div>
+                <div>
+                  <label className="block font-semibold mb-1">재고 위치</label>
+                  <input className="border rounded p-1.5 w-full" value={editForm.warehouse} onChange={e => setEditForm((f:any) => ({...f, warehouse: e.target.value}))} />
+                </div>
+                <div className="flex gap-2 mt-3 sticky bottom-0 bg-white pt-2">
+                  <button type="submit" className="bg-white text-xs px-3 py-1.5 border rounded">반납신청</button>
+                  <button type="button" className="bg-gray-200 text-gray-700 text-xs px-3 py-1.5 border rounded" onClick={() => setSelectedAsset(null)}>취소</button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
+      {/* 반납 확인 모달 */}
+      {showReturnConfirm && returnConfirmData && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 min-w-[300px] max-w-[90vw] shadow-lg">
+            <h2 className="text-lg font-bold mb-4">반납신청완료</h2>
+            <div className="space-y-2 text-sm mb-6">
+              <div>대여 수량: {returnConfirmData.requestedQuantity}개</div>
+              <div>현재 반납 수량: {returnConfirmData.returnedQuantity}개</div>
+              <div>잔여 수량: {returnConfirmData.requestedQuantity - returnConfirmData.returnedQuantity}개</div>
+              <div className="text-red-500">
+                아직 반납되지 않은 {returnConfirmData.requestedQuantity - returnConfirmData.returnedQuantity}개가 있습니다.
+              </div>
+              <div className="mt-2">
+                {returnConfirmData.returnedQuantity}개만 반납 처리하시겠습니까?
+              </div>
+            </div>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={handleReturnConfirm}
+                className="bg-white text-sm px-4 py-2 border rounded"
+              >
+                확인
+              </button>
+              <button
+                onClick={() => {
+                  setShowReturnConfirm(false);
+                  setReturnConfirmData(null);
+                }}
+                className="bg-gray-200 text-gray-700 text-sm px-4 py-2 border rounded"
+              >
+                취소
+              </button>
+            </div>
+          </div>
         </div>
       )}
       {/* 모바일: 카드 */}
@@ -629,7 +619,7 @@ export default function AssetManagementMockPage() {
                   <div className="text-xs text-gray-500 mb-1">도착지: <span className="text-gray-800">{a.destination}</span></div>
                   <div className="text-xs text-gray-500 mb-1">콘텐츠: <span className="text-gray-800">{a.project}</span></div>
                   <div className="text-xs text-gray-500 mb-1">대여기간: <span className="text-gray-800">{a.rentalPeriod}</span></div>
-                  <div className="text-xs text-gray-500 mb-1">잔여일수: <span className={remain && remain.overdue ? "text-red-500 font-bold" : "text-gray-800"}>{remain ? (remain.overdue ? `${remain.text} (연체)` : remain.text) : '-'}</span></div>
+                  <div className="text-xs text-gray-500 mb-1">잔여일수: <span className={remain && remain.overdue ? "text-red-500 font-bold" : "text-gray-800"}>{remain ? remain.text : '-'}</span></div>
                   <div className="text-xs text-gray-500 mb-1">자산 이름: <span className="text-gray-800">{a.name}</span></div>
                   <div className="text-xs text-gray-500 mb-1">자산 유형: <span className="text-gray-800">{a.type}</span></div>
                   <div className="text-xs text-gray-500 mb-1">재고 수량: <span className="text-gray-800">{a.stockQuantity}</span></div>

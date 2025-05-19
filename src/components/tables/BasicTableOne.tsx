@@ -122,31 +122,31 @@ export default function BasicTableOne() {
               <TableRow>
                 <TableCell
                   isHeader
-                  className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                  className="px-2 py-1 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
                   User
                 </TableCell>
                 <TableCell
                   isHeader
-                  className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                  className="px-2 py-1 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
                   Project Name
                 </TableCell>
                 <TableCell
                   isHeader
-                  className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                  className="px-2 py-1 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
                   Team
                 </TableCell>
                 <TableCell
                   isHeader
-                  className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                  className="px-2 py-1 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
                   Status
                 </TableCell>
                 <TableCell
                   isHeader
-                  className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                  className="px-2 py-1 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
                 >
                   Budget
                 </TableCell>
