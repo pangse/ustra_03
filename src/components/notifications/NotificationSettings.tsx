@@ -174,6 +174,12 @@ export default function NotificationSettings({ userId }: NotificationSettingsPro
         </div>
         <div className="mt-4 flex justify-end">
           <button type="button" className="bg-black text-white px-3 py-1 rounded">조회</button>
+          &nbsp;<button
+            onClick={handleSave}
+            disabled={saving}
+            className="bg-black text-white px-3 py-1 rounded">
+            {saving ? "저장 중..." : "설정 저장"}
+          </button>
         </div>
       </div>
       <div className="overflow-x-auto max-w-4xl mx-auto">
@@ -252,13 +258,7 @@ export default function NotificationSettings({ userId }: NotificationSettingsPro
           </tbody>
         </table>
         <div className="flex justify-end mt-4">
-          <button
-            onClick={handleSave}
-            disabled={saving}
-            className="bg-blue-500 text-white px-8 py-3 rounded-lg font-bold shadow hover:bg-blue-600 transition-colors"
-          >
-            {saving ? "저장 중..." : "설정 저장"}
-          </button>
+
         </div>
       </div>
     </div>
