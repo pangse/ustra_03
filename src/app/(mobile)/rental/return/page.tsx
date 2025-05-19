@@ -181,6 +181,17 @@ export default function ReturnPage() {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm"
                     placeholder="상태에 대한 설명을 입력하세요"
                   />
+                  {item.status === 'DAMAGED' && (
+                    <div className="mt-2 flex flex-col items-center">
+                      <img
+                        src={`/images/item/${item.materialId}.png`}
+                        alt="파손 자산 이미지"
+                        className="w-32 h-32 object-contain border rounded"
+                        onError={e => (e.currentTarget.style.display = 'none')}
+                      />
+                      <span className="text-xs text-gray-400 mt-1">자산ID: {item.materialId}</span>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

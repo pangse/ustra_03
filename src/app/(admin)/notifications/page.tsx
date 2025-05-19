@@ -36,6 +36,24 @@ interface Notification {
   };
 }
 
+const EXAMPLE_DATA = [
+  { id: 1, type: "SYSTEM", title: "대여 요청이 완료 되었습니다.", receiver: "김관리", method: "SYSTEM", read: false, createdAt: "2025-05-19 23:24" },
+  { id: 2, type: "SYSTEM", title: "반납이 완료되었습니다.", receiver: "김관리", method: "SYSTEM", read: false, createdAt: "2025-05-19 23:25" },
+  { id: 3, type: "SYSTEM", title: "대여 기한이 지났습니다.", receiver: "김관리", method: "SYSTEM", read: true, createdAt: "2025-05-19 23:24" },
+  { id: 4, type: "SYSTEM", title: "대여 요청이 반려되었습니다.", receiver: "김관리", method: "SYSTEM", read: true, createdAt: "2025-05-19 23:25" },
+  { id: 5, type: "SYSTEM", title: "새로운 공지사항이 있습니다.", receiver: "김관리", method: "SYSTEM", read: false, createdAt: "2025-05-19 23:25" },
+  { id: 6, type: "SYSTEM", title: "대여 요청이 승인되었습니다.", receiver: "김관리", method: "EMAIL", read: false, createdAt: "2025-05-20 09:10" },
+  { id: 7, type: "SYSTEM", title: "반납 요청이 접수되었습니다.", receiver: "김관리", method: "SMS", read: true, createdAt: "2025-05-20 10:15" },
+  { id: 8, type: "SYSTEM", title: "대여 연장 요청이 도착했습니다.", receiver: "김관리", method: "SYSTEM", read: false, createdAt: "2025-05-20 11:20" },
+  { id: 9, type: "SYSTEM", title: "대여 연장 요청이 반려되었습니다.", receiver: "김관리", method: "EMAIL", read: true, createdAt: "2025-05-20 12:30" },
+  { id: 10, type: "SYSTEM", title: "대여 기한 임박 알림", receiver: "김관리", method: "SMS", read: false, createdAt: "2025-05-20 13:40" },
+  { id: 11, type: "SYSTEM", title: "대여 요청이 취소되었습니다.", receiver: "김관리", method: "SYSTEM", read: true, createdAt: "2025-05-20 14:50" },
+  { id: 12, type: "SYSTEM", title: "반납 지연 알림", receiver: "김관리", method: "EMAIL", read: false, createdAt: "2025-05-20 15:00" },
+  { id: 13, type: "SYSTEM", title: "대여 요청이 접수되었습니다.", receiver: "김관리", method: "SMS", read: true, createdAt: "2025-05-20 16:10" },
+  { id: 14, type: "SYSTEM", title: "공지사항: 시스템 점검 안내", receiver: "김관리", method: "SYSTEM", read: false, createdAt: "2025-05-20 17:20" },
+  { id: 15, type: "SYSTEM", title: "대여 요청이 승인 대기 중입니다.", receiver: "김관리", method: "EMAIL", read: false, createdAt: "2025-05-20 18:30" },
+];
+
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
@@ -92,112 +110,80 @@ export default function NotificationsPage() {
     return types[type] || { color: "default", label: type };
   };
 
+  // 필터링 로직
+  const filtered = EXAMPLE_DATA.filter((n) => {
+    return (
+      (!filter.type || n.type === filter.type) &&
+      (!filter.method || n.method === filter.method) &&
+      (!filter.read || (filter.read === "true" ? n.read : !n.read)) &&
+      (!filter.search || n.title.includes(filter.search))
+    );
+  });
+
   return (
-    <div>
-      <div className="mb-6 flex items-center justify-between">
-        <PageBreadcrumb pageTitle="알림 관리" />
-        <Button
-          variant="outline"
-          onClick={() => setShowSettings(!showSettings)}
-        >
-          {showSettings ? "알림 목록 보기" : "알림 설정"}
-        </Button>
-      </div>
-
-      {showSettings ? (
-        <div className="rounded-lg border border-gray-200 bg-white p-6">
-          <NotificationSettings userId={ADMIN_USER_ID} />
+    <div className="p-6 bg-white rounded-lg shadow max-w-6xl mx-auto">
+      <h2 className="text-xl font-bold mb-4">알림 관리</h2>
+      {/* Filters */}
+      <div className="bg-white rounded shadow p-4 mb-6">
+        <div className="grid grid-cols-6 gap-4 items-center">
+          <label className="col-span-1 text-sm">알림 유형</label>
+          <select className="col-span-2 border rounded px-2 py-1" name="type" value={filter.type} onChange={e => setFilter(f => ({ ...f, type: e.target.value }))}>
+            <option value="">전체</option>
+            <option value="SYSTEM">시스템</option>
+          </select>
+          <label className="col-span-1 text-sm">전송 방식</label>
+          <select className="col-span-2 border rounded px-2 py-1" name="method" value={filter.method} onChange={e => setFilter(f => ({ ...f, method: e.target.value }))}>
+            <option value="">전체</option>
+            <option value="SYSTEM">SYSTEM</option>
+            <option value="EMAIL">이메일</option>
+            <option value="SMS">문자</option>
+          </select>
+          <label className="col-span-1 text-sm">읽음 상태</label>
+          <select className="col-span-2 border rounded px-2 py-1" name="read" value={filter.read} onChange={e => setFilter(f => ({ ...f, read: e.target.value }))}>
+            <option value="">전체</option>
+            <option value="false">안읽음</option>
+            <option value="true">읽음</option>
+          </select>
+          <label className="col-span-1 text-sm">검색어</label>
+          <input className="col-span-2 border rounded px-2 py-1" name="search" value={filter.search} onChange={e => setFilter(f => ({ ...f, search: e.target.value }))} placeholder="검색어 입력" />
         </div>
-      ) : (
-        <>
-          {/* Filters */}
-          <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-4">
-            <Select
-              name="type"
-              value={filter.type}
-              onChange={handleFilterChange}
-            >
-              <option value="">전체</option>
-              <option value="RENTAL_EXPIRE">대여 만료</option>
-              <option value="RENTAL_OVERDUE">미반납</option>
-              <option value="SETTINGS_CHANGE">설정 변경</option>
-            </Select>
-
-            <Select
-              name="method"
-              value={filter.method}
-              onChange={handleFilterChange}
-            >
-              <option value="">전체</option>
-              <option value="SMS">문자</option>
-              <option value="EMAIL">이메일</option>
-              <option value="PUSH">푸시</option>
-            </Select>
-
-            <Select
-              name="read"
-              value={filter.read}
-              onChange={handleFilterChange}
-            >
-              <option value="">전체</option>
-              <option value="true">읽음</option>
-              <option value="false">안읽음</option>
-            </Select>
-
-            <Input
-              name="search"
-              value={filter.search}
-              onChange={handleFilterChange}
-              placeholder="검색어 입력"
-            />
-          </div>
-
-          {/* Notifications Table */}
-          <div className="rounded-lg border border-gray-200 bg-white p-6">
-            {loading ? (
-              <div className="text-center py-4">로딩 중...</div>
-            ) : error ? (
-              <div className="text-center py-4 text-red-500">{error}</div>
-            ) : notifications.length === 0 ? (
-              <div className="text-center py-4">알림이 없습니다.</div>
-            ) : (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>알림 유형</TableHead>
-                    <TableHead>제목</TableHead>
-                    <TableHead>수신자</TableHead>
-                    <TableHead>전송 방식</TableHead>
-                    <TableHead>읽음 상태</TableHead>
-                    <TableHead>전송 일시</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {notifications.map((notification) => {
-                    const typeInfo = getNotificationTypeBadge(notification.type);
-                    return (
-                      <TableRow key={notification.id}>
-                        <TableCell>
-                          <Badge color={typeInfo.color}>{typeInfo.label}</Badge>
-                        </TableCell>
-                        <TableCell>{notification.title}</TableCell>
-                        <TableCell>{notification.user.name}</TableCell>
-                        <TableCell>{notification.notificationMethod}</TableCell>
-                        <TableCell>
-                          <Badge color={notification.read ? "success" : "warning"}>
-                            {notification.read ? "읽음" : "안읽음"}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>{format(new Date(notification.createdAt), "yyyy-MM-dd HH:mm")}</TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            )}
-          </div>
-        </>
-      )}
+        <div className="mt-4 flex justify-end">
+          <button type="button" className="bg-black text-white px-3 py-1 rounded">조회</button>
+        </div>
+      </div>
+      {/* Table */}
+      <div className="overflow-x-auto">
+        <table className="min-w-full border text-sm">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="border px-2 py-2 text-center">알림 유형</th>
+              <th className="border px-2 py-2 text-center">제목</th>
+              <th className="border px-2 py-2 text-center">수신자</th>
+              <th className="border px-2 py-2 text-center">전송 방식</th>
+              <th className="border px-2 py-2 text-center">읽음 상태</th>
+              <th className="border px-2 py-2 text-center">전송 일시</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.map((n) => (
+              <tr key={n.id}>
+                <td className="border px-2 py-2 text-center">{n.type}</td>
+                <td className="border px-2 py-2 text-center">{n.title}</td>
+                <td className="border px-2 py-2 text-center">{n.receiver}</td>
+                <td className="border px-2 py-2 text-center">{n.method}</td>
+                <td className="border px-2 py-2 text-center">
+                  {n.read ? (
+                    <span className="bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs">읽음</span>
+                  ) : (
+                    <span className="bg-yellow-200 text-yellow-800 px-2 py-1 rounded text-xs">안읽음</span>
+                  )}
+                </td>
+                <td className="border px-2 py-2 text-center">{n.createdAt}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 } 

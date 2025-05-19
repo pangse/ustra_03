@@ -10,7 +10,7 @@ export default function NotificationSettingsPage() {
   return (
     <div>
       <div className="mb-6">
-        <PageBreadcrumb pageTitle="알림 설정" />
+       
       </div>
       <div className="rounded-lg border border-gray-200 bg-white p-6">
         <NotificationSettings userId={userId} />
