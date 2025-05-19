@@ -1,0 +1,5 @@
+[
+  {"id": "ckrfidtag1", "tag": "RFID001-1", "materialId": 1, "createdAt": "2024-06-01T10:00:00Z"},
+  {"id": "ckrfidtag2", "tag": "RFID002-2", "materialId": 2, "createdAt": "2024-06-01T10:00:00Z"}
+  // ... (생략, 실제로는 모든 RFID 태그를 변환)
+] 

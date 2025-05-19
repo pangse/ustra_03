@@ -48,22 +48,6 @@ const TYPES = ["무대의상", "마이크", "노트북", "스피커", "LED 조�
 const WAREHOUSES = ["서울 본사", "부산 지사", "도쿄 지사"];
 const STATUS = ["정상", "대여중", "수선중", "폐기완료"];
 
-const mockAssetsInit: Asset[] = [
-  { id: 1, rentalId: "R20240601-001", group: "의상", type: "무대의상", assetId: "C1000_10125", name: "루시 화이트 셋업", warehouse: "서울 본사", status: "정상", project: "광명 청소년 콘서트", requester: "이지수", arrivalDate: "2025-04-20", destination: "광명 아트홀", rentalPeriod: "2025.06.19~2025.06.22", stockQuantity: 10, requestedQuantity: 2 },
-  { id: 2, rentalId: "R20240601-002", group: "소품", type: "마이크", assetId: "P2000_20111", name: "무선 마이크 A", warehouse: "부산 지사", status: "대여중", project: "부산 뮤직 페스티벌", requester: "김철수", arrivalDate: "2025-07-01", destination: "부산 아트센터", rentalPeriod: "2025.06.30~2025.07.04", stockQuantity: 5, requestedQuantity: 1 },
-  { id: 3, rentalId: "R20240601-003", group: "IT장비", type: "노트북", assetId: "IT3000_30123", name: "맥북프로 16", warehouse: "서울 본사", status: "수선중", project: "서울 IT 컨퍼런스", requester: "박영희", arrivalDate: "2025-04-10", destination: "서울 코엑스", rentalPeriod: "2025.08.10~2025.08.14", stockQuantity: 3, requestedQuantity: 1 },
-  { id: 4, rentalId: "R20240601-004", group: "음향", type: "스피커", assetId: "A4000_40101", name: "JBL 스피커", warehouse: "도쿄 지사", status: "정상", project: "도쿄 재즈 나잇", requester: "이유진", arrivalDate: "2025-09-05", destination: "도쿄홀", rentalPeriod: "2025.09.05~2025.09.09", stockQuantity: 8, requestedQuantity: 4 },
-  { id: 5, rentalId: "R20240601-005", group: "조명", type: "LED 조명", assetId: "L5000_50111", name: "LED 무대조명", warehouse: "부산 지사", status: "폐기완료", project: "부산 뮤직 페스티벌", requester: "최민수", arrivalDate: "2025-10-01", destination: "부산 체육관", rentalPeriod: "2025.10.01~2025.10.05", stockQuantity: 20, requestedQuantity: 10 },
-  { id: 6, rentalId: "R20240601-006", group: "의상", type: "무대의상", assetId: "C1000_10126", name: "블랙 퍼포먼스 슈트", warehouse: "서울 본사", status: "정상", project: "광명 청소년 콘서트", requester: "이지수", arrivalDate: "2025-05-10", destination: "광명 아트홀", rentalPeriod: "2025.06.19~2025.06.22", stockQuantity: 7, requestedQuantity: 1 },
-  { id: 7, rentalId: "R20240601-007", group: "소품", type: "마이크", assetId: "P2000_20112", name: "유선 마이크 B", warehouse: "도쿄 지사", status: "대여중", project: "도쿄 재즈 나잇", requester: "이유진", arrivalDate: "2025-09-05", destination: "도쿄홀", rentalPeriod: "2025.09.05~2025.09.09", stockQuantity: 6, requestedQuantity: 2 },
-  { id: 8, rentalId: "R20240601-008", group: "IT장비", type: "노트북", assetId: "IT3000_30124", name: "삼성 갤럭시북", warehouse: "부산 지사", status: "정상", project: "부산 뮤직 페스티벌", requester: "김철수", arrivalDate: "2025-07-01", destination: "부산 아트센터", rentalPeriod: "2025.06.30~2025.07.04", stockQuantity: 4, requestedQuantity: 1 },
-  { id: 9, rentalId: "R20240601-009", group: "음향", type: "스피커", assetId: "A4000_40102", name: "BOSE 스피커", warehouse: "서울 본사", status: "수선중", project: "서울 IT 컨퍼런스", requester: "박영희", arrivalDate: "2025-08-10", destination: "서울 코엑스", rentalPeriod: "2025.08.10~2025.08.14", stockQuantity: 2, requestedQuantity: 1 },
-  { id: 10, rentalId: "R20240601-010", group: "조명", type: "LED 조명", assetId: "L5000_50112", name: "무빙라이트", warehouse: "도쿄 지사", status: "정상", project: "도쿄 재즈 나잇", requester: "이유진", arrivalDate: "2025-09-05", destination: "도쿄홀", rentalPeriod: "2025.09.05~2025.09.09", stockQuantity: 9, requestedQuantity: 3 },
-  { id: 11, rentalId: "R20240301-001", group: "의상", type: "무대의상", assetId: "C1000_10127", name: "레드 퍼포먼스 드레스", warehouse: "서울 본사", status: "대여중", project: "서울 봄 축제", requester: "김지원", arrivalDate: "2024-03-15", destination: "서울 올림픽공원", rentalPeriod: "2024.03.15~2024.03.20", stockQuantity: 5, requestedQuantity: 1 },
-  { id: 12, rentalId: "R20240301-002", group: "음향", type: "스피커", assetId: "A4000_40103", name: "소형 스피커 세트", warehouse: "부산 지사", status: "대여중", project: "부산 해변 축제", requester: "박해수", arrivalDate: "2024-03-10", destination: "부산 해운대", rentalPeriod: "2024.03.10~2024.03.15", stockQuantity: 3, requestedQuantity: 2 },
-  { id: 13, rentalId: "R20240301-003", group: "IT장비", type: "노트북", assetId: "IT3000_30125", name: "LG 그램", warehouse: "서울 본사", status: "대여중", project: "서울 스타트업 데모데이", requester: "이창업", arrivalDate: "2024-03-05", destination: "서울 강남", rentalPeriod: "2024.03.05~2024.03.10", stockQuantity: 2, requestedQuantity: 1 }
-];
-
 const mockRepairLaundry: RepairLaundry[] = [
   { id: 1, assetId: 'C1000_10125', name: '루시 화이트 셋업', type: '무대의상', requestDate: '2025-05-01', processType: '수선', status: '진행중', handler: '김관리', location: '서울 본사', memo: '단추 교체' },
   { id: 2, assetId: 'P2000_20111', name: '무선 마이크 A', type: '마이크', requestDate: '2025-05-02', processType: '세탁', status: '완료', handler: '이세탁', location: '부산 지사', memo: '외관 세척' },
@@ -96,7 +80,7 @@ function getRemainingDays(rentalPeriod?: string) {
 }
 
 export default function AssetManagementMockPage() {
-  const [assets, setAssets] = useState<Asset[]>(mockAssetsInit);
+  const [assets, setAssets] = useState<Asset[]>([]);
   const [search, setSearch] = useState({ group: "", type: "", assetId: "", name: "", warehouse: "", status: "" });
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({ group: GROUPS[0], type: TYPES[0], assetId: "", name: "", warehouse: WAREHOUSES[0], status: STATUS[0] });
@@ -121,6 +105,15 @@ export default function AssetManagementMockPage() {
     requestedQuantity: number;
     returnedQuantity: number;
   } | null>(null);
+  const [returnStatus, setReturnStatus] = useState('정상');
+  const [damageImage, setDamageImage] = useState<File|null>(null);
+  const [damagePreview, setDamagePreview] = useState<string|null>(null);
+
+  useEffect(() => {
+    fetch('/mock/rentaldata.json')
+      .then(res => res.json())
+      .then(data => setAssets(data));
+  }, []);
 
   useEffect(() => {
     if (selectedAsset) {
@@ -429,20 +422,20 @@ export default function AssetManagementMockPage() {
           <table className="min-w-full border text-sm">
             <thead>
               <tr className="bg-gray-100">
-                <th className="border px-1 py-0.5 w-8"></th>
-                <th className="border px-1 py-0.5 text-center">NO</th>
-                <th className="border px-1 py-0.5 text-center">대여ID</th>
-                <th className="border px-1 py-0.5 text-center">자산 ID</th>
-                <th className="border px-1 py-0.5 text-center">자산 그룹</th>
-                <th className="border px-1 py-0.5 text-center">자산명</th>
-                <th className="border px-1 py-0.5 text-center">요청 수량</th>
-                <th className="border px-1 py-0.5 text-center">요청인</th>
-                <th className="border px-1 py-0.5 text-center">프로젝트</th>
-                <th className="border px-1 py-0.5 text-center">대여지</th>
-                <th className="border px-1 py-0.5 text-center">대여기간</th>
-                <th className="border px-1 py-0.5 text-center">수령일</th>
-                <th className="border px-1 py-0.5 text-center">잔여일수</th>
-                <th className="border px-1 py-0.5 text-center">상태</th>
+                <th className="border px-2 py-2 w-8"></th>
+                <th className="border px-2 py-2 text-center">NO</th>
+                <th className="border px-2 py-2 text-center">대여ID</th>
+                <th className="border px-2 py-2 text-center">자산 ID</th>
+                <th className="border px-2 py-2 text-center">자산 그룹</th>
+                <th className="border px-2 py-2 text-center">자산명</th>
+                <th className="border px-2 py-2 text-center">요청 수량</th>
+                <th className="border px-2 py-2 text-center">요청인</th>
+                <th className="border px-2 py-2 text-center">프로젝트</th>
+                <th className="border px-2 py-2 text-center">대여지</th>
+                <th className="border px-2 py-2 text-center">대여기간</th>
+                <th className="border px-2 py-2 text-center">수령일</th>
+                <th className="border px-2 py-2 text-center">잔여일수</th>
+                <th className="border px-2 py-2 text-center">상태</th>
               </tr>
             </thead>
             <tbody>
@@ -455,37 +448,103 @@ export default function AssetManagementMockPage() {
               ) : (
                 filtered.map((a, idx) => {
                   const remain = getRemainingDays(a.rentalPeriod);
+                  const isOverdue = !!(remain && remain.overdue);
                   return (
-                  <tr key={a.id} className={selectedAsset && selectedAsset.id === a.id ? "bg-yellow-50" : "cursor-pointer hover:bg-gray-50"} onClick={() => setSelectedAsset(a)}>
-                    <td className="border px-1 py-0.5 text-center" onClick={e => e.stopPropagation()}>
-                      <input type="checkbox"
-                        checked={checkedRental.includes(a.id)}
-                        disabled={a.status === '폐기완료' || a.status === '수선중'}
+                    <tr key={a.id} className={selectedAsset && selectedAsset.id === a.id ? "bg-yellow-50" : "cursor-pointer hover:bg-gray-50"} onClick={() => {
+                      if (
+                        a.status !== '폐기완료' &&
+                        a.status !== '수선중' &&
+                        !(remain && remain.overdue)
+                      ) {
+                        setSelectedAsset(a);
+                      }
+                    }}>
+                      <td className="border px-2 py-2 text-center" onClick={e => e.stopPropagation()}>
+                        <input type="checkbox"
+                          checked={checkedRental.includes(a.id)}
+                          disabled={a.status === '폐기완료' || a.status === '수선중' || isOverdue}
+                          onChange={e => {
+                            if (e.target.checked) setCheckedRental(prev => [...prev, a.id]);
+                            else setCheckedRental(prev => prev.filter(id => id !== a.id));
+                          }}
+                        />
+                      </td>
+                      <td className="border px-2 py-2 text-center">{idx + 1}</td>
+                      <td className="border px-2 py-2 text-center">{a.rentalId}</td>
+                      <td className="border px-2 py-2 text-center">{a.assetId}</td>
+                      <td className="border px-2 py-2 text-center">{a.group}</td>
+                      <td className="border px-2 py-2 text-center text-blue-600 hover:underline cursor-pointer" onClick={e => { e.stopPropagation(); setSelectedAsset(a); }}>{a.name}</td>
+                      <td className="border px-2 py-2 text-center">{a.requestedQuantity}</td>
+                      <td className="border px-2 py-2 text-center">{a.requester}</td>
+                      <td className="border px-2 py-2 text-center">{a.project}</td>
+                      <td className="border px-2 py-2 text-center">{a.destination}</td>
+                      <td className="border px-2 py-2 text-center">{a.rentalPeriod}</td>
+                      <td className="border px-2 py-2 text-center">{a.arrivalDate}</td>
+                      <td className="border px-2 py-2 text-center">
+                        {remain ? (
+                          remain.overdue ? <span className="text-red-500 font-bold">{remain.text}</span> : remain.text
+                        ) : '-'}
+                      </td>
+                      <td className="border px-2 py-2 text-center">{a.status}</td>
+                    </tr>
+                  )})
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
+      {/* 수선 요청 모달 */}
+      {activeTab === 'repair' && (
+        <div className="hidden md:block">
+          <table className="min-w-full border text-sm">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="border px-2 py-2 text-center w-8"></th>
+                <th className="border px-2 py-2 text-center">NO</th>
+                <th className="border px-2 py-2 text-center">자산명</th>
+                <th className="border px-2 py-2 text-center">자산 ID</th>
+                <th className="border px-2 py-2 text-center">분류</th>
+                <th className="border px-2 py-2 text-center">처리유형</th>
+                <th className="border px-2 py-2 text-center">요청일</th>
+                <th className="border px-2 py-2 text-center">상태</th>
+                <th className="border px-2 py-2 text-center">담당자</th>
+                <th className="border px-2 py-2 text-center">위치</th>
+                <th className="border px-2 py-2 text-center">메모</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredRepair.length === 0 ? (
+                <tr>
+                  <td colSpan={10} className="text-center py-8 text-gray-400">
+                    조회된 데이터가 없습니다
+                  </td>
+                </tr>
+              ) : (
+                filteredRepair.map((r, idx) => (
+                  <tr key={r.id} className="cursor-pointer hover:bg-gray-50" onClick={() => setSelectedRepair(r)}>
+                    <td className="border px-2 py-2 text-center">
+                      <input
+                        type="checkbox"
+                        checked={checkedRepair.includes(r.id)}
+                        disabled={r.status !== '대기'}
                         onChange={e => {
-                          if (e.target.checked) setCheckedRental(prev => [...prev, a.id]);
-                          else setCheckedRental(prev => prev.filter(id => id !== a.id));
+                          if (e.target.checked) setCheckedRepair(prev => [...prev, r.id]);
+                          else setCheckedRepair(prev => prev.filter(id => id !== r.id));
                         }}
                       />
                     </td>
-                    <td className="border px-1 py-0.5 text-center">{idx + 1}</td>
-                    <td className="border px-1 py-0.5 text-center">{a.rentalId}</td>
-                    <td className="border px-1 py-0.5 text-center">{a.assetId}</td>
-                    <td className="border px-1 py-0.5 text-center">{a.group}</td>
-                    <td className="border px-1 py-0.5 text-center text-blue-600 hover:underline cursor-pointer" onClick={e => { e.stopPropagation(); setSelectedAsset(a); }}>{a.name}</td>
-                    <td className="border px-1 py-0.5 text-center">{a.requestedQuantity}</td>
-                    <td className="border px-1 py-0.5 text-center">{a.requester}</td>
-                    <td className="border px-1 py-0.5 text-center">{a.project}</td>
-                    <td className="border px-1 py-0.5 text-center">{a.destination}</td>
-                    <td className="border px-1 py-0.5 text-center">{a.rentalPeriod}</td>
-                    <td className="border px-1 py-0.5 text-center">{a.arrivalDate}</td>
-                    <td className="border px-1 py-0.5 text-center">
-                      {remain ? (
-                        remain.overdue ? <span className="text-red-500 font-bold">{remain.text}</span> : remain.text
-                      ) : '-'}
-                    </td>
-                    <td className="border px-1 py-0.5 text-center">{a.status}</td>
+                    <td className="border px-2 py-2 text-center">{idx + 1}</td>
+                    <td className="border px-2 py-2 text-center">{r.name}</td>
+                    <td className="border px-2 py-2 text-center">{r.assetId}</td>
+                    <td className="border px-2 py-2 text-center">{r.type}</td>
+                    <td className="border px-2 py-2 text-center">{r.processType}</td>
+                    <td className="border px-2 py-2 text-center">{r.requestDate}</td>
+                    <td className="border px-2 py-2 text-center">{r.status}</td>
+                    <td className="border px-2 py-2 text-center">{r.handler}</td>
+                    <td className="border px-2 py-2 text-center">{r.location}</td>
+                    <td className="border px-2 py-2 text-center">{r.memo || '-'}</td>
                   </tr>
-                )})
+                ))
               )}
             </tbody>
           </table>
@@ -496,57 +555,72 @@ export default function AssetManagementMockPage() {
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-4 min-w-[300px] max-w-[45vw] max-h-[45vh] shadow-lg relative flex flex-col">
             <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl" onClick={() => setSelectedAsset(null)}>&times;</button>
-            <h2 className="text-base font-bold mb-3">대여 내역 수정</h2>
+            <h2 className="text-base font-bold mb-3">상세 대역 내역</h2>
             {editForm && (
               <form className="space-y-2 text-xs overflow-y-auto pr-2" onSubmit={handleReturnSubmit}>
                 <div>
                   <label className="block font-semibold mb-1">대여ID</label>
-                  <input className="border rounded p-1.5 w-full" value={editForm.rentalId} onChange={e => setEditForm((f:any) => ({...f, rentalId: e.target.value}))} />
+                  <input className="border rounded p-1.5 w-full" value={editForm.rentalId} disabled />
                 </div>
                 <div>
                   <label className="block font-semibold mb-1">자산 ID</label>
-                  <input className="border rounded p-1.5 w-full" value={editForm.assetId} onChange={e => setEditForm((f:any) => ({...f, assetId: e.target.value}))} />
+                  <input className="border rounded p-1.5 w-full" value={editForm.assetId} disabled />
                 </div>
                 <div>
                   <label className="block font-semibold mb-1">요청인</label>
-                  <input className="border rounded p-1.5 w-full" value={editForm.requester} onChange={e => setEditForm((f:any) => ({...f, requester: e.target.value}))} />
+                  <input className="border rounded p-1.5 w-full" value={editForm.requester} disabled />
                 </div>
                 <div>
                   <label className="block font-semibold mb-1">도착일</label>
-                  <input type="date" className="border rounded p-1.5 w-full" value={editForm.arrivalDate} onChange={e => setEditForm((f:any) => ({...f, arrivalDate: e.target.value}))} />
+                  <input type="date" className="border rounded p-1.5 w-full" value={editForm.arrivalDate} disabled />
                 </div>
                 <div>
                   <label className="block font-semibold mb-1">콘텐츠</label>
-                  <input className="border rounded p-1.5 w-full" value={editForm.project} onChange={e => setEditForm((f:any) => ({...f, project: e.target.value}))} />
+                  <input className="border rounded p-1.5 w-full" value={editForm.project} disabled />
                 </div>
                 <div>
                   <label className="block font-semibold mb-1">대여 기간</label>
-                  <input className="border rounded p-1.5 w-full" value={editForm.rentalPeriod} onChange={e => setEditForm((f:any) => ({...f, rentalPeriod: e.target.value}))} />
+                  <input className="border rounded p-1.5 w-full" value={editForm.rentalPeriod} disabled />
                 </div>
                 <div>
                   <label className="block font-semibold mb-1">자산 이름</label>
-                  <input className="border rounded p-1.5 w-full" value={editForm.name} onChange={e => setEditForm((f:any) => ({...f, name: e.target.value}))} />
+                  <input className="border rounded p-1.5 w-full" value={editForm.name} disabled />
                 </div>
                 <div>
                   <label className="block font-semibold mb-1">자산 유형</label>
-                  <input className="border rounded p-1.5 w-full" value={editForm.type} onChange={e => setEditForm((f:any) => ({...f, type: e.target.value}))} />
+                  <input className="border rounded p-1.5 w-full" value={editForm.type} disabled />
                 </div>
                 <div>
                   <label className="block font-semibold mb-1">요청 수량</label>
-                  <input type="number" className="border rounded p-1.5 w-full" value={editForm.requestedQuantity} onChange={e => setEditForm((f:any) => ({...f, requestedQuantity: Number(e.target.value)}))} />
+                  <input type="number" className="border rounded p-1.5 w-full" value={editForm.requestedQuantity} disabled />
                 </div>
-                <div>
+                {/* <div>
                   <label className="block font-semibold mb-1">반납 수량</label>
-                  <input type="number" className="border rounded p-1.5 w-full" value={editForm.returnedQuantity} onChange={e => setEditForm((f:any) => ({...f, returnedQuantity: Number(e.target.value)}))} />
+                  <input type="number" className="border rounded p-1.5 w-full" value={editForm.returnedQuantity} disabled />
                 </div>
                 <div>
                   <label className="block font-semibold mb-1">재고 위치</label>
-                  <input className="border rounded p-1.5 w-full" value={editForm.warehouse} onChange={e => setEditForm((f:any) => ({...f, warehouse: e.target.value}))} />
+                  <input className="border rounded p-1.5 w-full" value={editForm.warehouse} disabled />
                 </div>
+                <div>
+                  <label className="block font-semibold mb-1">반납 상태</label>
+                  <select className="border rounded p-1.5 w-full" value={returnStatus} disabled>
+                    <option value="정상">정상</option>
+                    <option value="파손">파손</option>
+                    <option value="분실">분실</option>
+                  </select>
+                </div>
+                {returnStatus === '파손' && (
+                  <div>
+                    <label className="block font-semibold mb-1">파손 사진 업로드</label>
+                    <input type="file" accept="image/*" disabled />
+                    {damagePreview && <img src={damagePreview} alt="파손 미리보기" className="mt-2 w-32 h-auto rounded border" />}
+                  </div>
+                )}
                 <div className="flex gap-2 mt-3 sticky bottom-0 bg-white pt-2">
-                  <button type="submit" className="bg-white text-xs px-3 py-1.5 border rounded">반납신청</button>
+                  <button type="submit" className="bg-white text-xs px-3 py-1.5 border rounded" disabled>반납신청</button>
                   <button type="button" className="bg-gray-200 text-gray-700 text-xs px-3 py-1.5 border rounded" onClick={() => setSelectedAsset(null)}>취소</button>
-                </div>
+                </div> */}
               </form>
             )}
           </div>
@@ -598,13 +672,14 @@ export default function AssetManagementMockPage() {
           ) : (
             filtered.map((a, idx) => {
               const remain = getRemainingDays(a.rentalPeriod);
+              const isOverdue = !!(remain && remain.overdue);
               return (
               <div key={a.id} className="bg-white rounded shadow p-4 flex items-center">
                 <input
                   type="checkbox"
                   className="mr-2"
                   checked={checkedRental.includes(a.id)}
-                  disabled={a.status === '폐기완료' || a.status === '수선중'}
+                  disabled={a.status === '폐기완료' || a.status === '수선중' || isOverdue}
                   onChange={e => {
                     if (e.target.checked) setCheckedRental(prev => [...prev, a.id]);
                     else setCheckedRental(prev => prev.filter(id => id !== a.id));

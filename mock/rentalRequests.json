@@ -1,0 +1,4 @@
+[
+  {"id": 1, "materialId": 1, "userId": 2, "startDate": "2024-06-01T10:00:00Z", "endDate": "2024-06-04T10:00:00Z", "arrivalDate": "2024-06-01T10:00:00Z", "purpose": "테스트 대여", "request": "자동 생성", "status": "APPROVED"}
+  // ... (생략, 실제로는 모든 대여요청 데이터를 변환)
+] 

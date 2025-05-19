@@ -248,14 +248,14 @@ export default function MaterialsPage() {
         <table className="min-w-full border text-sm bg-white">
           <thead>
             <tr className="bg-gray-100">
-              <th className="border px-4 py-2 text-center">자산명</th>
-              <th className="border px-4 py-2 text-center">카테고리</th>
-              <th className="border px-4 py-2 text-center">위치</th>
-              <th className="border px-4 py-2 text-center">담당자</th>
-              <th className="border px-4 py-2 text-center">RFID</th>
-              <th className="border px-4 py-2 text-center">수량</th>
-              <th className="border px-4 py-2 text-center">상태</th>
-              <th className="border px-4 py-2 text-center">관리</th>
+              <th className="border px-2 py-2 text-center">자산명</th>
+              <th className="border px-2 py-2 text-center">카테고리</th>
+              <th className="border px-2 py-2 text-center">위치</th>
+              <th className="border px-2 py-2 text-center">담당자</th>
+              <th className="border px-2 py-2 text-center">RFID</th>
+              <th className="border px-2 py-2 text-center">수량</th>
+              <th className="border px-2 py-2 text-center">상태</th>
+              <th className="border px-2 py-2 text-center">관리</th>
             </tr>
           </thead>
           <tbody>
@@ -270,14 +270,14 @@ export default function MaterialsPage() {
             ) : (
               filteredMaterials.map(m => (
                 <tr key={m.id}>
-                  <td className="border px-4 py-2 text-center">{m.name}</td>
-                  <td className="border px-4 py-2 text-center">{m.category?.name || '-'}</td>
-                  <td className="border px-4 py-2 text-center">{m.location?.name || '-'}</td>
-                  <td className="border px-4 py-2 text-center">{m.handler?.name || '-'}</td>
-                  <td className="border px-4 py-2 text-center">{m.rfid_tag}</td>
-                  <td className="border px-4 py-2 text-center">{m.quantity}</td>
-                  <td className="border px-4 py-2 text-center">{m.status}</td>
-                  <td className="border px-4 py-2 text-center">
+                  <td className="border px-2 py-2 text-center">{m.name}</td>
+                  <td className="border px-2 py-2 text-center">{m.category?.name || '-'}</td>
+                  <td className="border px-2 py-2 text-center">{m.location?.name || '-'}</td>
+                  <td className="border px-2 py-2 text-center">{m.handler?.name || '-'}</td>
+                  <td className="border px-2 py-2 text-center">{m.rfid_tag}</td>
+                  <td className="border px-2 py-2 text-center">{m.quantity}</td>
+                  <td className="border px-2 py-2 text-center">{m.status}</td>
+                  <td className="border px-2 py-2 text-center">
                     <div className="flex gap-2">
                       <button
                         type="button"

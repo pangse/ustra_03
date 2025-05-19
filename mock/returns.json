@@ -1,0 +1,4 @@
+[
+  {"id": 1, "rentalRequestId": 1, "materialId": 1, "returnLocation": "IT장비실", "returnDate": "2024-06-04T10:00:00Z", "status": "NORMAL", "statusDescription": "테스트 반납"}
+  // ... (생략, 실제로는 모든 반납 데이터를 변환)
+] 

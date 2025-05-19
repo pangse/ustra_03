@@ -40,7 +40,8 @@ export default function ReturnHistoryPage() {
         throw new Error("Failed to fetch return history");
       }
       const data = await response.json();
-      setReturns(data);
+      const sorted = [...data].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      setReturns(sorted);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {

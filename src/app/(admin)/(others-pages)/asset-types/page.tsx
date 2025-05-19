@@ -94,15 +94,15 @@ export default function AssetTypesPage() {
         <table className="min-w-full border text-sm bg-white">
           <thead>
             <tr className="bg-gray-100">
-              <th className="border px-4 py-2 text-center"><input type="checkbox" /></th>
-              <th className="border px-4 py-2 text-center">자산유형 ID</th>
-              <th className="border px-4 py-2 text-center">자산유형명</th>
-              <th className="border px-4 py-2 text-center">설명</th>
-              <th className="border px-4 py-2 text-center">대표확장자</th>
-              <th className="border px-4 py-2 text-center">활성여부</th>
-              <th className="border px-4 py-2 text-center">생성일시</th>
-              <th className="border px-4 py-2 text-center">생성자</th>
-              <th className="border px-4 py-2 text-center">관리</th>
+              <th className="border px-2 py-2 text-center"><input type="checkbox" /></th>
+              <th className="border px-2 py-2 text-center">자산유형 ID</th>
+              <th className="border px-2 py-2 text-center">자산유형명</th>
+              <th className="border px-2 py-2 text-center">설명</th>
+              <th className="border px-2 py-2 text-center">대표확장자</th>
+              <th className="border px-2 py-2 text-center">활성여부</th>
+              <th className="border px-2 py-2 text-center">생성일시</th>
+              <th className="border px-2 py-2 text-center">생성자</th>
+              <th className="border px-2 py-2 text-center">관리</th>
             </tr>
           </thead>
           <tbody>
@@ -112,15 +112,15 @@ export default function AssetTypesPage() {
               <tr><td colSpan={9} className="text-center py-8">데이터가 없습니다</td></tr>
             ) : assetTypes.map(t => (
               <tr key={t.id}>
-                <td className="border px-4 py-2 text-center"><input type="checkbox" /></td>
-                <td className="border px-4 py-2 text-center">{t.typeCode}</td>
-                <td className="border px-4 py-2 text-center">{t.name}</td>
-                <td className="border px-4 py-2 text-center">{t.description}</td>
-                <td className="border px-4 py-2 text-center">{t.extension}</td>
-                <td className="border px-4 py-2 text-center">{t.isActive ? '활성' : '비활성'}</td>
-                <td className="border px-4 py-2 text-center">{t.createdAt?.slice(0, 10)}</td>
-                <td className="border px-4 py-2 text-center">{t.createdBy || '-'}</td>
-                <td className="border px-4 py-2 text-center">
+                <td className="border px-2 py-2 text-center"><input type="checkbox" /></td>
+                <td className="border px-2 py-2 text-center">{t.typeCode}</td>
+                <td className="border px-2 py-2 text-center">{t.name}</td>
+                <td className="border px-2 py-2 text-center">{t.description}</td>
+                <td className="border px-2 py-2 text-center">{t.extension}</td>
+                <td className="border px-2 py-2 text-center">{t.isActive ? '활성' : '비활성'}</td>
+                <td className="border px-2 py-2 text-center">{t.createdAt?.slice(0, 10)}</td>
+                <td className="border px-2 py-2 text-center">{t.createdBy || '-'}</td>
+                <td className="border px-2 py-2 text-center">
                   <div className="flex gap-2 justify-center">
                     <button
                       type="button"
@@ -130,7 +130,7 @@ export default function AssetTypesPage() {
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 3.487a2.25 2.25 0 1 1 3.182 3.182L7.5 19.213l-4 1 1-4 12.362-12.726z" />
                       </svg>
-                      Edit
+                      수정
                     </button>
                     <button
                       type="button"
@@ -140,7 +140,7 @@ export default function AssetTypesPage() {
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                       </svg>
-                      Delete
+                      삭제
                     </button>
                   </div>
                 </td>
@@ -174,7 +174,7 @@ export default function AssetTypesPage() {
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 3.487a2.25 2.25 0 1 1 3.182 3.182L7.5 19.213l-4 1 1-4 12.362-12.726z" />
                   </svg>
-                  Edit
+                  수정
                 </button>
                 <button
                   type="button"
@@ -184,7 +184,7 @@ export default function AssetTypesPage() {
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                   </svg>
-                  Delete
+                  삭제
                 </button>
               </div>
             </div>

@@ -30,7 +30,7 @@ const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
-    subItems: [{ name: "A.M.S", path: "/", pro: false }],
+    path: "/",    
   },
   {
     icon: <CalenderIcon />,
@@ -41,13 +41,13 @@ const navItems: NavItem[] = [
     icon: <TableIcon />,
     name: "데이터 관리",
     subItems: [
-      { name: "기준 데이터", path: "/masterdata", pro: false },
+      // { name: "기준 데이터", path: "/masterdata", pro: false },
       // { name: "자산 관리 Type 1", path: "/materials", pro: false },
       { name: "자산 관리", path: "/materials/mock-management-page", pro: false },
       // { name: "자산 이력 관리", path: "/material-history", pro: false },
-      { name: "자산 유형 관리", path: "/asset-types", pro: false },
-      { name: "자산 대여 관리", path: "/rental-management", pro: false },
-      { name: "자산 이동 이력", path: "/asset-movement", pro: false },
+      // { name: "자산 유형 관리", path: "/asset-types", pro: false },
+      // { name: "자산 대여 관리", path: "/rental-management", pro: false },
+      // { name: "자산 이동 이력", path: "/asset-movement", pro: false },
       
     ],
   },
@@ -61,20 +61,20 @@ const navItems: NavItem[] = [
   {
     icon: <ListIcon />,
     name: "QR 관리",
-    subItems: [
-      // { name: "QR 등록", path: "/rfid/register", pro: false },
-      // { name: "RFID 스캔", path: "/rfid/scan", pro: false },
-      // { name: "RFID 이력", path: "/rfid/history", pro: false },
-    ],
+    // subItems: [
+    //   // { name: "QR 등록", path: "/rfid/register", pro: false },
+    //   // { name: "RFID 스캔", path: "/rfid/scan", pro: false },
+    //   // { name: "RFID 이력", path: "/rfid/history", pro: false },
+    // ],
   },
   {
     icon: <ListIcon />,
-    name: "모바일 대여",
+    name: "모바일 시연 메뉴",
     subItems: [
       { name: "대여 신청", path: "/rental/request", pro: false, newTab: true },
       { name: "대여 내역", path: "/rental/my-requests", pro: false, newTab: true },
       { name: "반납 내역", path: "/rental/return-history", pro: false, newTab: true },    
-      { name: "알림화면", path: "/rental/alerts", pro: false, newTab: true }, 
+      { name: "알림 화면", path: "/rental/alerts", pro: false, newTab: true }, 
     ],
   },
   {

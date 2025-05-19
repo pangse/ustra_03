@@ -1,0 +1,5 @@
+import assets from '../../mock/assets.json';
+
+export default function handler(req, res) {
+  res.status(200).json(assets);
+} 

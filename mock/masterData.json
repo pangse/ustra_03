@@ -1,0 +1,15 @@
+[
+  {"id": 1, "type": "위치", "name": "IT장비실", "description": "IT 장비 보관실"},
+  {"id": 2, "type": "위치", "name": "방송장비실", "description": "방송 장비 보관실"},
+  {"id": 3, "type": "위치", "name": "음향장비실", "description": "음향 장비 보관실"},
+  {"id": 4, "type": "위치", "name": "음악실", "description": "음악 장비 보관실"},
+  {"id": 5, "type": "위치", "name": "조명장비실", "description": "조명 장비 보관실"},
+  {"id": 6, "type": "위치", "name": "의상실", "description": "의상 보관실"},
+  {"id": 7, "type": "위치", "name": "소품실", "description": "소품 보관실"},
+  {"id": 8, "type": "위치", "name": "무대실", "description": "무대 장비 보관실"},
+  {"id": 9, "type": "위치", "name": "연습실", "description": "연습 장비 보관실"},
+  {"id": 10, "type": "위치", "name": "보관창고", "description": "일반 보관 창고"},
+  {"id": 11, "type": "위치", "name": "임시보관실", "description": "임시 보관 공간"},
+  {"id": 12, "type": "위치", "name": "수리실", "description": "장비 수리 공간"}
+  // ... (생략, 실제로는 seed.cjs의 모든 masterData를 변환)
+] 

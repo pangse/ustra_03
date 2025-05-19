@@ -1,0 +1,5 @@
+[
+  {"id": 1, "materialId": 1, "handlerId": 2, "type": "입고", "quantity": 1, "memo": "[대여 rentalId:1] 자동 대여 입고", "date": "2024-06-01T10:00:00Z"},
+  {"id": 2, "materialId": 1, "handlerId": 2, "type": "출고", "quantity": 1, "memo": "[반납 returnId:1] 자동 반납 출고", "date": "2024-06-04T10:00:00Z"}
+  // ... (생략, 실제로는 모든 자산이력 데이터를 변환)
+] 

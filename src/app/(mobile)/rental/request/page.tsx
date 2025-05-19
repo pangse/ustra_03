@@ -434,7 +434,7 @@ export default function RentalRequestPage() {
           >
             <Image
               key="rfid-scan-image"
-              src="/images/etc/rfid_01.png"
+              src="/images/etc/bluetooth_2.png"
               alt="RFID Scan"
               width={200}
               height={200}
@@ -478,7 +478,7 @@ export default function RentalRequestPage() {
                 대여 가능
               </span>
               <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
-                {material.quantity}
+              잔여 수량 : {material.quantity - quantity}
               </span>
             </div>
 
@@ -557,8 +557,18 @@ export default function RentalRequestPage() {
                   >
                     +
                   </button>
+                  <span className={
+                    material.quantity - quantity <= 0
+                      ? "ml-2 text-red-500 font-bold"
+                      : "ml-2 text-gray-600"
+                  }>
+                    잔여 수량: {material.quantity - quantity}개
+                  </span>
                 </div>
               </div>
+              {material.quantity - quantity < 0 && (
+                <div className="text-xs text-red-500 mt-1 ml-24">잔여 수량을 초과할 수 없습니다.</div>
+              )}
             </div>
 
             <form
@@ -685,7 +695,7 @@ export default function RentalRequestPage() {
 
               <button
                 type="submit"
-                disabled={loading || !material || !startDate || !endDate || !purpose || !arrivalDate}
+                disabled={loading || !material || !startDate || !endDate || !purpose || !arrivalDate || material.quantity - quantity < 0}
                 className="w-full bg-blue-500 text-white py-3 rounded-lg font-medium hover:bg-blue-600 transition-colors disabled:bg-gray-400"
               >
                 {loading ? '처리 중...' : '대여 예약'}

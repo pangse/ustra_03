@@ -1,0 +1,5 @@
+[
+  {"id": "ckrfidhist1", "rfidTag": "RFID001-1", "materialId": 1, "type": "REGISTER", "timestamp": "2024-06-01T10:00:00Z"},
+  {"id": "ckrfidhist2", "rfidTag": "RFID001-1", "materialId": 1, "type": "SCAN", "timestamp": "2024-06-04T10:00:00Z"}
+  // ... (생략, 실제로는 모든 RFID 이력을 변환)
+] 

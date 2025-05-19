@@ -1,0 +1,8 @@
+[
+  { "id": 1, "assetId": "C1000_10125", "name": "루시 화이트 셋업", "type": "무대의상", "requestDate": "2025-05-01", "processType": "수선", "status": "진행중", "handler": "김관리", "location": "서울 본사", "memo": "단추 교체" },
+  { "id": 2, "assetId": "P2000_20111", "name": "무선 마이크 A", "type": "마이크", "requestDate": "2025-05-02", "processType": "세탁", "status": "완료", "handler": "이세탁", "location": "부산 지사", "memo": "외관 세척" },
+  { "id": 3, "assetId": "IT3000_30123", "name": "맥북프로 16", "type": "노트북", "requestDate": "2025-05-03", "processType": "수선", "status": "대기", "handler": "박수리", "location": "서울 본사", "memo": "키보드 수리" },
+  { "id": 4, "assetId": "C1000_10126", "name": "블랙 퍼포먼스 슈트", "type": "무대의상", "requestDate": "2025-05-04", "processType": "세탁", "status": "진행중", "handler": "이세탁", "location": "서울 본사", "memo": "얼룩 제거" },
+  { "id": 5, "assetId": "A4000_40102", "name": "BOSE 스피커", "type": "스피커", "requestDate": "2025-05-05", "processType": "수선", "status": "대기", "handler": "박수리", "location": "서울 본사", "memo": "배선 교체" },
+  { "id": 6, "assetId": "L5000_50111", "name": "LED 무대조명", "type": "LED 조명", "requestDate": "2025-05-06", "processType": "수선", "status": "완료", "handler": "김관리", "location": "부산 지사", "memo": "LED 모듈 교체" }
+] 

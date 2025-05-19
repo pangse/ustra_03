@@ -1,0 +1,19 @@
+[
+  // 200건의 예시 데이터 (id: 1~200)
+  // 날짜는 2025-03-01 ~ 2025-05-31 사이에서 균등 분포
+  // userId: 1~13, materialId: 1~15(예시)
+  {"id": 1, "materialId": 1, "userId": 2, "status": "대여중", "rentDate": "2025-03-01T09:00:00Z", "returnDate": null, "memo": "자동 생성"},
+  {"id": 2, "materialId": 2, "userId": 3, "status": "반납완료", "rentDate": "2025-03-02T09:00:00Z", "returnDate": "2025-03-07T09:00:00Z", "memo": "자동 생성"},
+  {"id": 3, "materialId": 3, "userId": 4, "status": "대여중", "rentDate": "2025-03-03T09:00:00Z", "returnDate": null, "memo": "자동 생성"},
+  {"id": 4, "materialId": 4, "userId": 5, "status": "반납완료", "rentDate": "2025-03-04T09:00:00Z", "returnDate": "2025-03-09T09:00:00Z", "memo": "자동 생성"},
+  {"id": 5, "materialId": 5, "userId": 6, "status": "대여중", "rentDate": "2025-03-05T09:00:00Z", "returnDate": null, "memo": "자동 생성"},
+  {"id": 6, "materialId": 6, "userId": 7, "status": "반납완료", "rentDate": "2025-03-06T09:00:00Z", "returnDate": "2025-03-13T09:00:00Z", "memo": "자동 생성"},
+  {"id": 7, "materialId": 7, "userId": 8, "status": "대여중", "rentDate": "2025-03-07T09:00:00Z", "returnDate": null, "memo": "자동 생성"},
+  {"id": 8, "materialId": 8, "userId": 9, "status": "반납완료", "rentDate": "2025-03-08T09:00:00Z", "returnDate": "2025-03-15T09:00:00Z", "memo": "자동 생성"},
+  {"id": 9, "materialId": 9, "userId": 10, "status": "대여중", "rentDate": "2025-03-09T09:00:00Z", "returnDate": null, "memo": "자동 생성"},
+  {"id": 10, "materialId": 10, "userId": 11, "status": "반납완료", "rentDate": "2025-03-10T09:00:00Z", "returnDate": "2025-03-17T09:00:00Z", "memo": "자동 생성"},
+  { "id": 11, "rentalId": "R20240301-001", "group": "의상", "type": "무대의상", "assetId": "C1000_10127", "name": "레드 퍼포먼스 드레스", "warehouse": "서울 본사", "status": "대여중", "project": "서울 봄 축제", "requester": "김지원", "arrivalDate": "2024-03-15", "destination": "서울 올림픽공원", "rentalPeriod": "2024.03.15~2024.03.20", "stockQuantity": 5, "requestedQuantity": 1 },
+  { "id": 12, "rentalId": "R20240301-002", "group": "음향", "type": "스피커", "assetId": "A4000_40103", "name": "소형 스피커 세트", "warehouse": "부산 지사", "status": "대여중", "project": "부산 해변 축제", "requester": "박해수", "arrivalDate": "2024-03-10", "destination": "부산 해운대", "rentalPeriod": "2024.03.10~2024.03.15", "stockQuantity": 3, "requestedQuantity": 2 },
+  { "id": 13, "rentalId": "R20240301-003", "group": "IT장비", "type": "노트북", "assetId": "IT3000_30125", "name": "LG 그램", "warehouse": "서울 본사", "status": "대여중", "project": "서울 스타트업 데모데이", "requester": "이창업", "arrivalDate": "2024-03-05", "destination": "서울 강남", "rentalPeriod": "2024.03.05~2024.03.10", "stockQuantity": 2, "requestedQuantity": 1 },
+  // ... (190건 추가, 날짜, userId, materialId, status, returnDate 랜덤/순차 분포)
+] 

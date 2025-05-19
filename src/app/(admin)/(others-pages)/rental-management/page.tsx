@@ -174,13 +174,13 @@ export default function RentalManagementPage() {
                     <button
                       onClick={() => handleStatusChange(request.id, 'COMPLETED', request)}
                       className="rounded-full p-2 border border-transparent hover:bg-gray-100 flex items-center gap-1 text-blue-600"
-                      aria-label="Return"
+                      aria-label="반납"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6A2.25 2.25 0 0 0 5.25 5.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15" />
                         <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H9.75m0 0l3-3m-3 3l3 3" />
                       </svg>
-                      Return
+                      반납
                     </button>
                   )}
                 </td>
@@ -207,13 +207,13 @@ export default function RentalManagementPage() {
                 <button
                   onClick={() => handleStatusChange(request.id, 'COMPLETED', request)}
                   className="mt-2 w-full rounded-full p-2 border border-transparent hover:bg-gray-100 flex items-center gap-1 text-blue-600 bg-white justify-center"
-                  aria-label="Return"
+                  aria-label="반납"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6A2.25 2.25 0 0 0 5.25 5.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15" />
                     <path strokeLinecap="round" strokeLinejoin="round" d="M18 12H9.75m0 0l3-3m-3 3l3 3" />
                   </svg>
-                  Return
+                  반납
                 </button>
               )}
             </div>

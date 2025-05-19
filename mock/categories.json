@@ -1,0 +1,9 @@
+[
+  {"id": 1, "name": "컴퓨터", "description": "데스크탑, 노트북 등", "assetTypeId": 1},
+  {"id": 2, "name": "네트워크 장비", "description": "라우터, 스위치 등", "assetTypeId": 2},
+  {"id": 3, "name": "카메라", "description": "촬영용 카메라", "assetTypeId": 8},
+  {"id": 4, "name": "마이크", "description": "마이크 시스템", "assetTypeId": 15},
+  {"id": 5, "name": "LED조명", "description": "LED 조명 장비", "assetTypeId": 22},
+  {"id": 6, "name": "정장", "description": "정장류", "assetTypeId": 29},
+  {"id": 7, "name": "가구", "description": "무대 가구", "assetTypeId": 36}
+] 

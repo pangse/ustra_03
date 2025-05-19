@@ -26,6 +26,7 @@ export interface Asset {
   name: string;
   warehouse: string;
   status: string;
+  stockQuantity?: number;
 }
 
 const initialForm: RentalRequestForm = {
@@ -90,6 +91,18 @@ const RentalRequestModal: React.FC<RentalRequestModalProps> = ({ open, onClose, 
     return () => window.removeEventListener("keydown", handleEsc);
   }, [open, onClose]);
 
+  useEffect(() => {
+    const header = document.querySelector('header');
+    if (open) {
+      if (header) header.style.display = 'none';
+    } else {
+      if (header) header.style.display = '';
+    }
+    return () => {
+      if (header) header.style.display = '';
+    };
+  }, [open]);
+
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === overlayRef.current) onClose();
   };
@@ -100,6 +113,14 @@ const RentalRequestModal: React.FC<RentalRequestModalProps> = ({ open, onClose, 
     if (!form.assetName.trim()) newErrors.assetName = "자산 이름을 입력하세요.";
     if (!form.destination.trim()) newErrors.destination = "도착지를 입력하세요.";
     if (!form.quantity || Number(form.quantity) <= 0) newErrors.quantity = "요청 수량을 입력하세요.";
+    if (
+      selectedAssets && selectedAssets.length === 1 &&
+      typeof selectedAssets[0].stockQuantity === 'number' &&
+      typeof form.quantity === 'number' &&
+      form.quantity > selectedAssets[0].stockQuantity
+    ) {
+      newErrors.quantity = "대여 가능 수량을 초과할 수 없습니다.";
+    }
     return newErrors;
   };
 
@@ -199,15 +220,34 @@ const RentalRequestModal: React.FC<RentalRequestModalProps> = ({ open, onClose, 
           </div>
           <div>
             <label className="block text-sm mb-1">요청 수량 <span className="text-red-500">*</span></label>
-            <input
-              name="quantity"
-              type="number"
-              min={1}
-              className="border rounded px-4 py-2 w-full"
-              value={form.quantity}
-              onChange={handleChange}
-              placeholder="수량 입력"
-            />
+            <div className="flex items-center gap-2">
+              <input
+                name="quantity"
+                type="number"
+                min={1}
+                className="border rounded px-4 py-2 w-full"
+                value={form.quantity}
+                onChange={handleChange}
+                placeholder="수량 입력"
+              />
+              {selectedAssets && selectedAssets.length === 1 && typeof selectedAssets[0].stockQuantity === 'number' ? (
+                <span className={
+                  typeof form.quantity === 'number' && form.quantity > selectedAssets[0].stockQuantity
+                    ? "text-red-500 font-bold"
+                    : "text-gray-600"
+                }>
+                  잔여 수량: {Math.max(selectedAssets[0].stockQuantity - (typeof form.quantity === 'number' ? form.quantity : 0), 0)}개
+                </span>
+              ) : (
+                <span className="text-gray-400">잔여 수량: -</span>
+              )}
+            </div>
+            {typeof form.quantity === 'number' && selectedAssets && selectedAssets.length === 1 &&
+              typeof selectedAssets[0].stockQuantity === 'number' &&
+              form.quantity > selectedAssets[0].stockQuantity && (
+                <div className="text-xs text-red-500 mt-1">대여 가능 수량을 초과할 수 없습니다.</div>
+              )
+            }
             {errors.quantity && <div className="text-xs text-red-500 mt-1">{errors.quantity}</div>}
           </div>
           <div>
