@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { FaRegCalendarAlt } from "react-icons/fa";
 
 export interface RepairLaundry {
   id: number;
@@ -19,9 +20,19 @@ interface RepairRequestModalProps {
   selectedRepairs: RepairLaundry[];
 }
 
+const getToday = () => {
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
+};
+
 const RepairRequestModal: React.FC<RepairRequestModalProps> = ({ open, onClose, selectedRepairs }) => {
   const [form, setForm] = React.useState({
-    requester: "",
+    requester: "김관리",
+    processType: "수선",
+    requestDate: getToday(),
     memo: "",
   });
   const [errors, setErrors] = React.useState<{ [k: string]: string }>({});
@@ -29,7 +40,7 @@ const RepairRequestModal: React.FC<RepairRequestModalProps> = ({ open, onClose, 
 
   useEffect(() => {
     if (open) {
-      setForm({ requester: "", memo: "" });
+      setForm({ requester: "김관리", processType: "수선", requestDate: getToday(), memo: "" });
       setErrors({});
     }
   }, [open]);
@@ -50,10 +61,12 @@ const RepairRequestModal: React.FC<RepairRequestModalProps> = ({ open, onClose, 
   const validate = () => {
     const newErrors: { [k: string]: string } = {};
     if (!form.requester.trim()) newErrors.requester = "요청인을 입력하세요.";
+    if (!form.processType) newErrors.processType = "처리유형을 선택하세요.";
+    if (!form.requestDate) newErrors.requestDate = "요청일을 입력하세요.";
     return newErrors;
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setForm(f => ({ ...f, [name]: value }));
   };
@@ -103,13 +116,38 @@ const RepairRequestModal: React.FC<RepairRequestModalProps> = ({ open, onClose, 
             {errors.requester && <div className="text-xs text-red-500 mt-1">{errors.requester}</div>}
           </div>
           <div>
-            <label className="block text-sm mb-1">메모</label>
-            <input
-              name="memo"
+            <label className="block text-sm mb-1">처리유형 <span className="text-red-500">*</span></label>
+            <select
+              name="processType"
               className="border rounded px-4 py-2 w-full"
+              value={form.processType}
+              onChange={handleChange}
+            >
+              <option value="수선">수선</option>
+              <option value="세탁">세탁</option>
+            </select>
+            {errors.processType && <div className="text-xs text-red-500 mt-1">{errors.processType}</div>}
+          </div>
+          <div>
+            <label className="block text-sm mb-1">요청일 <span className="text-red-500">*</span></label>
+            <input
+              name="requestDate"
+              type="date"
+              className="border rounded px-4 py-2 w-full"
+              value={form.requestDate}
+              onChange={handleChange}
+            />
+            {errors.requestDate && <div className="text-xs text-red-500 mt-1">{errors.requestDate}</div>}
+          </div>
+          <div>
+            <label className="block text-sm mb-1">메모</label>
+            <textarea
+              name="memo"
+              className="border rounded px-4 py-2 w-full resize-y min-h-[80px]"
               value={form.memo}
               onChange={handleChange}
               placeholder="요청 사항을 입력하세요"
+              rows={4}
             />
           </div>
           <div className="flex gap-2 mt-4">

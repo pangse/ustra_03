@@ -41,6 +41,12 @@ export default function RentalManagementPage() {
   });
   const [search, setSearch] = useState({ name: '', status: '' });
 
+  const statusLabels = {
+    APPROVED: "대여중",
+    COMPLETED: "반납완료",
+    PENDING: "승인대기"
+  };
+
   // 초기 데이터 로드
   useEffect(() => {
     const fetchRentalRequests = async () => {
@@ -105,18 +111,6 @@ export default function RentalManagementPage() {
     }
   };
 
-  const getStatusBadge = (status: string) => {
-    const statusLabels = {
-      APPROVED: "대여중",
-      COMPLETED: "반납완료"
-    };
-    return (
-      <span className="px-2 py-1 rounded text-xs border bg-gray-50">
-        {statusLabels[status as keyof typeof statusLabels]}
-      </span>
-    );
-  };
-
   const filteredRequests = rentalRequests.filter(request => {
     if (search.status && request.status !== search.status) return false;
     if (search.name && !request.material.name.includes(search.name)) return false;
@@ -174,7 +168,7 @@ export default function RentalManagementPage() {
                 <td className="border px-4 py-2 text-center">{request.material.location?.name}</td>
                 <td className="border px-4 py-2 text-center">{new Date(request.startDate).toLocaleDateString()} ~ {new Date(request.endDate).toLocaleDateString()}</td>
                 <td className="border px-4 py-2 text-center">{request.purpose}</td>
-                <td className="border px-4 py-2 text-center">{getStatusBadge(request.status)}</td>
+                <td className="border px-4 py-2 text-center">{statusLabels[request.status as keyof typeof statusLabels] || request.status}</td>
                 <td className="border px-4 py-2 text-center">
                   {request.status === 'APPROVED' && (
                     <button
@@ -208,7 +202,7 @@ export default function RentalManagementPage() {
               <div className="text-xs text-gray-500 mb-1">신청자: <span className="text-gray-800">{request.material.location?.name}</span></div>
               <div className="text-xs text-gray-500 mb-1">대여 기간: <span className="text-gray-800">{new Date(request.startDate).toLocaleDateString()} ~ {new Date(request.endDate).toLocaleDateString()}</span></div>
               <div className="text-xs text-gray-500 mb-1">목적: <span className="text-gray-800">{request.purpose}</span></div>
-              <div className="text-xs text-gray-500 mb-1">상태: <span className="text-gray-800">{getStatusBadge(request.status)}</span></div>
+              <div className="text-xs text-gray-500 mb-1">상태: <span className="text-gray-800">{statusLabels[request.status as keyof typeof statusLabels] || request.status}</span></div>
               {request.status === 'APPROVED' && (
                 <button
                   onClick={() => handleStatusChange(request.id, 'COMPLETED', request)}

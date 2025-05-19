@@ -377,25 +377,25 @@ export default function MaterialHistoryPage() {
         <table className="min-w-full border text-sm bg-white">
           <thead>
             <tr className="bg-gray-100">
-              <th className="border px-4 py-2 text-center">날짜</th>
-              <th className="border px-4 py-2 text-center">자산</th>
-              <th className="border px-4 py-2 text-center">유형</th>
-              <th className="border px-4 py-2 text-center">수량</th>
-              <th className="border px-4 py-2 text-center">담당자</th>
-              <th className="border px-4 py-2 text-center">메모</th>
-              <th className="border px-4 py-2 text-center">관리</th>
+              <th className="border px-4 py-1 text-center">날짜</th>
+              <th className="border px-4 py-1 text-center">자산</th>
+              <th className="border px-4 py-1 text-center">유형</th>
+              <th className="border px-4 py-1 text-center">수량</th>
+              <th className="border px-4 py-1 text-center">담당자</th>
+              <th className="border px-4 py-1 text-center">메모</th>
+              <th className="border px-4 py-1 text-center">관리</th>
             </tr>
           </thead>
           <tbody>
             {filteredHistories.map((history) => (
               <tr key={history.id}>
-                <td className="border px-4 py-2 text-center">{new Date(history.date).toLocaleString()}</td>
-                <td className="border px-4 py-2 text-center">{history.material?.name}</td>
-                <td className="border px-4 py-2 text-center">{history.type}</td>
-                <td className="border px-4 py-2 text-center">{history.quantity}</td>
-                <td className="border px-4 py-2 text-center">{history.handler?.name}</td>
-                <td className="border px-4 py-2 text-center">{history.memo}</td>
-                <td className="border px-4 py-2 text-center">
+                <td className="border px-4 py-1 text-center">{new Date(history.date).toLocaleString()}</td>
+                <td className="border px-4 py-1 text-center">{history.material?.name}</td>
+                <td className="border px-4 py-1 text-center">{history.type}</td>
+                <td className="border px-4 py-1 text-center">{history.quantity}</td>
+                <td className="border px-4 py-1 text-center">{history.handler?.name}</td>
+                <td className="border px-4 py-1 text-center">{history.memo}</td>
+                <td className="border px-4 py-1 text-center">
                   <div className="flex gap-2 justify-center">
                     <button
                       onClick={() => handleEdit(history)}

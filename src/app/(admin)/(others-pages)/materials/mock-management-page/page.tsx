@@ -3,15 +3,24 @@ import { useEffect, useState } from "react";
 import RentalRequestModal, { RentalRequestForm } from "@/components/RentalRequestModal";
 import { useRouter } from "next/navigation";
 import RepairRequestModal from "@/components/RepairRequestModal";
+import dayjs from "dayjs";
 
 interface Asset {
   id: number;
+  rentalId?: string;
   group: string;
   type: string;
   assetId: string;
   name: string;
   warehouse: string;
   status: string;
+  project?: string;
+  requester?: string;
+  arrivalDate?: string;
+  destination?: string;
+  rentalPeriod?: string;
+  stockQuantity?: number;
+  requestedQuantity?: number;
 }
 
 interface RepairLaundry {
@@ -40,16 +49,16 @@ const WAREHOUSES = ["서울 본사", "부산 지사", "도쿄 지사"];
 const STATUS = ["정상", "대여중", "수선중", "폐기완료"];
 
 const mockAssetsInit: Asset[] = [
-  { id: 1, group: "의상", type: "무대의상", assetId: "C1000_10125", name: "루시 화이트 셋업", warehouse: "서울 본사", status: "정상" },
-  { id: 2, group: "소품", type: "마이크", assetId: "P2000_20111", name: "무선 마이크 A", warehouse: "부산 지사", status: "대여중" },
-  { id: 3, group: "IT장비", type: "노트북", assetId: "IT3000_30123", name: "맥북프로 16", warehouse: "서울 본사", status: "수선중" },
-  { id: 4, group: "음향", type: "스피커", assetId: "A4000_40101", name: "JBL 스피커", warehouse: "도쿄 지사", status: "정상" },
-  { id: 5, group: "조명", type: "LED 조명", assetId: "L5000_50111", name: "LED 무대조명", warehouse: "부산 지사", status: "폐기완료" },
-  { id: 6, group: "의상", type: "무대의상", assetId: "C1000_10126", name: "블랙 퍼포먼스 슈트", warehouse: "서울 본사", status: "정상" },
-  { id: 7, group: "소품", type: "마이크", assetId: "P2000_20112", name: "유선 마이크 B", warehouse: "도쿄 지사", status: "대여중" },
-  { id: 8, group: "IT장비", type: "노트북", assetId: "IT3000_30124", name: "삼성 갤럭시북", warehouse: "부산 지사", status: "정상" },
-  { id: 9, group: "음향", type: "스피커", assetId: "A4000_40102", name: "BOSE 스피커", warehouse: "서울 본사", status: "수선중" },
-  { id: 10, group: "조명", type: "LED 조명", assetId: "L5000_50112", name: "무빙라이트", warehouse: "도쿄 지사", status: "정상" }
+  { id: 1, rentalId: "R20240601-001", group: "의상", type: "무대의상", assetId: "C1000_10125", name: "루시 화이트 셋업", warehouse: "서울 본사", status: "정상", project: "광명 청소년 콘서트", requester: "이지수", arrivalDate: "2025-06-20", destination: "광명 아트홀", rentalPeriod: "2025.06.19~2025.06.22", stockQuantity: 10, requestedQuantity: 2 },
+  { id: 2, rentalId: "R20240601-002", group: "소품", type: "마이크", assetId: "P2000_20111", name: "무선 마이크 A", warehouse: "부산 지사", status: "대여중", project: "부산 뮤직 페스티벌", requester: "김철수", arrivalDate: "2025-07-01", destination: "부산 아트센터", rentalPeriod: "2025.06.30~2025.07.04", stockQuantity: 5, requestedQuantity: 1 },
+  { id: 3, rentalId: "R20240601-003", group: "IT장비", type: "노트북", assetId: "IT3000_30123", name: "맥북프로 16", warehouse: "서울 본사", status: "수선중", project: "서울 IT 컨퍼런스", requester: "박영희", arrivalDate: "2025-08-10", destination: "서울 코엑스", rentalPeriod: "2025.08.10~2025.08.14", stockQuantity: 3, requestedQuantity: 1 },
+  { id: 4, rentalId: "R20240601-004", group: "음향", type: "스피커", assetId: "A4000_40101", name: "JBL 스피커", warehouse: "도쿄 지사", status: "정상", project: "도쿄 재즈 나잇", requester: "이유진", arrivalDate: "2025-09-05", destination: "도쿄홀", rentalPeriod: "2025.09.05~2025.09.09", stockQuantity: 8, requestedQuantity: 4 },
+  { id: 5, rentalId: "R20240601-005", group: "조명", type: "LED 조명", assetId: "L5000_50111", name: "LED 무대조명", warehouse: "부산 지사", status: "폐기완료", project: "부산 뮤직 페스티벌", requester: "최민수", arrivalDate: "2025-10-01", destination: "부산 체육관", rentalPeriod: "2025.10.01~2025.10.05", stockQuantity: 20, requestedQuantity: 10 },
+  { id: 6, rentalId: "R20240601-006", group: "의상", type: "무대의상", assetId: "C1000_10126", name: "블랙 퍼포먼스 슈트", warehouse: "서울 본사", status: "정상", project: "광명 청소년 콘서트", requester: "이지수", arrivalDate: "2025-06-20", destination: "광명 아트홀", rentalPeriod: "2025.06.19~2025.06.22", stockQuantity: 7, requestedQuantity: 1 },
+  { id: 7, rentalId: "R20240601-007", group: "소품", type: "마이크", assetId: "P2000_20112", name: "유선 마이크 B", warehouse: "도쿄 지사", status: "대여중", project: "도쿄 재즈 나잇", requester: "이유진", arrivalDate: "2025-09-05", destination: "도쿄홀", rentalPeriod: "2025.09.05~2025.09.09", stockQuantity: 6, requestedQuantity: 2 },
+  { id: 8, rentalId: "R20240601-008", group: "IT장비", type: "노트북", assetId: "IT3000_30124", name: "삼성 갤럭시북", warehouse: "부산 지사", status: "정상", project: "부산 뮤직 페스티벌", requester: "김철수", arrivalDate: "2025-07-01", destination: "부산 아트센터", rentalPeriod: "2025.06.30~2025.07.04", stockQuantity: 4, requestedQuantity: 1 },
+  { id: 9, rentalId: "R20240601-009", group: "음향", type: "스피커", assetId: "A4000_40102", name: "BOSE 스피커", warehouse: "서울 본사", status: "수선중", project: "서울 IT 컨퍼런스", requester: "박영희", arrivalDate: "2025-08-10", destination: "서울 코엑스", rentalPeriod: "2025.08.10~2025.08.14", stockQuantity: 2, requestedQuantity: 1 },
+  { id: 10, rentalId: "R20240601-010", group: "조명", type: "LED 조명", assetId: "L5000_50112", name: "무빙라이트", warehouse: "도쿄 지사", status: "정상", project: "도쿄 재즈 나잇", requester: "이유진", arrivalDate: "2025-09-05", destination: "도쿄홀", rentalPeriod: "2025.09.05~2025.09.09", stockQuantity: 9, requestedQuantity: 3 }
 ];
 
 const mockRepairLaundry: RepairLaundry[] = [
@@ -68,6 +77,20 @@ const mockHandlers: HandlerInfo[] = [
   { name: '정담당', phone: '010-4567-8901', email: 'jung@hybe.com', department: '자산관리팀' },
   { name: '최기사', phone: '010-5678-9012', email: 'choi@hybe.com', department: '수리팀' }
 ];
+
+// Helper to get remaining days
+function getRemainingDays(rentalPeriod?: string) {
+  if (!rentalPeriod) return null;
+  const parts = rentalPeriod.split("~");
+  if (parts.length !== 2) return null;
+  const end = parts[1].trim().replace(/\./g, "-");
+  const today = dayjs().startOf("day");
+  const endDate = dayjs(end);
+  if (!endDate.isValid()) return null;
+  const diff = endDate.diff(today, "day");
+  if (diff >= 0) return { text: `D+${diff}`, overdue: false };
+  else return { text: `${diff}`, overdue: true };
+}
 
 export default function AssetManagementMockPage() {
   const [assets, setAssets] = useState<Asset[]>(mockAssetsInit);
@@ -88,6 +111,30 @@ export default function AssetManagementMockPage() {
   const [repairModalOpen, setRepairModalOpen] = useState(false);
   const [selectedRepairs, setSelectedRepairs] = useState<RepairLaundry[]>([]);
   const [selectedCompletedRepair, setSelectedCompletedRepair] = useState<RepairLaundry | null>(null);
+  const [returnedQuantity, setReturnedQuantity] = useState<number | null>(null);
+  const [editForm, setEditForm] = useState<any>(null);
+
+  useEffect(() => {
+    if (selectedAsset) {
+      setEditForm({
+        rentalId: selectedAsset.rentalId || '',
+        assetId: selectedAsset.assetId || '',
+        requester: selectedAsset.requester || '',
+        arrivalDate: selectedAsset.arrivalDate || '',
+        project: selectedAsset.project || '',
+        rentalPeriod: selectedAsset.rentalPeriod || '',
+        name: selectedAsset.name || '',
+        type: selectedAsset.type || '',
+        requestedQuantity: selectedAsset.requestedQuantity || 0,
+        returnedQuantity: returnedQuantity ?? 0,
+        warehouse: selectedAsset.warehouse || '',
+      });
+      setReturnedQuantity(0);
+    } else {
+      setEditForm(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedAsset]);
 
   // 검색 필터링
   const filtered = assets.filter(a =>
@@ -309,37 +356,6 @@ export default function AssetManagementMockPage() {
         onClose={() => setRepairModalOpen(false)}
         selectedRepairs={selectedRepairs}
       />
-      {/* 자산 상세 레이어 팝업 (대여/수선 공통) */}
-      {(selectedAsset || selectedRepair) && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 min-w-[350px] max-w-[90vw] shadow-lg relative">
-            <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl" onClick={() => { setSelectedAsset(null); setSelectedRepair(null); }}>&times;</button>
-            <h2 className="text-lg font-bold mb-4">자산 상세 정보</h2>
-            <div className="space-y-2 text-sm">
-              <div><span className="font-semibold">자산명:</span> {selectedAsset?.name || selectedRepair?.name}</div>
-              <div><span className="font-semibold">자산 그룹:</span> {selectedAsset?.group || '-'}</div>
-              <div><span className="font-semibold">자산 분류:</span> {selectedAsset?.type || selectedRepair?.type}</div>
-              <div><span className="font-semibold">자산 ID:</span> {selectedAsset?.assetId || selectedRepair?.assetId}</div>
-              <div><span className="font-semibold">자산 창고:</span> {selectedAsset?.warehouse || selectedRepair?.location}</div>
-              <div><span className="font-semibold">상태:</span> {selectedAsset?.status || selectedRepair?.status}</div>
-            </div>
-            {selectedRepair && (
-              <>
-                <div className="border-t my-4"></div>
-                <h3 className="text-base font-semibold mb-2">수선·세탁 처리 정보</h3>
-                <div className="space-y-2 text-sm">
-                  <div><span className="font-semibold">처리유형:</span> {selectedRepair.processType}</div>
-                  <div><span className="font-semibold">요청일:</span> {selectedRepair.requestDate}</div>
-                  <div><span className="font-semibold">상태:</span> {selectedRepair.status}</div>
-                  <div><span className="font-semibold">담당자:</span> {selectedRepair.handler}</div>
-                  <div><span className="font-semibold">위치:</span> {selectedRepair.location}</div>
-                  <div><span className="font-semibold">메모:</span> {selectedRepair.memo || '-'}</div>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
       {/* 담당자 상세 레이어 팝업 */}
       {selectedHandler && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
@@ -376,57 +392,132 @@ export default function AssetManagementMockPage() {
       )}
       {/* 데스크탑: 테이블 */}
       {activeTab === 'rental' && (
-        <div className="hidden md:block">
-          <table className="min-w-full border text-sm">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="border px-4 py-2 w-8">
-                  <input type="checkbox"
-                    checked={filtered.length > 0 && checkedRental.length === filtered.length}
-                    onChange={e => {
-                      if (e.target.checked) setCheckedRental(filtered.map(a => a.id));
-                      else setCheckedRental([]);
-                    }}
-                  />
-                </th>
-                <th className="border px-4 py-2 text-center">자산 그룹</th>
-                <th className="border px-4 py-2 text-center">자산 분류</th>
-                <th className="border px-4 py-2 text-center">자산 ID</th>
-                <th className="border px-4 py-2 text-center">자산명</th>
-                <th className="border px-4 py-2 text-center">자산창고</th>
-                <th className="border px-4 py-2 text-center">상태</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.length === 0 ? (
-                <tr>
-                  <td colSpan={7} className="text-center py-8 text-gray-400">
-                    조회된 데이터가 없습니다
-                  </td>
+        <div className="hidden md:flex md:flex-row md:gap-4">
+          <div className={selectedAsset ? "w-1/2 transition-all" : "w-full transition-all"}>
+            <table className="min-w-full border text-sm">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="border px-4 py-2 w-8"></th>
+                  <th className="border px-4 py-2 text-center">대여ID</th>
+                  <th className="border px-4 py-2 text-center">자산 ID</th>
+                  <th className="border px-4 py-2 text-center">요청인</th>
+                  <th className="border px-4 py-2 text-center">도착 희망일</th>
+                  <th className="border px-4 py-2 text-center">대여지</th>
+                  <th className="border px-4 py-2 text-center">프로젝트</th>
+                  <th className="border px-4 py-2 text-center">대여기간</th>
+                  <th className="border px-4 py-2 text-center">잔여일수</th>
+                  <th className="border px-4 py-2 text-center">자산 이름</th>
+                  <th className="border px-4 py-2 text-center">자산 유형</th>
+                  <th className="border px-4 py-2 text-center">재고 수량</th>
+                  <th className="border px-4 py-2 text-center">요청 수량</th>
+                  <th className="border px-4 py-2 text-center">재고 위치</th>
+                  <th className="border px-4 py-2 text-center">상태</th>
                 </tr>
-              ) : (
-                filtered.map((a) => (
-                  <tr key={a.id}>
-                    <td className="border px-4 py-2 text-center">
-                      <input type="checkbox"
-                        checked={checkedRental.includes(a.id)}
-                        onChange={e => {
-                          if (e.target.checked) setCheckedRental(prev => [...prev, a.id]);
-                          else setCheckedRental(prev => prev.filter(id => id !== a.id));
-                        }}
-                      />
+              </thead>
+              <tbody>
+                {filtered.length === 0 ? (
+                  <tr>
+                    <td colSpan={15} className="text-center py-8 text-gray-400">
+                      조회된 데이터가 없습니다
                     </td>
-                    <td className="border px-4 py-2 text-center">{a.group}</td>
-                    <td className="border px-4 py-2 text-center">{a.type}</td>
-                    <td className="border px-4 py-2 text-center">{a.assetId}</td>
-                    <td className="border px-4 py-2 text-center text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedAsset(a)}>{a.name}</td>
-                    <td className="border px-4 py-2 text-center">{a.warehouse}</td>
-                    <td className="border px-4 py-2 text-center">{a.status}</td>
                   </tr>
-                ))
+                ) : (
+                  filtered.map((a, idx) => {
+                    const remain = getRemainingDays(a.rentalPeriod);
+                    return (
+                    <tr key={a.id} className={selectedAsset && selectedAsset.id === a.id ? "bg-yellow-50" : "cursor-pointer hover:bg-gray-50"} onClick={() => setSelectedAsset(a)}>
+                      <td className="border px-4 py-2 text-center" onClick={e => e.stopPropagation()}>
+                        <input type="checkbox"
+                          checked={checkedRental.includes(a.id)}
+                          disabled={a.status === '폐기완료' || a.status === '수선중'}
+                          onChange={e => {
+                            if (e.target.checked) setCheckedRental(prev => [...prev, a.id]);
+                            else setCheckedRental(prev => prev.filter(id => id !== a.id));
+                          }}
+                        />
+                      </td>
+                      <td className="border px-4 py-2 text-center">{a.rentalId}</td>
+                      <td className="border px-4 py-2 text-center">{a.assetId}</td>
+                      <td className="border px-4 py-2 text-center">{a.requester}</td>
+                      <td className="border px-4 py-2 text-center">{a.arrivalDate}</td>
+                      <td className="border px-4 py-2 text-center">{a.destination}</td>
+                      <td className="border px-4 py-2 text-center">{a.project}</td>
+                      <td className="border px-4 py-2 text-center">{a.rentalPeriod}</td>
+                      <td className="border px-4 py-2 text-center">
+                        {remain ? (
+                          remain.overdue ? <span className="text-red-500 font-bold">{remain.text} (연체)</span> : remain.text
+                        ) : '-'}
+                      </td>
+                      <td className="border px-4 py-2 text-center text-blue-600 hover:underline cursor-pointer" onClick={e => { e.stopPropagation(); setSelectedAsset(a); }}>{a.name}</td>
+                      <td className="border px-4 py-2 text-center">{a.type}</td>
+                      <td className="border px-4 py-2 text-center">{a.stockQuantity}</td>
+                      <td className="border px-4 py-2 text-center">{a.requestedQuantity}</td>
+                      <td className="border px-4 py-2 text-center">{a.warehouse}</td>
+                      <td className="border px-4 py-2 text-center">{a.status}</td>
+                    </tr>
+                  )})
+                )}
+              </tbody>
+            </table>
+          </div>
+          {selectedAsset && (
+            <div className="w-1/2 bg-white rounded-lg shadow-lg p-6 ml-4 relative flex flex-col h-fit">
+              <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl" onClick={() => setSelectedAsset(null)}>&times;</button>
+              <h2 className="text-lg font-bold mb-4">대여 내역 수정</h2>
+              {editForm && (
+                <form className="space-y-3 text-sm" onSubmit={e => {e.preventDefault(); /* handle save here */}}>
+                  <div>
+                    <label className="block font-semibold mb-1">대여ID</label>
+                    <input className="border rounded p-2 w-full" value={editForm.rentalId} onChange={e => setEditForm((f:any) => ({...f, rentalId: e.target.value}))} />
+                  </div>
+                  <div>
+                    <label className="block font-semibold mb-1">자산 ID</label>
+                    <input className="border rounded p-2 w-full" value={editForm.assetId} onChange={e => setEditForm((f:any) => ({...f, assetId: e.target.value}))} />
+                  </div>
+                  <div>
+                    <label className="block font-semibold mb-1">요청인</label>
+                    <input className="border rounded p-2 w-full" value={editForm.requester} onChange={e => setEditForm((f:any) => ({...f, requester: e.target.value}))} />
+                  </div>
+                  <div>
+                    <label className="block font-semibold mb-1">도착일</label>
+                    <input type="date" className="border rounded p-2 w-full" value={editForm.arrivalDate} onChange={e => setEditForm((f:any) => ({...f, arrivalDate: e.target.value}))} />
+                  </div>
+                  <div>
+                    <label className="block font-semibold mb-1">콘텐츠</label>
+                    <input className="border rounded p-2 w-full" value={editForm.project} onChange={e => setEditForm((f:any) => ({...f, project: e.target.value}))} />
+                  </div>
+                  <div>
+                    <label className="block font-semibold mb-1">대여 기간</label>
+                    <input className="border rounded p-2 w-full" value={editForm.rentalPeriod} onChange={e => setEditForm((f:any) => ({...f, rentalPeriod: e.target.value}))} />
+                  </div>
+                  <div>
+                    <label className="block font-semibold mb-1">자산 이름</label>
+                    <input className="border rounded p-2 w-full" value={editForm.name} onChange={e => setEditForm((f:any) => ({...f, name: e.target.value}))} />
+                  </div>
+                  <div>
+                    <label className="block font-semibold mb-1">자산 유형</label>
+                    <input className="border rounded p-2 w-full" value={editForm.type} onChange={e => setEditForm((f:any) => ({...f, type: e.target.value}))} />
+                  </div>
+                  <div>
+                    <label className="block font-semibold mb-1">요청 수량</label>
+                    <input type="number" className="border rounded p-2 w-full" value={editForm.requestedQuantity} onChange={e => setEditForm((f:any) => ({...f, requestedQuantity: Number(e.target.value)}))} />
+                  </div>
+                  <div>
+                    <label className="block font-semibold mb-1">반납 수량</label>
+                    <input type="number" className="border rounded p-2 w-full" value={editForm.returnedQuantity} onChange={e => setEditForm((f:any) => ({...f, returnedQuantity: Number(e.target.value)}))} />
+                  </div>
+                  <div>
+                    <label className="block font-semibold mb-1">재고 위치</label>
+                    <input className="border rounded p-2 w-full" value={editForm.warehouse} onChange={e => setEditForm((f:any) => ({...f, warehouse: e.target.value}))} />
+                  </div>
+                  <div className="flex gap-2 mt-4">
+                    <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">저장</button>
+                    <button type="button" className="bg-gray-200 text-gray-700 px-4 py-2 rounded" onClick={() => setSelectedAsset(null)}>취소</button>
+                  </div>
+                </form>
               )}
-            </tbody>
-          </table>
+            </div>
+          )}
         </div>
       )}
       {activeTab === 'repair' && (
@@ -471,6 +562,7 @@ export default function AssetManagementMockPage() {
                       {r.status !== '완료' && (
                         <input type="checkbox"
                           checked={checkedRepair.includes(r.id)}
+                          disabled={r.status === '폐기완료' || r.status === '수선중'}
                           onChange={e => {
                             if (e.target.checked) setCheckedRepair(prev => [...prev, r.id]);
                             else setCheckedRepair(prev => prev.filter(id => id !== r.id));
@@ -514,16 +606,39 @@ export default function AssetManagementMockPage() {
               조회된 데이터가 없습니다
             </div>
           ) : (
-            filtered.map((a) => (
-              <div key={a.id} className="bg-white rounded shadow p-4">
-                <div className="font-bold text-base mb-1 text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedAsset(a)}>{a.name}</div>
-                <div className="text-xs text-gray-500 mb-1">자산 그룹: <span className="text-gray-800">{a.group}</span></div>
-                <div className="text-xs text-gray-500 mb-1">자산 분류: <span className="text-gray-800">{a.type}</span></div>
-                <div className="text-xs text-gray-500 mb-1">자산 ID: <span className="text-gray-800">{a.assetId}</span></div>
-                <div className="text-xs text-gray-500 mb-1">자산 창고: <span className="text-gray-800">{a.warehouse}</span></div>
-                <div className="text-xs text-gray-500 mb-1">상태: <span className="text-gray-800">{a.status}</span></div>
+            filtered.map((a, idx) => {
+              const remain = getRemainingDays(a.rentalPeriod);
+              return (
+              <div key={a.id} className="bg-white rounded shadow p-4 flex items-center">
+                <input
+                  type="checkbox"
+                  className="mr-2"
+                  checked={checkedRental.includes(a.id)}
+                  disabled={a.status === '폐기완료' || a.status === '수선중'}
+                  onChange={e => {
+                    if (e.target.checked) setCheckedRental(prev => [...prev, a.id]);
+                    else setCheckedRental(prev => prev.filter(id => id !== a.id));
+                  }}
+                />
+                <div className="flex-1">
+                  <div className="font-bold text-base mb-1 text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedAsset(a)}>{a.name}</div>
+                  <div className="text-xs text-gray-500 mb-1">대여ID: <span className="text-gray-800">{a.rentalId}</span></div>
+                  <div className="text-xs text-gray-500 mb-1">자산 ID: <span className="text-gray-800">{a.assetId}</span></div>
+                  <div className="text-xs text-gray-500 mb-1">요청인: <span className="text-gray-800">{a.requester}</span></div>
+                  <div className="text-xs text-gray-500 mb-1">도착 희망일: <span className="text-gray-800">{a.arrivalDate}</span></div>
+                  <div className="text-xs text-gray-500 mb-1">도착지: <span className="text-gray-800">{a.destination}</span></div>
+                  <div className="text-xs text-gray-500 mb-1">콘텐츠: <span className="text-gray-800">{a.project}</span></div>
+                  <div className="text-xs text-gray-500 mb-1">대여기간: <span className="text-gray-800">{a.rentalPeriod}</span></div>
+                  <div className="text-xs text-gray-500 mb-1">잔여일수: <span className={remain && remain.overdue ? "text-red-500 font-bold" : "text-gray-800"}>{remain ? (remain.overdue ? `${remain.text} (연체)` : remain.text) : '-'}</span></div>
+                  <div className="text-xs text-gray-500 mb-1">자산 이름: <span className="text-gray-800">{a.name}</span></div>
+                  <div className="text-xs text-gray-500 mb-1">자산 유형: <span className="text-gray-800">{a.type}</span></div>
+                  <div className="text-xs text-gray-500 mb-1">재고 수량: <span className="text-gray-800">{a.stockQuantity}</span></div>
+                  <div className="text-xs text-gray-500 mb-1">요청 수량: <span className="text-gray-800">{a.requestedQuantity}</span></div>
+                  <div className="text-xs text-gray-500 mb-1">재고 위치: <span className="text-gray-800">{a.warehouse}</span></div>
+                  <div className="text-xs text-gray-500 mb-1">상태: <span className="text-gray-800">{a.status}</span></div>
+                </div>
               </div>
-            ))
+            )})
           )}
         </div>
       )}
@@ -535,16 +650,30 @@ export default function AssetManagementMockPage() {
             </div>
           ) : (
             filteredRepair.map((r, idx) => (
-              <div key={r.id} className="bg-white rounded shadow p-4">
-                <div className="font-bold text-base mb-1 text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedRepair(r)}>{r.name}</div>
-                <div className="text-xs text-gray-500 mb-1">자산 ID: <span className="text-gray-800">{r.assetId}</span></div>
-                <div className="text-xs text-gray-500 mb-1">분류: <span className="text-gray-800">{r.type}</span></div>
-                <div className="text-xs text-gray-500 mb-1">처리유형: <span className="text-gray-800">{r.processType}</span></div>
-                <div className="text-xs text-gray-500 mb-1">요청일: <span className="text-gray-800">{r.requestDate}</span></div>
-                <div className="text-xs text-gray-500 mb-1">상태: <span className="text-gray-800">{r.status}</span></div>
-                <div className="text-xs text-gray-500 mb-1">담당자: <span className="text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedHandler(mockHandlers.find(h => h.name === r.handler) || null)}>{r.handler}</span></div>
-                <div className="text-xs text-gray-500 mb-1">위치: <span className="text-gray-800">{r.location}</span></div>
-                <div className="text-xs text-gray-500 mb-1">메모: <span className="text-gray-800">{r.memo || '-'}</span></div>
+              <div key={r.id} className="bg-white rounded shadow p-4 flex items-center">
+                {r.status !== '완료' && (
+                  <input
+                    type="checkbox"
+                    className="mr-2"
+                    checked={checkedRepair.includes(r.id)}
+                    disabled={r.status === '폐기완료' || r.status === '수선중'}
+                    onChange={e => {
+                      if (e.target.checked) setCheckedRepair(prev => [...prev, r.id]);
+                      else setCheckedRepair(prev => prev.filter(id => id !== r.id));
+                    }}
+                  />
+                )}
+                <div className="flex-1">
+                  <div className="font-bold text-base mb-1 text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedRepair(r)}>{r.name}</div>
+                  <div className="text-xs text-gray-500 mb-1">자산 ID: <span className="text-gray-800">{r.assetId}</span></div>
+                  <div className="text-xs text-gray-500 mb-1">분류: <span className="text-gray-800">{r.type}</span></div>
+                  <div className="text-xs text-gray-500 mb-1">처리유형: <span className="text-gray-800">{r.processType}</span></div>
+                  <div className="text-xs text-gray-500 mb-1">요청일: <span className="text-gray-800">{r.requestDate}</span></div>
+                  <div className="text-xs text-gray-500 mb-1">상태: <span className="text-gray-800">{r.status}</span></div>
+                  <div className="text-xs text-gray-500 mb-1">담당자: <span className="text-blue-600 hover:underline cursor-pointer" onClick={() => setSelectedHandler(mockHandlers.find(h => h.name === r.handler) || null)}>{r.handler}</span></div>
+                  <div className="text-xs text-gray-500 mb-1">위치: <span className="text-gray-800">{r.location}</span></div>
+                  <div className="text-xs text-gray-500 mb-1">메모: <span className="text-gray-800">{r.memo || '-'}</span></div>
+                </div>
               </div>
             ))
           )}

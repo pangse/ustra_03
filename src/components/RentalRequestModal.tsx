@@ -29,13 +29,36 @@ export interface Asset {
 }
 
 const initialForm: RentalRequestForm = {
-  requester: "",
+  requester: "김관리",
   assetName: "",
   arrivalDate: "",
   destination: "",
   rentalPeriod: "",
   quantity: "",
   memo: "",
+};
+
+const getDateAfter = (days: number) => {
+  const d = new Date();
+  d.setDate(d.getDate() + days);
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
+};
+
+const getPeriodString = (start: Date, days: number) => {
+  const yyyy = start.getFullYear();
+  const mm = String(start.getMonth() + 1).padStart(2, '0');
+  const dd = String(start.getDate()).padStart(2, '0');
+  const startStr = `${yyyy}.${mm}.${dd}`;
+  const end = new Date(start);
+  end.setDate(end.getDate() + days - 1);
+  const yyyy2 = end.getFullYear();
+  const mm2 = String(end.getMonth() + 1).padStart(2, '0');
+  const dd2 = String(end.getDate()).padStart(2, '0');
+  const endStr = `${yyyy2}.${mm2}.${dd2}`;
+  return `${startStr}~${endStr}`;
 };
 
 const RentalRequestModal: React.FC<RentalRequestModalProps> = ({ open, onClose, onSubmit, selectedAssets }) => {
@@ -46,10 +69,17 @@ const RentalRequestModal: React.FC<RentalRequestModalProps> = ({ open, onClose, 
 
   useEffect(() => {
     if (open) {
-      setForm(initialForm);
+      const arrival = getDateAfter(0);
+      const startDate = new Date(arrival);
+      const rentalPeriod = getPeriodString(startDate, 5);
+      if (selectedAssets && selectedAssets.length === 1) {
+        setForm({ ...initialForm, assetName: selectedAssets[0].name, arrivalDate: arrival, rentalPeriod });
+      } else {
+        setForm({ ...initialForm, arrivalDate: arrival, rentalPeriod });
+      }
       setErrors({});
     }
-  }, [open]);
+  }, [open, selectedAssets]);
 
   useEffect(() => {
     if (!open) return;
@@ -122,17 +152,19 @@ const RentalRequestModal: React.FC<RentalRequestModalProps> = ({ open, onClose, 
             />
             {errors.requester && <div className="text-xs text-red-500 mt-1">{errors.requester}</div>}
           </div>
-          <div>
-            <label className="block text-sm mb-1">자산 이름 <span className="text-red-500">*</span></label>
-            <input
-              name="assetName"
-              className="border rounded px-4 py-2 w-full"
-              value={form.assetName}
-              onChange={handleChange}
-              placeholder="예: 무대 의상 A"
-            />
-            {errors.assetName && <div className="text-xs text-red-500 mt-1">{errors.assetName}</div>}
-          </div>
+          {(!selectedAssets || selectedAssets.length === 1) && (
+            <div>
+              <label className="block text-sm mb-1">자산 이름 <span className="text-red-500">*</span></label>
+              <input
+                name="assetName"
+                className="border rounded px-4 py-2 w-full"
+                value={form.assetName}
+                onChange={handleChange}
+                placeholder="예: 무대 의상 A"
+              />
+              {errors.assetName && <div className="text-xs text-red-500 mt-1">{errors.assetName}</div>}
+            </div>
+          )}
           <div>
             <label className="block text-sm mb-1">도착 희망일</label>
             <input
