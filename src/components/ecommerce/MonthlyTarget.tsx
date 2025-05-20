@@ -13,7 +13,8 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 });
 
 export default function MonthlyTarget() {
-  const series = [75.55 * 36];
+  // Fixed monthly return rate
+  const series = [80];
   const options: ApexOptions = {
     colors: ["#465FFF"],
     chart: {
@@ -108,7 +109,7 @@ export default function MonthlyTarget() {
           </div>
 
           <span className="absolute left-1/2 top-full -translate-x-1/2 -translate-y-[95%] rounded-full bg-success-50 px-3 py-1 text-xs font-medium text-success-600 dark:bg-success-500/15 dark:text-success-500">
-            +{10 * 36}%
+            +10%
           </span>
         </div>
 
