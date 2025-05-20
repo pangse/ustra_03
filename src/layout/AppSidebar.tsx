@@ -61,7 +61,7 @@ const navItems: NavItem[] = [
   {
     icon: <ListIcon />,
     name: "QR 관리",
-    path: "/",
+    path: "#",
     // subItems: [
     //   // { name: "QR 등록", path: "/rfid/register", pro: false },
     //   // { name: "RFID 스캔", path: "/rfid/scan", pro: false },
