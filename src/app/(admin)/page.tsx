@@ -23,7 +23,7 @@ async function MonthlyReturnRateCard() {
       {data ? (
         <div>
           <span className="text-2xl font-bold text-blue-600">{data.returnRate}%</span>
-          <span className="ml-2 text-xs text-gray-400">(대여 2{data.rentCount}건, 회수 1{data.returnCount}건)</span>
+          <span className="ml-2 text-xs text-gray-400">(대여 {data.rentCount}건, 회수 {data.returnCount}건)</span>
         </div>
       ) : (
         <span className="text-gray-400">데이터 없음</span>

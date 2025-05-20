@@ -13,7 +13,7 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 });
 
 export default function MonthlyTarget() {
-  const series = [75.55];
+  const series = [75.55 * 36];
   const options: ApexOptions = {
     colors: ["#465FFF"],
     chart: {
@@ -93,7 +93,7 @@ export default function MonthlyTarget() {
               onClose={closeDropdown}
               className="w-40 p-2"
             >
-             
+              <></>
             </Dropdown>
           </div>
         </div>
@@ -108,7 +108,7 @@ export default function MonthlyTarget() {
           </div>
 
           <span className="absolute left-1/2 top-full -translate-x-1/2 -translate-y-[95%] rounded-full bg-success-50 px-3 py-1 text-xs font-medium text-success-600 dark:bg-success-500/15 dark:text-success-500">
-            +10%
+            +{10 * 36}%
           </span>
         </div>
 

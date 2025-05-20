@@ -17,12 +17,12 @@ export default function MonthlySalesChart() {
   // const [isOpen, setIsOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   // 최근 3개월(2024년 4월, 5월, 6월) mock data
-  const inCounts = [18, 25, 30]; // 입고
-  const outCounts = [15, 20, 25]; // 출고
-  const rentCounts = [12, 18, 22]; // 대여
-  const returnCounts = [11, 16, 20]; // 회수
-  const disposeCounts = [2, 2, 3]; // 폐기
-  const lostCounts = [1, 0, 1]; // 분실
+  const inCounts = [18, 25, 30].map(v => v * 36); // 입고
+  const outCounts = [15, 20, 25].map(v => v * 36); // 출고
+  const rentCounts = [12, 18, 22].map(v => v * 36); // 대여
+  const returnCounts = [11, 16, 20].map(v => v * 36); // 회수
+  const disposeCounts = [2, 2, 3].map(v => v * 36); // 폐기
+  const lostCounts = [1, 0, 1].map(v => v * 36); // 분실
   const loading = false;
 
   // useEffect(() => {

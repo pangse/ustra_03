@@ -10,13 +10,13 @@ export const EcommerceMetrics = () => {
   const [loading, setLoading] = useState(true);
 
   // 금일 대여/반납 mock data
-  const todayRentCount = 12;
-  const todayReturnCount = 9;
+  const todayRentCount = 12 * 36;
+  const todayReturnCount = 9 * 36;
 
   // 금월 대여/반납/폐기 mock data
-  const thisMonthRentCount = 48; // 예시
-  const thisMonthReturnCount = 41; // 예시
-  const thisMonthDisposeCount = 3; // 예시
+  const thisMonthRentCount = 48 * 36; // 예시
+  const thisMonthReturnCount = 41 * 36; // 예시
+  const thisMonthDisposeCount = 3 * 36; // 예시
 
   useEffect(() => {
     async function fetchCounts() {

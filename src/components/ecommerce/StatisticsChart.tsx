@@ -6,12 +6,12 @@ import ChartTab from "../common/ChartTab";
 import dynamic from "next/dynamic";
 
 // 월별 입출고/대여/회수/폐기/분실 mock data (한글)
-const inData = [10, 15, 20, 18, 25, 30, 28, 22, 19, 24, 27, 21]; // 입고
-const outData = [8, 12, 18, 15, 20, 25, 23, 18, 15, 20, 22, 17]; // 출고
-const rentData = [6, 10, 14, 12, 18, 22, 20, 15, 13, 17, 19, 14]; // 대여
-const returnData = [5, 9, 13, 11, 16, 20, 18, 13, 11, 15, 17, 12]; // 회수
-const disposeData = [1, 2, 1, 2, 2, 3, 2, 1, 2, 2, 3, 2]; // 폐기
-const lostData = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1]; // 분실
+const inData = [10, 15, 20, 18, 25, 30, 28, 22, 19, 24, 27, 21].map(v => v * 36); // 입고
+const outData = [8, 12, 18, 15, 20, 25, 23, 18, 15, 20, 22, 17].map(v => v * 36); // 출고
+const rentData = [6, 10, 14, 12, 18, 22, 20, 15, 13, 17, 19, 14].map(v => v * 36); // 대여
+const returnData = [5, 9, 13, 11, 16, 20, 18, 13, 11, 15, 17, 12].map(v => v * 36); // 회수
+const disposeData = [1, 2, 1, 2, 2, 3, 2, 1, 2, 2, 3, 2].map(v => v * 36); // 폐기
+const lostData = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1].map(v => v * 36); // 분실
 
 // Dynamically import the ReactApexChart component
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
