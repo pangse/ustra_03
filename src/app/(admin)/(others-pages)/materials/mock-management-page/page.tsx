@@ -372,6 +372,19 @@ export default function AssetManagementMockPage() {
         open={rentalModalOpen}
         onClose={() => setRentalModalOpen(false)}
         onSubmit={(data: RentalRequestForm) => {
+          // A4000_40101 자산의 수량을 8로 세팅 후 대여 시 1 감소
+          setAssets(prevAssets => prevAssets.map(asset => {
+            if (asset.assetId === 'A4000_40101') {
+              // 최초 대여 전 8로 세팅, 대여 후 1 감소
+              const newQty = (typeof asset.stockQuantity === 'number' ? asset.stockQuantity : 8) - 1;
+              return { ...asset, stockQuantity: newQty, destination: data.destination };
+            }
+            // destination(도착지) 값을 대여지로 매핑
+            if (asset.id === (selectedAssets[0]?.id)) {
+              return { ...asset, destination: data.destination };
+            }
+            return asset;
+          }));
           alert("대여 요청 완료: " + JSON.stringify(data, null, 2));
         }}
         selectedAssets={selectedAssets}

@@ -27,6 +27,8 @@ export interface Asset {
   warehouse: string;
   status: string;
   stockQuantity?: number;
+  destination?: string;
+  rentalPeriod?: string;
 }
 
 const initialForm: RentalRequestForm = {
@@ -74,7 +76,14 @@ const RentalRequestModal: React.FC<RentalRequestModalProps> = ({ open, onClose, 
       const startDate = new Date(arrival);
       const rentalPeriod = getPeriodString(startDate, 5);
       if (selectedAssets && selectedAssets.length === 1) {
-        setForm({ ...initialForm, assetName: selectedAssets[0].name, arrivalDate: arrival, rentalPeriod });
+        const asset = selectedAssets[0];
+        const defaultDestination = asset.destination || "";
+        const defaultRentalPeriod = asset.rentalPeriod || rentalPeriod;
+        if (asset.assetId === 'A4000_40101') {
+          setForm({ ...initialForm, assetName: asset.name, arrivalDate: arrival, rentalPeriod: defaultRentalPeriod, destination: defaultDestination, quantity: 4 });
+        } else {
+          setForm({ ...initialForm, assetName: asset.name, arrivalDate: arrival, rentalPeriod: defaultRentalPeriod, destination: defaultDestination });
+        }
       } else {
         setForm({ ...initialForm, arrivalDate: arrival, rentalPeriod });
       }
@@ -136,7 +145,7 @@ const RentalRequestModal: React.FC<RentalRequestModalProps> = ({ open, onClose, 
     if (Object.keys(newErrors).length === 0) {
       onSubmit(form);
       onClose();
-      router.push('/admin/rental-management');
+      router.push('/materials/mock-management-page');
     }
   };
 
