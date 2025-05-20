@@ -1,11 +1,39 @@
-otpauth://totp/ngrok:songutuv@gmail.com?algorithm=SHA1&digits=6&issuer=ngrok&period=30&secret=B3U2EKEA2PII5AYX3SKSMPG6VCZ3LE7K
 
+1. 접속주소
+https://dashboard.ngrok.com/get-started/setup/windows
 
-npm install -g ngrok
+2. 설치
+install ngrok
 
-
+3. 인증키 등록 
 ngrok config add-authtoken 2xFhvOwxHVIOMSoUBedj0YMcBRY_jTNDL5UxxEjfTPEMXbjR
 
+
+4.도메인 확인(결재 후) 계정 : songutuv@gmail.com   결재 (Pay to Pay)
+ https://dashboard.ngrok.com/domains
+
+
+5.도메인 설정  ID : rd_2xLXjAS3vZmoSGFuUb9cRzCWLdd
+hybe.ngrok.app
+
+6. 서버
+npm run dev
+
+7. 다른 터미널에서 실행 (인증키 등록 터미널) - 서버 실행용
+
+--개발
+ngrok http http://localhost:3080
+
+--운영 터미널(인증키는 3번과 동일. )
+ngrok config add-authtoken 2xFhvOwxHVIOMSoUBedj0YMcBRY_jTNDL5UxxEjfTPEMXbjR
+ngrok http 3000 --url hybe.ngrok.app
+
+8. 도메인 접속 확인 
+hybe.ngrok.app
+
+
+
+---------------- Old ----------------
 1. 사이트 접속 
    https://dashboard.ngrok.com/get-started/setup/windows
 
