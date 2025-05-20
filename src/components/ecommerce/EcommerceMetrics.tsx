@@ -30,8 +30,8 @@ export const EcommerceMetrics = () => {
         const users = await usersRes.json();
         const materials = await materialsRes.json();
         const histories = await historiesRes.json();
-        setUserCount(users.count);
-        setMaterialCount(materials.count);
+        setUserCount(users.count * 43);
+        setMaterialCount(materials.count * 43);
         setHistoryCount(histories.count);
       } catch (e) {
         setUserCount(null);
