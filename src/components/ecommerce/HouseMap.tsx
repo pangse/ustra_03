@@ -1,7 +1,8 @@
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useRef, useEffect } from "react";
+import type { Marker as LeafletMarker } from 'leaflet';
 
 // 기본 마커 아이콘(Leaflet 1.7+에서 마커가 안 보일 때 필요)
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -45,34 +46,57 @@ const mockData = [
 
 const center: [number, number] = [37.5665, 126.9780]; // 서울 중심 좌표
 
-const HouseMap = () => (
-  <div style={{ width: "100%", maxWidth: 600, margin: "0 auto" }}>
-    <h2 style={{ fontSize: "1.25rem", fontWeight: 600, marginBottom: 16 }}>주요 창고 위치</h2>
-    <MapContainer
-      center={center as [number, number]}
-      zoom={11}
-      style={{ height: "400px", width: "100%", borderRadius: 12, boxShadow: "0 2px 8px #0001" } as CSSProperties}
-    >
-      {/* OpenStreetMap 타일 레이어 */}
-      <TileLayer
-        attribution={'© OpenStreetMap contributors'}
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      {/* 목 데이터 마커 표시 */}
-      {mockData.map(city => (
-        <Marker key={city.name} position={[city.lat, city.lng] as [number, number]}>
-          <Popup>
-            <div style={{ fontWeight: 600, marginBottom: 4 }}>{city.name}</div>
-            <div>자산 수: {city.assetCount}개</div>
-            <div>대여 수: {city.rentalCount}건</div>
-            <div>창고 주소: {city.address}</div>
-            <div>연락처: {city.contact}</div>
-            <div>담당자: {city.manager}</div>
-          </Popup>
-        </Marker>
-      ))}
-    </MapContainer>
-  </div>
-);
+// JTBC 마커 자동 팝업 오픈 컴포넌트
+function OpenJtbcPopup({ markerRef }: { markerRef: React.RefObject<LeafletMarker> }) {
+  const map = useMap();
+  useEffect(() => {
+    if (markerRef.current) {
+      markerRef.current.openPopup();
+      map.setView([37.5794, 126.8946], map.getZoom());
+    }
+  }, [markerRef, map]);
+  return null;
+}
+
+const HouseMap = () => {
+  const jtbcRef = useRef<LeafletMarker>(null);
+  return (
+    <div style={{ width: "100%", maxWidth: 600, margin: "0 auto" }}>
+      <h2 style={{ fontSize: "1.25rem", fontWeight: 600, marginBottom: 16 }}>주요 창고 위치</h2>
+      <MapContainer
+        center={center as [number, number]}
+        zoom={11}
+        style={{ height: "400px", width: "100%", borderRadius: 12, boxShadow: "0 2px 8px #0001" } as CSSProperties}
+      >
+        {/* OpenStreetMap 타일 레이어 */}
+        <TileLayer
+          attribution={'© OpenStreetMap contributors'}
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {/* 목 데이터 마커 표시 */}
+        {mockData.map(city => {
+          const isJtbc = city.name === "JTBC";
+          return (
+            <Marker
+              key={city.name}
+              position={[city.lat, city.lng] as [number, number]}
+              ref={isJtbc ? jtbcRef : undefined}
+            >
+              {isJtbc && <OpenJtbcPopup markerRef={jtbcRef} />}
+              <Popup>
+                <div style={{ fontWeight: 600, marginBottom: 4 }}>{city.name}</div>
+                <div>자산 수: {city.assetCount}개</div>
+                <div>대여 수: {city.rentalCount}건</div>
+                <div>창고 주소: {city.address}</div>
+                <div>연락처: {city.contact}</div>
+                <div>담당자: {city.manager}</div>
+              </Popup>
+            </Marker>
+          );
+        })}
+      </MapContainer>
+    </div>
+  );
+};
 
 export default HouseMap;
