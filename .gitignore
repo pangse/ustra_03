@@ -38,3 +38,6 @@ next-env.d.ts
 
 # DATABASE_URL="file:./prisma/dev.db"
 
+# Ignore local Prisma database
+prisma/dev.db
+
