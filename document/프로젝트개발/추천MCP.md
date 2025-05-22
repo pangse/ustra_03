@@ -18,6 +18,37 @@ Next.js 프로젝트에서 MCP(Machine-Curated Prompt / Model Configuration Prom
 * **내용**: Next.js 프로젝트에서 사용할 수 있는 유용한 MCP(GitHub 기반 템플릿, 설정, 자동화 도구 포함) 모듈을 소개하고 그 목적과 사용법을 설명함.
 
 ---
+1. @smithery/toolbox
+
+@smithery/toolbox란?
+Smithery는 Context7의 기반이 되는 오픈소스 개발 도구 플랫폼입니다.
+@smithery/toolbox는 Smithery에서 제공하는 핵심 유틸리티 함수, API, 도구 모음을 담고 있는 패키지입니다.
+Context7, Smithery MCP(모델 컨텍스트 프로토콜) 등과 연동하거나, 자체적으로 개발 자동화, 코드 생성, 문서화 등에 활용할 수 있습니다.
+
+주요 특징
+Smithery/Context7과의 연동
+Context7에서 외부 도구(MCP 등)를 호출하거나, 개발 환경 자동화, 문서화, 코드 생성 등 다양한 기능을 사용할 때 내부적으로 @smithery/toolbox를 활용합니다.
+유틸리티 함수 제공
+파일 시스템, 네트워크, 코드 파싱, 명령 실행 등 개발에 필요한 다양한 유틸리티를 제공합니다.
+플러그인/확장 개발에 필수
+Smithery/Context7용 플러그인, 확장, 커스텀 MCP 서버 등을 개발할 때 필수적으로 사용됩니다.
+
+
+2. @smithery/context7
+
+예시
+“React에서 라우팅은 어떻게 하나요?”
+→ Context7이 React와 관련된 공식 문서, 예시, 가이드 등을 자동으로 찾아줍니다.
+
+“use context7”를 명시적으로 쓰는 경우
+만약 특정 라이브러리/도구의 문서만 보고 싶을 때
+예: “use context7: react-router에서 동적 라우팅 예시 보여줘”
+→ 이렇게 쓰면 Context7이 react-router에 집중해서 자료를 찾아줍니다.
+
+
+
+
+
 
 ## \[1] 추천 MCP / 자동화 도구
 
