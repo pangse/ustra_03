@@ -21,6 +21,13 @@ PostgreSQL을 Windows 환경에 설치하고 사용하는 방법을 안내해드
   ```
   (비밀번호는 설치 시 입력한 것으로 로그인)
 
+  port 5432
+  admin/ Init1234
+  
+mcp 등록
+https://smithery.ai/server/@smithery-ai/postgres
+
+
 ### 4. 간단한 사용 예시
 
 ```sql
