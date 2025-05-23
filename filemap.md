@@ -28,6 +28,8 @@
 | 로그인 | src/app/(full-width-pages)/(auth)/signin/page.tsx | 로그인 페이지 |
 | 404 에러 | src/app/(full-width-pages)/(error-pages)/error-404/page.tsx | 404 에러 페이지 |
 
+C:\Neo\ustra-admin\src\layout\AppSidebar.tsx
+
 ## 3. 모바일 페이지
 
 | 구분 | 경로 | 설명 |
@@ -53,5 +55,9 @@
 | 테이블 | src/app/(admin)/(others-pages)/(tables)/ | 테이블 컴포넌트 |
 | 폼 | src/app/(admin)/(others-pages)/(forms)/ | 폼 컴포넌트 |
 | 차트 | src/app/(admin)/(others-pages)/(chart)/ | 차트 컴포넌트 |
+
+
+\src\app\(admin)\(others-pages)\materials\mock-management-page\page.tsx 
+-> C:\Neo\ustra-admin\src\components\admin\AssetMovementTable.tsx
 
 > 각 디렉토리 내 상세 파일은 필요시 추가로 정리할 수 있습니다.
