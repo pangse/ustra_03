@@ -1,3 +1,11 @@
+목적 : 하이브 사전 미팅 대모 버전
+일정/장소 : 2025-5-21 영등포 하이브 사옥
+참석자 : 이수연, 박지원, 송영근, 비즈플 
+내용 : 거치식 RFID 신규 장비 등록 부터  RFID핸드형 창고관리 자산관리 구매결재 관리 전표관리를 회의 내용중 확인함. 
+
+
+내용 자산 대시 보드, 대여, 수선  ( 모바일 대여 및 회수 시연)
+
 # TailAdmin Next.js - Free Next.js Tailwind Admin Dashboard Template
 
 TailAdmin is a free and open-source admin dashboard template built on **Next.js and Tailwind CSS** providing developers with everything they need to create a feature-rich and data-driven: back-end, dashboard, or admin panel solution for any sort of web project.
