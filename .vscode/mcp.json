@@ -1,0 +1,112 @@
+{
+    "mcpServers": {
+      "toolbox": {
+        "command": "cmd",
+        "args": [
+          "/c",
+          "npx",
+          "-y",
+          "@smithery/cli@latest",
+          "run",
+          "@smithery/toolbox",
+          "--key",
+          "1e38655c-0be4-4732-a1eb-ef8c35c7fb74",
+          "--profile",
+          "parallel-marlin-tb6kkK"
+        ]
+      },
+      "context7-mcp": {
+        "command": "cmd",
+        "args": [
+          "/c",
+          "npx",
+          "-y",
+          "@smithery/cli@latest",
+          "run",
+          "@upstash/context7-mcp",
+          "--key",
+          "1e38655c-0be4-4732-a1eb-ef8c35c7fb74"
+        ]
+      },
+      "playwright-mcp": {
+        "command": "cmd",
+        "args": [
+          "/c",
+          "npx",
+          "-y",
+          "@smithery/cli@latest",
+          "run",
+          "@microsoft/playwright-mcp",
+          "--key",
+          "1e38655c-0be4-4732-a1eb-ef8c35c7fb74"
+        ]
+      },
+      "magic-mcp": {
+        "command": "cmd",
+        "args": [
+          "/c",
+          "npx",
+          "-y",
+          "@smithery/cli@latest",
+          "run",
+          "@21st-dev/magic-mcp",
+          "--key",
+          "1e38655c-0be4-4732-a1eb-ef8c35c7fb74",
+          "--profile",
+          "surviving-limpet-icNiK3"
+        ]
+      },
+      "server-sequential-thinking": {
+        "command": "cmd",
+        "args": [
+          "/c",
+          "npx",
+          "-y",
+          "@smithery/cli@latest",
+          "run",
+          "@smithery-ai/server-sequential-thinking",
+          "--key",
+          "1e38655c-0be4-4732-a1eb-ef8c35c7fb74"
+        ]
+      },
+      "filesystem-mcp-server": {
+        "command": "cmd",
+        "args": [
+          "/c",
+          "npx",
+          "-y",
+          "@smithery/cli@latest",
+          "run",
+          "@cyanheads/filesystem-mcp-server",
+          "--key",
+          "1e38655c-0be4-4732-a1eb-ef8c35c7fb74"
+        ]
+      },
+      "desktop-commander": {
+        "command": "cmd",
+        "args": [
+          "/c",
+          "npx",
+          "-y",
+          "@smithery/cli@latest",
+          "run",
+          "@wonderwhy-er/desktop-commander",
+          "--key",
+          "1e38655c-0be4-4732-a1eb-ef8c35c7fb74"
+        ]
+      },
+      "exa": {
+        "command": "cmd",
+        "args": [
+          "/c",
+          "npx",
+          "-y",
+          "@smithery/cli@latest",
+          "run",
+          "exa",
+          "--key",
+          "1e38655c-0be4-4732-a1eb-ef8c35c7fb74"
+        ]
+      }
+    }
+  }
